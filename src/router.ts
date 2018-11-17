@@ -5,6 +5,7 @@ import PageMainHello from '@/components/PageMainHello.vue'
 import PageMainTable from '@/components/PageMainTable.vue'
 import PMainSSH from '@/components/PMainSSH.vue'
 import PMainEtcdTree from '@/components/PMainEtcdTree.vue'
+import ThPMain from '@/components/th/ThPMain.vue'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/etcdTree',
       name: 'PMainEtcdTree',
       component: PMainEtcdTree
+    },
+    {
+      path: '/th',
+      name: 'ThPMain',
+      component: ThPMain
     }
   ]
 })
