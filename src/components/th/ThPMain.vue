@@ -162,6 +162,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
               func(gValue)
             }
           }
+          self = this
           execfuncSeqs(self, {data = "*** start ****\n"})
       }
     }
