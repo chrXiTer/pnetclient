@@ -35,7 +35,7 @@ var util = {
 };
 
 var thFunc = {
-  sonObj: {
+  jsonObj: {
     dict1:{
       username:'nscc',
       host:'',
