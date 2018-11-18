@@ -163,7 +163,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
             }
           }
           self = this
-          execfuncSeqs(self, {data = "*** start ****\n"})
+          execfuncSeqs(self, {data:"*** start ****\n"})
       }
     }
   }
