@@ -92,7 +92,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
     thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 在其中一个节点安装 etcd
-    let cmd = 'IP_ADDR=' + etcdHost + ';' + 
+    let cmd = 'IP_ADDR=' + gValue.etcdHost + ';' + 
           'docker run -d --name etcdv3 \
               --network host \
               -v /root/etcd:/var/etcd \
