@@ -84,12 +84,12 @@ var thFunc = {
 
 let funcSeqs = [ //数组内的函数，将从前至后依次执行
   (gValue, execfuncSeqs)=>{ // 将最新的配置文件同步到各主机
-    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+    thFunc.execCmd(gValue.hosts, thFunc.jsonObj.dict1, cmd, execfuncSeqs)
   },
   (gValue, execfuncSeqs)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
     let cmd = 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
         + 'systemctl daemon-reload; systemctl restart docker'
-    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+    thFunc.execCmd(gValue.hosts, thFunc.jsonObj.dict1, cmd, execfuncSeqs)
   },
   (gValue, execfuncSeqs)=>{ // 在其中一个节点安装 etcd
     let cmd = 'IP_ADDR=' + etcdHost + ';' + 
@@ -106,12 +106,12 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
                   --auto-compaction-retention 1 \
                   --cors "*" \
           '
-    thFunc.execCmd(gValue.etcdHost, dict1, cmd, execfuncSeqs)
+    thFunc.execCmd(gValue.etcdHost, thFunc.jsonObj.dict1, cmd, execfuncSeqs)
   },
   (gValue, execfuncSeqs)=>{ // 运行 calico node 2.6.11 容器
     let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
         + '--config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
-    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+    thFunc.execCmd(gValue.hosts, thFunc.jsonObj.dict1, cmd, execfuncSeqs)
   },
 ]
 
