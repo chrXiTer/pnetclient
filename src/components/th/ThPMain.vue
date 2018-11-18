@@ -106,7 +106,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
                   --auto-compaction-retention 1 \
                   --cors "*" \
           '
-    thFunc.execCmd(self, gValue.etcdHost, cmd, execfuncSeqs)
+    thFunc.execCmd(self, [gValue.etcdHost], cmd, execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 运行 calico node 2.6.11 容器
     let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
