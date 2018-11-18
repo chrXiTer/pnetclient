@@ -34,6 +34,61 @@ var util = {
   }
 };
 
+var thFunc = {
+  sonObj: {
+    dict1:{
+      username:'nscc',
+      host:'',
+      password:'nsccGZ-KD1810',
+      srcResDir:'',
+      destResDir:'',
+      cmd:''
+    },
+    hosts:[],
+    cmdStr:""
+  },
+  execCmd:function(self, hosts, cmdStr, callback){
+    thFunc.hosts = hosts
+    thFunc.cmdStr = cmdStr
+    var jsonStr = JSON.stringify(thFunc.jsonObj)
+    const url = rootUrl + '/api/execCmd?jsonStr=' + encodeURIComponent(jsonStr)
+    axios({method: 'get', url: url}).then(resp => {
+        callback(self, resp)
+    });
+  },
+}
+
+
+let funcSeqs = [ //数组内的函数，将从前至后依次执行
+  (gValue)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
+    cmd = 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
+        + 'systemctl daemon-reload; systemctl restart docker'
+    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+  },
+  (gValue)=>{ // 在其中一个节点安装 etcd
+    cmd = 'IP_ADDR=' + etcdHost + ';' + 
+          'docker run -d --name etcdv3 \
+              --network host \
+              -v /root/etcd:/var/etcd \
+              k8s.gcr.io/etcd-amd64:3.2.18 \
+              /usr/local/bin/etcd \
+                  --name main \
+                  --data-dir /var/etcd/main-data \
+                  --advertise-client-urls http://${IP_ADDR}:2379 \
+                  --listen-client-urls http://${IP_ADDR}:2379 \
+                  --listen-peer-urls http://0.0.0.0:2380 \
+                  --auto-compaction-retention 1 \
+                  --cors "*" \
+          '
+    thFunc.execCmd(gValue.etcdHost, dict1, cmd, execfuncSeqs)
+  },
+  (gValue)=>{ // 运行 calico node 2.6.11 容器
+    cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
+        + '--config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
+    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+  },
+]
+
   import axios from 'axios'
   let rootUrl = "http://localhost"
 
@@ -47,26 +102,6 @@ var util = {
       self.cmdoutContent = self.cmdoutContent + newAddStr
   }
 
-  function sendACmd_(self){
-    var jsonObj = {
-      dict1:{
-        username:'nscc',
-        host:'',
-        password:'nsccGZ-KD1810',
-        srcResDir:'',
-        destResDir:'',
-        cmd:''
-      },
-      hosts:["10.144.0.20, 10.145.0.20"],
-      cmdStr:"echo 222222"
-    }
-    var jsonStr = JSON.stringify(jsonObj)
-
-    const url = rootUrl + '/api/execCmd?jsonStr=' + encodeURIComponent(jsonStr)
-    axios({method: 'get', url: url}).then(resp => {
-      handlerRetStr(self, resp)
-    });
-  }
   export default {
     data(){
       return {
@@ -86,7 +121,22 @@ var util = {
         this.isDiff = ""
       },
       sendACmd(){
-        sendACmd_(this, "/api/scpFileToLinux")
+        thFunc.execCmd(this, ["10.144.0.20, 10.145.0.20"], "echo 222222", handlerRetStr)
+      },
+      cfgDocker(){
+          let funcSeqsRev = funcSeqs.reverse()
+          let gValue = {
+            hosts = ["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"],
+            etcdHost = "10.144.0.26"
+          }
+          function execfuncSeqs(self, resp){
+            handlerRetStr(self, resp)
+            if(funcSeqsRev.length > 0){
+              func = funcSeqsRev.pop()
+              func(gValue)
+            }
+          }
+          execfuncSeqs(self, {data = "*** start ****\n"})
       }
     }
   }
