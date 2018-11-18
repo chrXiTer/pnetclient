@@ -1,6 +1,11 @@
 <template>
   <div>
-      <el-button @click="sendACmd">复制文件到新装的ubuntu</el-button>
+      <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
+        <template slot="prepend">后台url</template>
+        <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
+          {{isDiff}}</el-button>
+      </el-input>
+      <el-button @click="sendACmd">echo 测试</el-button>
       <el-button @click="sendACmd">设置root密码</el-button>
       <div id="cmdout" v-html="cmdoutContent" 
           style="background-color: grey; color: white"></div>
@@ -65,11 +70,21 @@ var util = {
   export default {
     data(){
       return {
+        backendUrl:rootUrl,
+        isDiff: "",
         visible: false,
         cmdoutContent: ""
       }
     },
     methods: {
+      onBackendUrlInput(evnet){
+        this.backendUrl = event.target.value
+        this.isDiff = rootUrl == this.backendUrl ? "" : "请更新"
+      },
+      chgRootUrl(){
+        rootUrl = this.backendUrl
+        this.isDiff = ""
+      },
       sendACmd(){
         sendACmd_(this, "/api/scpFileToLinux")
       }
