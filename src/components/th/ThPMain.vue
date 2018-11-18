@@ -147,7 +147,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
         this.isDiff = ""
       },
       sendACmd(){
-        thFunc.execCmd(this, ["10.144.0.20, 10.145.0.20"], "echo 222222", handlerRetStr)
+        thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", handlerRetStr)
       },
       deploy4Calico(){
           let funcSeqsRev = []
