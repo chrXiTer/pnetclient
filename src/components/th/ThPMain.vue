@@ -159,9 +159,9 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
           function execfuncSeqs(self, resp){
             handlerRetStr(self, resp)
             if(funcSeqsRev.length > 0){
-              func = funcSeqsRev[funcSeqsRev.length - 1]  // 使用pop(),vue会报错
-              funcSeqsRev.length = funcSeqsRev.length -1
-              func(gValue)
+              //func = funcSeqsRev[funcSeqsRev.length - 1]  // 使用pop(),vue会报错
+              //funcSeqsRev.length = funcSeqsRev.length -1
+              //func(gValue)
             }
           }
           self = this
