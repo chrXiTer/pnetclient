@@ -159,7 +159,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
           function execfuncSeqs(self, resp){
             handlerRetStr(self, resp)
             if(funcSeqsRev.length > 0){
-              func = funcSeqsRev.pop()
+              let func = funcSeqsRev.pop()
               func(gValue, execfuncSeqs)
             }
           }
