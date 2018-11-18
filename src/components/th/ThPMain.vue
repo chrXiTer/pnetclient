@@ -48,7 +48,7 @@ var thFunc = {
     cmdStr:""
   },
   execCmd:function(self, hosts, cmdStr, callback){
-    jsonObj = thFunc.jsonObj
+    let jsonObj = thFunc.jsonObj
     jsonObj.hosts = hosts
     jsonObj.cmdStr = cmdStr
     var jsonStr = JSON.stringify(jsonObj)
@@ -58,7 +58,7 @@ var thFunc = {
     });
   },
   scpDir:function(self, hosts, parentDir, DirName, callback){
-    jsonObj = thFunc.jsonObj
+    let jsonObj = thFunc.jsonObj
     jsonObj.hosts = hosts
     jsonObj.parentDir = parentDir
     jsonObj.DirName = DirName
@@ -69,7 +69,7 @@ var thFunc = {
     });
   },
   scpFile:function(self, hosts, DirPath, DirName, callback){
-    jsonObj = thFunc.jsonObj
+    let jsonObj = thFunc.jsonObj
     jsonObj.hosts = hosts
     jsonObj.DirPath = DirPath
     jsonObj.filename = filename
