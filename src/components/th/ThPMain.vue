@@ -84,7 +84,7 @@ var thFunc = {
 
 let funcSeqs = [ //数组内的函数，将从前至后依次执行
   (self, gValue, execfuncSeqs)=>{ // 将最新的配置文件同步到各主机
-    thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
+    thFunc.scpDir(self, gValue.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
     let cmd = 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
