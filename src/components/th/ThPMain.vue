@@ -150,7 +150,8 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
         thFunc.execCmd(this, ["10.144.0.20, 10.145.0.20"], "echo 222222", handlerRetStr)
       },
       deploy4Calico(){
-          let funcSeqsRev = funcSeqs.reverse()
+          let funcSeqsRev = []
+          funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
           let gValue = {
             hosts:["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"],
             etcdHost:"10.144.0.26"
