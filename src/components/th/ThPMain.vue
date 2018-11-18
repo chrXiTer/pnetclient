@@ -6,7 +6,7 @@
           {{isDiff}}</el-button>
       </el-input>
       <el-button @click="sendACmd">echo 测试</el-button>
-      <el-button @click="sendACmd">设置root密码</el-button>
+      <el-button @click="deploy4Calico">部署calico（无k8s）到[144,145].26-26</el-button>
       <div id="cmdout" v-html="cmdoutContent" 
           style="background-color: grey; color: white"></div>
   </div>
@@ -48,18 +48,44 @@ var thFunc = {
     cmdStr:""
   },
   execCmd:function(self, hosts, cmdStr, callback){
-    thFunc.hosts = hosts
-    thFunc.cmdStr = cmdStr
-    var jsonStr = JSON.stringify(thFunc.jsonObj)
+    jsonObj = thFunc.jsonObj
+    jsonObj.hosts = hosts
+    jsonObj.cmdStr = cmdStr
+    var jsonStr = JSON.stringify(jsonObj)
     const url = rootUrl + '/api/execCmd?jsonStr=' + encodeURIComponent(jsonStr)
     axios({method: 'get', url: url}).then(resp => {
         callback(self, resp)
     });
   },
+  scpDir:function(self, hosts, parentDir, DirName, callback){
+    jsonObj = thFunc.jsonObj
+    jsonObj.hosts = hosts
+    jsonObj.parentDir = parentDir
+    jsonObj.DirName = DirName
+    var jsonStr = JSON.stringify(jsonObj)
+    const url = rootUrl + '/api/scpDir?jsonStr=' + encodeURIComponent(jsonStr)
+    axios({method: 'get', url: url}).then(resp => {
+        callback(self, resp)
+    });
+  },
+  scpFile:function(self, hosts, DirPath, DirName, callback){
+    jsonObj = thFunc.jsonObj
+    jsonObj.hosts = hosts
+    jsonObj.DirPath = DirPath
+    jsonObj.filename = filename
+    var jsonStr = JSON.stringify(jsonObj)
+    const url = rootUrl + '/api/scpFile?jsonStr=' + encodeURIComponent(jsonStr)
+    axios({method: 'get', url: url}).then(resp => {
+        callback(self, resp)
+    });
+  }
 }
 
 
 let funcSeqs = [ //数组内的函数，将从前至后依次执行
+  (gValue)=>{ // 将最新的配置文件同步到各主机
+    thFunc.execCmd(gValue.hosts, dict1, cmd, execfuncSeqs)
+  },
   (gValue)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
     cmd = 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
         + 'systemctl daemon-reload; systemctl restart docker'
@@ -123,11 +149,11 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
       sendACmd(){
         thFunc.execCmd(this, ["10.144.0.20, 10.145.0.20"], "echo 222222", handlerRetStr)
       },
-      cfgDocker(){
+      deploy4Calico(){
           let funcSeqsRev = funcSeqs.reverse()
           let gValue = {
-            hosts = ["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"],
-            etcdHost = "10.144.0.26"
+            hosts:["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"],
+            etcdHost:"10.144.0.26"
           }
           function execfuncSeqs(self, resp){
             handlerRetStr(self, resp)
