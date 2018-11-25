@@ -86,6 +86,7 @@
             const url = rootUrl + dataObj.key
             let self = this
             axios({method: 'get',url: url}).then(resp=> {
+                //var resp = { data:{dir:true, nodes:[{key:"123456"}, {key:"456789"}]}}
                 handlerRetStr(self, resp, dataObj, node, nodeComponent)
             });
           }
@@ -102,8 +103,8 @@
             */
            h("span",[
              h("span", node.label),
-             h("span", node.data.value),
-             h("span", node.data.dir2?"dir":"")]
+             h("span", {style: {color: "red"}}, node.data.value),
+             h("span", {style: {color: "green"}}, node.data.dir2?"dir":"")]
            )
         );
       }
