@@ -6,7 +6,9 @@
           {{isDiff}}</el-button>
       </el-input>
       <el-button @click="sendACmd">echo 测试</el-button>
-      <el-button @click="deploy4Calico">部署calico（无k8s）到[144,145].26-26</el-button>
+      <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
+      <el-button @click="deployEtcd">部署 Etcd到144.0.26</el-button>
+      <el-button @click="runCalico">运行 calico-node</el-button>
       <div id="cmdout" v-html="cmdoutContent" 
           style="background-color: grey; color: white"></div>
   </div>
@@ -81,6 +83,30 @@ var thFunc = {
   }
 }
 
+thFunc.getEtcdDeployCmd = (etcdHost) => { 
+  return 'IP_ADDR=' + etcdHost + ';' + 
+    'docker run -d --name etcdv3 \
+        --network host \
+        -v /root/etcd:/var/etcd \
+        k8s.gcr.io/etcd-amd64:3.2.18 \
+        /usr/local/bin/etcd \
+            --name main \
+            --data-dir /var/etcd/main-data \
+            --advertise-client-urls http://${IP_ADDR}:2379 \
+            --listen-client-urls http://${IP_ADDR}:2379 \
+            --listen-peer-urls http://0.0.0.0:2380 \
+            --auto-compaction-retention 1 \
+            --cors "*" \
+    '
+};
+
+thFunc.runCalico = (self, hosts, callback) => {
+  let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
+    + '--config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
+  thFunc.execCmd(self, hosts, cmd, callback)
+}
+
+
 
 let funcSeqs = [ //数组内的函数，将从前至后依次执行
   (self, gValue, execfuncSeqs)=>{ // 将最新的配置文件同步到各主机
@@ -92,26 +118,11 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
     thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 在其中一个节点安装 etcd
-    let cmd = 'IP_ADDR=' + gValue.etcdHost + ';' + 
-          'docker run -d --name etcdv3 \
-              --network host \
-              -v /root/etcd:/var/etcd \
-              k8s.gcr.io/etcd-amd64:3.2.18 \
-              /usr/local/bin/etcd \
-                  --name main \
-                  --data-dir /var/etcd/main-data \
-                  --advertise-client-urls http://${IP_ADDR}:2379 \
-                  --listen-client-urls http://${IP_ADDR}:2379 \
-                  --listen-peer-urls http://0.0.0.0:2380 \
-                  --auto-compaction-retention 1 \
-                  --cors "*" \
-          '
+    let cmd = thFunc.getEtcdDeployCmd(gValue.etcdHost)
     thFunc.execCmd(self, [gValue.etcdHost], cmd, execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 运行 calico node 2.6.11 容器
-    let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
-        + '--config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
-    thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
+    thFunc.runCalico(self, gValue.hosts, execfuncSeqs)
   },
 ]
 
@@ -164,8 +175,19 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
               func(self, gValue, execfuncSeqs)
             }
           }
-          self = this
+          let self = this
           execfuncSeqs(self, {data:"*** start ****\n"})
+      },
+      deployEtcd(){
+        let etcdHost = "10.144.0.26"
+        let cmd = thFunc.getEtcdDeployCmd(etcdHost)
+        thFunc.execCmd(this, etcdHost, cmd, (self, resp) => {
+            handlerRetStr(self, resp)
+        })
+      },
+      runCalico(){
+        let hosts = ["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"]
+        thFunc.runCalico(this, hosts, handlerRetStr)
       }
     }
   }
