@@ -181,7 +181,7 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
       deployEtcd(){
         let etcdHost = "10.144.0.26"
         let cmd = thFunc.getEtcdDeployCmd(etcdHost)
-        thFunc.execCmd(this, etcdHost, cmd, (self, resp) => {
+        thFunc.execCmd(this, [etcdHost], cmd, (self, resp) => {
             handlerRetStr(self, resp)
         })
       },
