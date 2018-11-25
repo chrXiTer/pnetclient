@@ -13,7 +13,7 @@ var thFunc = {
         const newAddStr = newLinesEncode.join("<br/>")
         self.cmdoutContent = self.cmdoutContent + newAddStr
     },
-    rootUrl:"http://localhost",
+    rootUrl:"http://10.145.0.32:8100",
     jsonObj: {
       dict1:{
         username:'nscc',

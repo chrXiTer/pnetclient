@@ -10,7 +10,7 @@
 
 <script>
   import axios from 'axios'
-  var rootUrl = "http://192.168.147.30:2379/v2/keys"
+  var rootUrl = "http://10.0.144.26:2379/v2/keys"
 
   let id = 1000;
   var dataTree = [{
