@@ -100,10 +100,10 @@
               <span style="color:yellow"> {node.data.dir2?"dir":""}</span>
             </span>
             */
-           h("span",
+           h("span",[
              h("span", node.label),
              h("span", node.data.value),
-             h("span", node.data.dir2?"dir":"")
+             h("span", node.data.dir2?"dir":"")]
            )
         );
       }
