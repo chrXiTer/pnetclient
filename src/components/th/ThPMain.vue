@@ -6,14 +6,15 @@
           {{isDiff}}</el-button>
       </el-input>
       <el-button @click="sendACmd">echo 测试</el-button>
-      <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
+      <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
+      <el-button @click="upDocker">更新docker配置并重启</el-button>
       <el-button @click="deployEtcd">部署 Etcd到144.0.26</el-button>
       <el-button @click="runCalico">运行 calico-node</el-button>
+      <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
       <div id="cmdout" v-html="cmdoutContent" 
           style="background-color: grey; color: white"></div>
   </div>
 </template>
-
 
 <script>
 
@@ -83,6 +84,11 @@ var thFunc = {
   }
 }
 
+thFunc.getUpDockerCmd = () =>{
+  return 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
+        + 'systemctl daemon-reload; systemctl restart docker'
+}
+
 thFunc.getEtcdDeployCmd = (etcdHost) => { 
   return 'IP_ADDR=' + etcdHost + ';' + 
     'docker run -d --name etcdv3 \
@@ -108,13 +114,13 @@ thFunc.runCalico = (self, hosts, callback) => {
 
 
 
+
 let funcSeqs = [ //数组内的函数，将从前至后依次执行
   (self, gValue, execfuncSeqs)=>{ // 将最新的配置文件同步到各主机
     thFunc.scpDir(self, gValue.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
-    let cmd = 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
-        + 'systemctl daemon-reload; systemctl restart docker'
+    let cmd = thFunc.getUpDockerCmd()
     thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
   },
   (self, gValue, execfuncSeqs)=>{ // 在其中一个节点安装 etcd
@@ -177,6 +183,15 @@ let funcSeqs = [ //数组内的函数，将从前至后依次执行
           }
           let self = this
           execfuncSeqs(self, {data:"*** start ****\n"})
+      },
+      scpCfgFile(){
+        let hosts = ["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"]
+        thFunc.scpDir(this, hosts, '/home/nscc/th/', 'calico-2.6.11', handlerRetStr)
+      },
+      upDocker(){
+        let hosts = ["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"]
+        let cmd = thFunc.getUpDockerCmd()
+        thFunc.execCmd(this, hosts, cmd, handlerRetStr)
       },
       deployEtcd(){
         let etcdHost = "10.144.0.26"
