@@ -6,13 +6,13 @@
         <el-menu-item index="/home">测试-home</el-menu-item>
         <el-menu-item index="/ssh">系统环境初始化</el-menu-item>
         <el-menu-item index="/ssh2">测试1</el-menu-item>
-        <el-menu-item index="/etcdTree">PMainEtcdTree</el-menu-item>
     </el-submenu>
     <el-submenu index="2">
       <template slot="title"><i class="el-icon-menu"></i>TH</template>
       <el-menu-item-group>
         <template slot="title">分组一</template>
         <el-menu-item index="/th">th</el-menu-item>
+        <el-menu-item index="/etcdTree">ThPEtcdTree</el-menu-item>
         <el-menu-item index="2-2">选项2</el-menu-item>
       </el-menu-item-group>
       <el-menu-item-group title="分组2">
