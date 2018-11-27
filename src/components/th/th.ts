@@ -108,7 +108,7 @@ var thFunc = {
          + "--subnet=10.190.160.0/19 "+ calicoNetName
     },
     getCreateOverlayNetCmd: (overlayNetName:string) => {
-        return "docker network create --driver overlay " + overlayNetName
+        return "docker network create --driver overlay --attachable" + overlayNetName
     },
     getCreateMacvlanNetCmd: (macvlanNetName: string) => {
         return "docker network create --driver macvlan "
