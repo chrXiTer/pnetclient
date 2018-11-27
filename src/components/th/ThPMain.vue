@@ -158,7 +158,7 @@ export default {
         return
       }
       let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
-      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
     createContainer(){
