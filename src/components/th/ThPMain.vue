@@ -134,6 +134,7 @@ export default {
         return 
       }
       let cmd = thFunc.getCreateCalicoIpPoolCmd(this.calicoIpPool)
+      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.calicoIpPool = ""
     },
     createCalicoNet(){
