@@ -16,13 +16,13 @@
     <el-button @click="deployEtcd">部署 Etcd 到 144.0.26</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
     <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
+    <el-input placeholder="10.190.160.0/19" v-bind:value="calicoIpPool">
+      <template slot="prepend">请输入calico ipPool cidr</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
+    </el-input>
     <h2>创建网络</h2>
     <el-input placeholder="请输入网络名:" v-model="newNetName">
       <template slot="prepend">输入网络名</template>
-    </el-input>
-    <el-input placeholder="请输入calico ipPool cidr" v-bind:value="calicoIpPool">
-      <template slot="prepend">10.190.160.0/19</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool"></el-button>
     </el-input>
     <el-button slot="append" v-on:click="createCalicoNet">创建 calico 网络</el-button>
     <el-button slot="append" v-on:click="createOverlayNet">创建 overlay 网络</el-button>
@@ -161,7 +161,7 @@ export default {
       this.newNetName = ""
     },
     createContainer(){
-      
+
     }
   }
 }
