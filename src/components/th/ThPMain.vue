@@ -1,22 +1,22 @@
 <template>
   <div>
-    <h2 style="">在此输入后台url</h2>
+    <h2>在此输入后台url</h2>
     <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
       <template slot="prepend">后台url</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
         {{isDiff}}</el-button>
     </el-input>
-    <h2 style="">在此输入主机列表</h2>
+    <h2>在此输入主机列表</h2>
     <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
 
-    <h2 style="">配置及 calico 网络部署</h2>
+    <h2>配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
     <el-button @click="upDocker">更新docker配置并重启</el-button>
     <el-button @click="deployEtcd">部署 Etcd 到 144.0.26</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
     <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
-    <h2 style="">配置及 calico 网络部署</h2>
+    <h2>创建网络</h2>
     <el-input placeholder="请输入网络名:" v-model="newNetName">
       <template slot="prepend">输入网络名</template>
     </el-input>
@@ -27,6 +27,14 @@
     <el-button slot="append" v-on:click="createCalicoNet">创建 calico 网络</el-button>
     <el-button slot="append" v-on:click="createOverlayNet">创建 overlay 网络</el-button>
     <el-button slot="append" v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
+    <h2>创建容器</h2>
+    <el-input placeholder="请输入容器名:" v-model="containerName">
+      <template slot="prepend">输入容器名</template>
+    </el-input>
+    <el-input placeholder="请输入网络名:" v-model="usedNetName">
+      <template slot="prepend">请输入网络名</template>
+    </el-input>
+    <el-button slot="append" v-on:click="createContainer">创建容器</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
@@ -51,7 +59,10 @@ export default {
       ],
       etcdHost:"10.144.0.26",
       mainHost:"10.144.0.26",
-      calicoIpPool:"10.190.160.0/19"
+      calicoIpPool:"10.190.160.0/19",
+      containerName:"",
+      usedNetName:"",
+
     }
   },
   computed: {
@@ -149,6 +160,9 @@ export default {
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
+    createContainer(){
+      
+    }
   }
 }
 </script>
