@@ -112,9 +112,21 @@ var thFunc = {
     },
     getCreateMacvlanNetCmd: (macvlanNetName: string) => {
         return "docker network create --driver macvlan "
-        + "--subnet=172.16.86.0/24 "
-        + "--gateway=172.16.86.1 "
-        + "-o parent=eth0 " + macvlanNetName
+        + "--subnet=10.190.32.0/19 "
+        + "--gateway=10.190.32.1 "
+        + "-o parent=enp8s0f0 " + macvlanNetName
+    },
+    getCreateCalicoIpPoolCmd: (cidr: string) => {
+        return "cat <<EOF | /home/nscc/th/calico-2.6.11/calicoctl create "
+            + "--config=/home/nscc/th/calico-2.6.11/calico-1.cfg -f\n"
+            + "apiVersion: v1\n"
+            + "kind: ipPool\n"
+            + "metadata:\n"
+            +"    cidr: " + cidr + "\n"
+            +"spec:\n"
+            +"    ipip:\n"
+            +"        enabled: false\n"
+            +"    nat-outgoing: true\n"
     }
 }
 

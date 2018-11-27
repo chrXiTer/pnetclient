@@ -9,18 +9,22 @@
     <h2 style="">在此输入主机列表</h2>
     <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
 
-    <h2 style="">配置及calcio网络部署</h2>
+    <h2 style="">配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
     <el-button @click="upDocker">更新docker配置并重启</el-button>
     <el-button @click="deployEtcd">部署 Etcd 到 144.0.26</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
     <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
-    <h2 style="">配置及calcio网络部署</h2>
+    <h2 style="">配置及 calico 网络部署</h2>
     <el-input placeholder="请输入网络名:" v-model="newNetName">
       <template slot="prepend">输入网络名</template>
     </el-input>
-    <el-button slot="append" v-on:click="createCalicoNet">创建 calcio 网络</el-button>
+    <el-input placeholder="请输入calico ipPool cidr" v-bind:value="calicoIpPool">
+      <template slot="prepend">10.190.160.0/19</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool"></el-button>
+    </el-input>
+    <el-button slot="append" v-on:click="createCalicoNet">创建 calico 网络</el-button>
     <el-button slot="append" v-on:click="createOverlayNet">创建 overlay 网络</el-button>
     <el-button slot="append" v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
@@ -46,8 +50,8 @@ export default {
         {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
       ],
       etcdHost:"10.144.0.26",
-      mainHost:"10.144.0.26"
-      
+      mainHost:"10.144.0.26",
+      calicoIpPool:"10.190.160.0/19"
     }
   },
   computed: {
@@ -114,6 +118,13 @@ export default {
     runCalico(){
       thFunc.runCalico(this, this.hosts, thFunc.handlerRetStr)
     },
+    createCalicoIpPool(){
+      if(this.calicoIpPool == ""){
+        return 
+      }
+      let cmd = thFunc.getCreateCalicoIpPoolCmd(this.calicoIpPool)
+      this.calicoIpPool = ""
+    },
     createCalicoNet(){
       if(this.newNetName == ""){
         return
@@ -137,7 +148,7 @@ export default {
       let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
-    }
+    },
   }
 }
 </script>
