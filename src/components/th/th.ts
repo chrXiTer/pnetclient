@@ -105,7 +105,7 @@ var thFunc = {
     },
     getCreateCalicoNetCmd: (calicoNetName:string) => {
         return "docker network create --driver calico --ipam-driver calico-ipam "
-         + "--subnet=10.30.0.0/24 "+ calicoNetName
+         + "--subnet=10.190.160.0/19 "+ calicoNetName
     },
     getCreateOverlayNetCmd: (overlayNetName:string) => {
         return "docker network create --driver overlay " + overlayNetName
