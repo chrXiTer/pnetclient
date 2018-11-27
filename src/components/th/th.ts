@@ -118,7 +118,7 @@ var thFunc = {
     },
     getCreateCalicoIpPoolCmd: (cidr: string) => {
         return "cat <<EOF | /home/nscc/th/calico-2.6.11/calicoctl create "
-            + "--config=/home/nscc/th/calico-2.6.11/calico-1.cfg -f\n"
+            + "--config=/home/nscc/th/calico-2.6.11/calico-1.cfg -f -\n"
             + "apiVersion: v1\n"
             + "kind: ipPool\n"
             + "metadata:\n"
@@ -127,6 +127,7 @@ var thFunc = {
             +"    ipip:\n"
             +"        enabled: false\n"
             +"    nat-outgoing: true\n"
+            +"EOF"
     }
 }
 
