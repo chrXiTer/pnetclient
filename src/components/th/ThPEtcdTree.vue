@@ -1,10 +1,6 @@
 <template>
-<el-tree
-  :data="data2"
-  :props="defaultProps"
-  node-key="id"
-  :render-content="renderContent"
-  @node-expand="onNodeExpand"	>
+<el-tree :data="data2" :props="defaultProps" node-key="id"
+  :render-content="renderContent" @node-expand="onNodeExpand"	>
 </el-tree>
 </template>
 

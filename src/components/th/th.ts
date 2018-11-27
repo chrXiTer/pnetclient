@@ -30,6 +30,22 @@ var thFunc = {
       dirPath:"",
       filename:""
     },
+    funcSeqs:[ //数组内的函数，将从前至后依次执行
+        (self:any, execfuncSeqs:()=>{})=>{ // 将最新的配置文件同步到各主机
+          thFunc.scpDir(self, self.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
+        },
+        (self:any, execfuncSeqs:()=>{})=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
+          let cmd = thFunc.getUpDockerCmd()
+          thFunc.execCmd(self, self.hosts, cmd, execfuncSeqs)
+        },
+        (self:any, execfuncSeqs:()=>{})=>{ // 在其中一个节点安装 etcd
+          let cmd = thFunc.getEtcdDeployCmd(self.etcdHost)
+          thFunc.execCmd(self, [self.etcdHost], cmd, execfuncSeqs)
+        },
+        (self:any, execfuncSeqs:()=>{})=>{ // 运行 calico node 2.6.11 容器
+          thFunc.runCalico(self, self.hosts, execfuncSeqs)
+        },
+      ],
     execCmd:function(self:any, hosts:Array<string>, cmdStr:string, callback:TCallback){
       let jsonObj = thFunc.jsonObj
       jsonObj.hosts = hosts
@@ -51,7 +67,7 @@ var thFunc = {
           callback(self, resp)
       });
     },
-    scpFile:function(self:any, hosts:Array<string>, dirPath:string, filename:string, callback:TCallback){
+    scpFile:(self:any, hosts:Array<string>, dirPath:string, filename:string, callback:TCallback) =>{
       let jsonObj = thFunc.jsonObj
       jsonObj.hosts = hosts
       jsonObj.dirPath = dirPath
@@ -88,7 +104,17 @@ var thFunc = {
         thFunc.execCmd(self, hosts, cmd, callback)
     },
     getCreateCalicoNetCmd: (calicoNetName:string) => {
-        return "docker network create --driver calico --ipam-driver calico-ipam " + calicoNetName
+        return "docker network create --driver calico --ipam-driver calico-ipam "
+         + "--subnet=10.30.0.0/24 "+ calicoNetName
+    },
+    getCreateOverlayNetCmd: (overlayNetName:string) => {
+        return "docker network create --driver overlay " + overlayNetName
+    },
+    getCreateMacvlanNetCmd: (macvlanNetName: string) => {
+        return "docker network create --driver macvlan "
+        + "--subnet=172.16.86.0/24 "
+        + "--gateway=172.16.86.1 "
+        + "-o parent=eth0 " + macvlanNetName
     }
 }
 

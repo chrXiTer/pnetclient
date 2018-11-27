@@ -1,49 +1,37 @@
 <template>
   <div>
-      <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
-        <template slot="prepend">后台url</template>
-        <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
-          {{isDiff}}</el-button>
-      </el-input>
-      <el-button @click="sendACmd">echo 测试</el-button><br />
-      <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-      <el-button @click="upDocker">更新docker配置并重启</el-button>
-      <el-button @click="deployEtcd">部署 Etcd到144.0.26</el-button>
-      <el-button @click="runCalico">运行 calico-node</el-button><br />
-      <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
-      <el-input placeholder="请输入calico网络名" v-model="calicoNetName">
-        <template slot="prepend">calico网络名</template>
-        <el-button slot="append" v-on:click="createCalicoNet">创建</el-button>
-      </el-input>
-      <div id="cmdout" v-html="cmdoutContent" 
-          style="background-color: grey; color: white"></div>
+    <h2 style="">在此输入后台url</h2>
+    <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
+      <template slot="prepend">后台url</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
+        {{isDiff}}</el-button>
+    </el-input>
+    <h2 style="">在此输入主机列表</h2>
+    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
+
+    <h2 style="">配置及calcio网络部署</h2>
+    <el-button @click="sendACmd">echo 测试</el-button>
+    <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
+    <el-button @click="upDocker">更新docker配置并重启</el-button>
+    <el-button @click="deployEtcd">部署 Etcd 到 144.0.26</el-button>
+    <el-button @click="runCalico">运行 calico-node </el-button><br />
+    <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
+    <h2 style="">配置及calcio网络部署</h2>
+    <el-input placeholder="请输入网络名:" v-model="newNetName">
+      <template slot="prepend">输入网络名</template>
+    </el-input>
+    <el-button slot="append" v-on:click="createCalicoNet">创建 calcio 网络</el-button>
+    <el-button slot="append" v-on:click="createOverlayNet">创建 overlay 网络</el-button>
+    <el-button slot="append" v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
+    <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
 
 <script>
-let funcSeqs = [ //数组内的函数，将从前至后依次执行
-  (self, gValue, execfuncSeqs)=>{ // 将最新的配置文件同步到各主机
-    thFunc.scpDir(self, gValue.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
-  },
-  (self, gValue, execfuncSeqs)=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
-    let cmd = thFunc.getUpDockerCmd()
-    thFunc.execCmd(self, gValue.hosts, cmd, execfuncSeqs)
-  },
-  (self, gValue, execfuncSeqs)=>{ // 在其中一个节点安装 etcd
-    let cmd = thFunc.getEtcdDeployCmd(gValue.etcdHost)
-    thFunc.execCmd(self, [gValue.etcdHost], cmd, execfuncSeqs)
-  },
-  (self, gValue, execfuncSeqs)=>{ // 运行 calico node 2.6.11 容器
-    thFunc.runCalico(self, gValue.hosts, execfuncSeqs)
-  },
-]
 
 import thFunc from './th'
+import CHostList from './CHostList.vue'
 
-let G_Value = {
-  hosts:["10.144.0.26", "10.144.0.27", "10.145.0.26", "10.145.0.27"],
-  etcdHost:"10.144.0.26"
-}
 
 export default {
   data(){
@@ -52,8 +40,32 @@ export default {
       isDiff: "",
       visible: false,
       cmdoutContent: "",
-      calicoNetName:""
+      newNetName: "",
+      hostList: [
+        {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
+        {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
+      ],
+      etcdHost:"10.144.0.26",
+      mainHost:"10.144.0.26"
+      
     }
+  },
+  computed: {
+    hosts: function () {
+      let hosts = []
+      this.hostList.forEach((e) => hosts.concat(e.ips))
+      return [].concat(hosts)
+    },
+    hostsInfo:function(){
+      return {
+        hostList:this.hostList,
+        etcdHost:this.etcdHost,
+        mainHost:this.mainHost
+      }
+    }
+  },
+  components:{
+    CHostList,
   },
   methods: {
     onBackendUrlInput(evnet){
@@ -64,49 +76,74 @@ export default {
       thFunc.rootUrl = this.backendUrl
       this.isDiff = ""
     },
+    onHostsInfoChg(newHostsInfoChg){
+      this.hostList = newHostsInfoChg.hostList
+      this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
+      this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
+    },
     sendACmd(){
       thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
     },
     deploy4Calico(){
         let funcSeqsRev = []
-        funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
+        th.funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
         funcSeqsRev.reverse()
         function execfuncSeqs(self, resp){
           handlerRetStr(self, resp)
           if(funcSeqsRev.length > 0){
             let func = funcSeqsRev.pop()
-            func(self, G_Value, execfuncSeqs)
+            func(self, execfuncSeqs)
           }
         }
         let self = this
         execfuncSeqs(self, {data:"*** start ****\n"})
     },
     scpCfgFile(){
-      thFunc.scpDir(this, G_Value.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
+      thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     },
     upDocker(){
       let cmd = thFunc.getUpDockerCmd()
-      thFunc.execCmd(this, G_Value.hosts, cmd, thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){
       let cmd = thFunc.getEtcdDeployCmd(etcdHost)
-      thFunc.execCmd(this, [G_Value.etcdHost], cmd, (self, resp) => {
+      thFunc.execCmd(this, [this.etcdHost], cmd, (self, resp) => {
           handlerRetStr(self, resp)
       })
     },
     runCalico(){
-      thFunc.runCalico(this, G_Value.hosts, thFunc.handlerRetStr)
+      thFunc.runCalico(this, this.hosts, thFunc.handlerRetStr)
     },
     createCalicoNet(){
-      let hosts = ["10.144.0.26"]
-      if(this.calicoNetName == ""){
+      if(this.newNetName == ""){
         return
       }
-      let cmd = thFunc.getCreateCalicoNetCmd(this.calicoNetName)
-      thFunc.execCmd(this, hosts, cmd, thFunc.handlerRetStr)
-      this.calicoNetName = ""
+      let cmd = thFunc.getCreateCalicoNetCmd(this.newNetName)
+      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
+      this.newNetName = ""
+    },
+    createOverlayNet(){
+      if(this.newNetName == ""){
+        return
+      }
+      let cmd = thFunc.getCreateOverlayNetCmd(this.newNetName)
+      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
+      this.newNetName = ""
+    },
+    createMacvlanNet(){
+      if(this.newNetName == ""){
+        return
+      }
+      let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
+      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
+      this.newNetName = ""
     }
   }
 }
 </script>
 
+<style>
+h2 {
+  text-align: left
+}
+</style>
