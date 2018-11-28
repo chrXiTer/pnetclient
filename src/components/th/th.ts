@@ -148,7 +148,7 @@ var thFunc = {
             ret.push(resp)
             callback(self, resp)
             cmd = str0 + 'http:/v1.24/networks'
-            thFunc.execCmd(self, host, cmd, (self,resp) => {
+            thFunc.execCmdAHost(self, host, cmd, (self,resp) => {
                 ret.push(resp)
                 callback(self, resp)
             })
