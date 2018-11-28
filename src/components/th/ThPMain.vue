@@ -72,11 +72,12 @@ export default {
       etcdHost:"10.144.0.26",
       mainHost:"10.144.0.26",
       calicoIpPool:"10.190.160.0/19",
-      networkToCon:""
+      networkToCon:"",
+      networkList:[]
     }
   },
-  created: function () {
-    thFunc.getBaseInfo(this)
+  mounted: function () {
+    thFunc.getBaseInfo(this, [this.mainHost], thFunc.handlerRetStr)
   },
   computed: {
     hosts: function () {
