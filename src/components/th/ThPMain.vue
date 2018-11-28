@@ -85,7 +85,7 @@ export default {
         imagesList = imagesList.concat(e.RepoTags)
       })
 
-      let networks = JSON.parse(ret[0])
+      let networks = JSON.parse(ret[1])
       let networkList = []
       networks.forEach((e)=>{
         networkList.push(e.Name)
