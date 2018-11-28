@@ -144,11 +144,13 @@ var thFunc = {
         let strH = '-H "Content-Type: application/json '
         let cmd = str0 + 'http:/v1.24/images/json'
         let ret: object[] = []
-        thFunc.execCmdAHost(self, host, cmd, (self,resp) => {
+        thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
+            resp.data = JSON.parse(resp.data)
             ret.push(resp)
             callback(self, resp)
             cmd = str0 + 'http:/v1.24/networks'
-            thFunc.execCmdAHost(self, host, cmd, (self,resp) => {
+            thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
+                resp.data = JSON.parse(resp.data)
                 ret.push(resp)
                 callback(self, resp)
             })
