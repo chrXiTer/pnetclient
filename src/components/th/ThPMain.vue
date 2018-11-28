@@ -77,7 +77,7 @@ export default {
     }
   },
   mounted: function () {
-    thFunc.getBaseInfo(this, [this.mainHost], thFunc.handlerRetStr)
+    thFunc.getBaseInfo(this, this.mainHost, thFunc.handlerRetStr)
   },
   computed: {
     hosts: function () {
