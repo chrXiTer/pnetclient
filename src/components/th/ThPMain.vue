@@ -42,8 +42,8 @@
 <script>
 
 import thFunc from './th'
+import thTest from './thTest'
 import CHostList from './CHostList.vue'
-
 
 export default {
   data(){

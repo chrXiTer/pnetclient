@@ -125,7 +125,7 @@ var thFunc = {
             +"    cidr: " + cidr + "\n"
             +"spec:\n"
             +"    ipip:\n"
-            +"        enabled: false\n"
+            +"        enabled: cross-subnet\n"
             +"    nat-outgoing: true\n"
             +"EOF"
     }
