@@ -139,7 +139,7 @@ var thFunc = {
             +"    nat-outgoing: true\n"
             +"EOF"
     },
-    getBaseInfo: (self:any, host:string, callback:TCallback) => {
+    getBaseInfo: (self:any, host:string, callback:(ret:object)=>void) => {
         let str0 = 'curl --unix-socket /var/run/docker.sock '
         let strH = '-H "Content-Type: application/json '
         let cmd = str0 + 'http:/v1.24/images/json'
@@ -149,14 +149,13 @@ var thFunc = {
             let last = resp.data.out.lastIndexOf("]")
             let jsonStr = resp.data.out.substring(first, last+1)
             ret.push(jsonStr)
-            callback(self, resp)
             cmd = str0 + 'http:/v1.24/networks'
             thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
                 let first = resp.data.out.indexOf("[")
                 let last = resp.data.out.lastIndexOf("]")
                 let jsonStr = resp.data.out.substring(first, last+1)
                 ret.push(jsonStr)
-                callback(self, resp)
+                callback(ret)
             })
         })
     }
