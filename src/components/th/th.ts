@@ -56,6 +56,16 @@ var thFunc = {
           callback(self, resp)
       });
     },
+    execCmdAHost:function(self:any, host:string, cmdStr:string, callback:TCallback){
+        let jsonObj = thFunc.jsonObj
+        jsonObj.dict1.host = host
+        jsonObj.dict1.cmd = cmdStr
+        var jsonStr = JSON.stringify(jsonObj.dict1)
+        const url = thFunc.rootUrl + '/api/execCmdAHost?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+    },
     scpDir:function(self:any, hosts:Array<string>, parentDir:string, DirName:string, callback:TCallback){
       let jsonObj = thFunc.jsonObj
       jsonObj.hosts = hosts
