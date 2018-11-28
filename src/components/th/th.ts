@@ -128,6 +128,21 @@ var thFunc = {
             +"        enabled: cross-subnet\n"
             +"    nat-outgoing: true\n"
             +"EOF"
+    },
+    getBaseInfo: (self:any, hosts:Array<string>, callback:TCallback) => {
+        let str0 = 'curl --unix-socket /var/run/docker.sock '
+        let strH = '-H "Content-Type: application/json '
+        let cmd = str0 + 'http:/v1.24/images/json'
+        let ret: object[] = []
+        thFunc.execCmd(self, hosts, cmd, (self,resp) => {
+            ret.push(resp)
+            callback(self, resp)
+            cmd = str0 + 'http:/v1.24/networks'
+            thFunc.execCmd(self, hosts, cmd, (self,resp) => {
+                ret.push(resp)
+                callback(self, resp)
+            })
+        })
     }
 }
 
