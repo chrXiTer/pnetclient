@@ -80,13 +80,13 @@ export default {
     let self = this
     thFunc.getBaseInfo(this, this.mainHost, (ret)=>{
       let images = JSON.parse(ret[0])
-      imagesList = []
+      let imagesList = []
       images.forEach((e)=>{
         imagesList = imagesList.concat(e.RepoTags)
       })
 
       let networks = JSON.parse(ret[0])
-      networkList = []
+      let networkList = []
       networks.forEach((e)=>{
         networkList.push(e.Name)
       })
