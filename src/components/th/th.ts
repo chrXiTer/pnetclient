@@ -145,13 +145,17 @@ var thFunc = {
         let cmd = str0 + 'http:/v1.24/images/json'
         let ret: object[] = []
         thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
-            //resp.data = JSON.parse(resp.data)
-            ret.push(resp)
+            let first = resp.data.out.indexOf("[")
+            let last = resp.data.out.lastIndexOf("]")
+            let jsonStr = resp.data.out.substring(first, last+1)
+            ret.push(jsonStr)
             callback(self, resp)
             cmd = str0 + 'http:/v1.24/networks'
             thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
-                //resp.data = JSON.parse(resp.data)
-                ret.push(resp)
+                let first = resp.data.out.indexOf("[")
+                let last = resp.data.out.lastIndexOf("]")
+                let jsonStr = resp.data.out.substring(first, last+1)
+                ret.push(jsonStr)
                 callback(self, resp)
             })
         })
@@ -159,3 +163,5 @@ var thFunc = {
 }
 
 export default thFunc
+
+
