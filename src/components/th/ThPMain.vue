@@ -24,17 +24,13 @@
     <el-input placeholder="请输入网络名:" v-model="newNetName">
       <template slot="prepend">输入网络名</template>
     </el-input>
-    <el-button slot="append" v-on:click="createCalicoNet">创建 calico 网络</el-button>
-    <el-button slot="append" v-on:click="createOverlayNet">创建 overlay 网络</el-button>
-    <el-button slot="append" v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
+    <el-button-group>
+      <el-button v-on:click="createCalicoNet">创建 calico 网络</el-button>
+      <el-button v-on:click="createOverlayNet">创建 overlay 网络</el-button>
+      <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
+    </el-button-group>
     <h2>创建容器</h2>
-    <el-input placeholder="请输入容器名:" v-model="containerName">
-      <template slot="prepend">输入容器名</template>
-    </el-input>
-    <el-input placeholder="请输入网络名:" v-model="usedNetName">
-      <template slot="prepend">请输入网络名</template>
-    </el-input>
-    <el-button slot="append" v-on:click="createContainer">创建容器</el-button>
+    <CCreateContainer></CCreateContainer>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
@@ -42,7 +38,8 @@
 <script>
 
 import thFunc from './th'
-import CHostList from './CHostList.vue'
+import CHostList from './sub/CHostList.vue'
+import CCreateContainer from './sub/CCreateContainer.vue'
 
 
 export default {
@@ -59,10 +56,7 @@ export default {
       ],
       etcdHost:"10.144.0.26",
       mainHost:"10.144.0.26",
-      calicoIpPool:"10.190.160.0/19",
-      containerName:"",
-      usedNetName:"",
-
+      calicoIpPool:"10.190.160.0/19"
     }
   },
   computed: {
@@ -81,6 +75,7 @@ export default {
   },
   components:{
     CHostList,
+    CCreateContainer,
   },
   methods: {
     onBackendUrlInput(evnet){
@@ -160,9 +155,6 @@ export default {
       let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
       this.newNetName = ""
-    },
-    createContainer(){
-
     }
   }
 }
