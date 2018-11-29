@@ -45,6 +45,7 @@ exec 1>logConToNet.log
 date "+%Y-%m-%d %H:%M:%S %N"
 for i in \\$(seq 1 {-{n}-})
 do
+docker network disconnect none nn_\\$i
 docker network connect {-{networkName}-} nn_\\$i
 done
 date "+%Y-%m-%d %H:%M:%S %N"
