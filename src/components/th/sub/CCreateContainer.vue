@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import thFunc from '../th'
 export default {
   props:['hosts', "networks"],
   data () {
@@ -43,6 +44,14 @@ export default {
   },
   methods: {
     createContainer(){
+      if(!this.usedNetName || !this.usedHost || !this.containerName){
+        return
+      }
+      let cmd = thFunc.getCmdCreateContainer(this.usedNetName, this.containerName)
+      thFunc.execCmdAHost(this, this.usedHost, cmd, (self, resp) => {
+        resp.data = JSON.stringify(resp.data)
+        self.$emit('text1KResp', resp)
+      })
     }
   }
 }

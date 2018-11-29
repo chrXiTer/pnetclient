@@ -116,7 +116,9 @@ var thFunc = {
     },
     getCreateCalicoIpPoolCmd: (cidr: string) => {
         return cmdStrTpl.cmdCreateCalicoIpPool.replace("{-{cidr}-}", cidr)
-
+    },
+    getCmdCreateContainer:(network:string, host:string, name:string)=>{
+        return "docker run -itd --network " + network + " --name " + name + " nginx:1.15-alpine sh"
     },
     getBaseInfo: (self:any, host:string, callback:(ret:object)=>void) => {
         let str0 = 'curl --unix-socket /var/run/docker.sock '

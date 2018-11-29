@@ -58,6 +58,11 @@ do
 docker rm -f nn_\\$i
 done
 date "+%Y-%m-%d %H:%M:%S %N"
+docker exec -it  nn_1 ip addr
+docker exec -it  nn_1 ping -c 2 10.144.0.26;sleep 3
+date "+%Y-%m-%d %H:%M:%S %N"
+docker exec -it  nn_1 ip addr
+docker exec -it  nn_1 ping -c 2 10.144.0.26
 EOF`
 }
 
