@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="text-align: left">
     选择宿主机
     <el-select v-model="usedHost" placeholder="请选择">
       <el-option v-for="item in optionsHost" :key="item.value" 
@@ -13,7 +13,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <el-input type="text" v-model="containerNum" style="with:30px"></el-input>
+    <el-input type="text" v-model="containerNum" style="width :30px"></el-input>
     <el-button-group>
       <el-button v-on:click="create1k">创建容器</el-button>
       <el-button v-on:click="con1kToNet">加入网络</el-button>
