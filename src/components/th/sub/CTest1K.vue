@@ -13,7 +13,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <input type="text" v-model="containerNum"/>
+    <el-input type="text" v-model="containerNum" style="with:30px"></el-input>
     <el-button-group>
       <el-button v-on:click="create1k">创建容器</el-button>
       <el-button v-on:click="con1kToNet">加入网络</el-button>
