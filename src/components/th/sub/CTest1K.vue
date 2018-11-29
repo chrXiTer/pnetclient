@@ -63,7 +63,7 @@ export default {
           self.$emit('text1KResp', resp.data)
       })
     },
-    rm1K(){
+    rm1k(){
       let cmd = thTest.getCmdToRmNNginx(this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self,resp) => {
           resp.data = JSON.stringify(resp.data)
