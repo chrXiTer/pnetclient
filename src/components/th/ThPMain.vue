@@ -31,6 +31,8 @@
     </el-button-group>
     <h2>创建容器</h2>
     <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
+    <h2>容器迁移</h2>
+    
     <h2>1k容器入网测试</h2>
      <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>

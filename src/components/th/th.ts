@@ -57,6 +57,48 @@ var thFunc = {
           callback(self, resp)
       });
     },
+    genSnapshot:function(self:any, srcHost:string, descHost:string, containerName:string, callback:TCallback){
+        let jsonObj = {
+            srcHost:srcHost,
+            descHost:descHost,
+            containerName:containerName,
+            username:thFunc.jsonObj.dict1.username,
+            password:thFunc.jsonObj.dict1.password
+        }
+        var jsonStr = JSON.stringify(jsonObj)
+        const url = thFunc.rootUrl + '/api/genSnapshot?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+    },
+    restoreSnapshot:function(self:any, srcHost:string, descHost:string, containerName:string, callback:TCallback){
+        let jsonObj = {
+            srcHost:srcHost,
+            descHost:descHost,
+            containerName:containerName,
+            username:thFunc.jsonObj.dict1.username,
+            password:thFunc.jsonObj.dict1.password
+        }
+        var jsonStr = JSON.stringify(jsonObj)
+        const url = thFunc.rootUrl + '/api/restoreSnapshot?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+    },
+    liveMigration:function(self:any, srcHost:string, descHost:string, containerName:string, callback:TCallback){
+        let jsonObj = {
+            srcHost:srcHost,
+            descHost:descHost,
+            containerName:containerName,
+            username:thFunc.jsonObj.dict1.username,
+            password:thFunc.jsonObj.dict1.password
+        }
+        var jsonStr = JSON.stringify(jsonObj)
+        const url = thFunc.rootUrl + '/api/liveMigration?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+    },
     execCmdAHost:function(self:any, host:string, cmdStr:string, callback:TCallback){
         let jsonObj = thFunc.jsonObj
         jsonObj.dict1.host = host
