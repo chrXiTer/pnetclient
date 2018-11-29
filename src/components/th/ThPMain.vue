@@ -30,20 +30,9 @@
       <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
     </el-button-group>
     <h2>创建容器</h2>
-    <CCreateContainer></CCreateContainer>
+    <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
     <h2>1k容器入网测试</h2>
-    <el-button-group>
-      <el-button v-on:click="create1k">创建 容器</el-button>
-      <el-select v-model="networkToCon" placeholder="请选择">
-        <el-option
-          v-for="item in optionsNet"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button v-on:click="con1kToNet">加入网络</el-button>
-    </el-button-group>
+     <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList"></CTest1K>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
@@ -51,9 +40,9 @@
 <script>
 
 import thFunc from './th'
-import thTest from './thTest'
 import CHostList from './sub/CHostList.vue'
 import CCreateContainer from './sub/CCreateContainer.vue'
+import CTest1K from './sub/CTest1K.vue'
 
 
 export default {
@@ -115,6 +104,7 @@ export default {
   components:{
     CHostList,
     CCreateContainer,
+    CTest1K,
   },
   methods: {
     onBackendUrlInput(evnet){
@@ -194,12 +184,6 @@ export default {
       let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
       this.newNetName = ""
-    },
-    create1k(){
-
-    },
-    con1kToNet(){
-
     }
   }
 }

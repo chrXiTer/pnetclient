@@ -1,5 +1,6 @@
 import axios from 'axios'
 import util from '../../lib/cx_util'
+import cmdStrTpl from './cmdStrTpl'
 
 type TCallback = (self:any, resp:object)=>void
 
@@ -93,20 +94,7 @@ var thFunc = {
           + 'systemctl daemon-reload; systemctl restart docker'
     },
     getEtcdDeployCmd:(etcdHost:string) => { 
-        return 'IP_ADDR=' + etcdHost + ';' + 
-            'docker run -d --name etcdv3 \
-                --network host \
-                -v /root/etcd:/var/etcd \
-                k8s.gcr.io/etcd-amd64:3.2.18 \
-                /usr/local/bin/etcd \
-                    --name main \
-                    --data-dir /var/etcd/main-data \
-                    --advertise-client-urls http://${IP_ADDR}:2379 \
-                    --listen-client-urls http://${IP_ADDR}:2379 \
-                    --listen-peer-urls http://0.0.0.0:2380 \
-                    --auto-compaction-retention 1 \
-                    --cors "*" \
-            '
+        return cmdStrTpl.cmdEtcdDeploy.replace('{-{etcdHost}-}', etcdHost)
     },
     runCalico: (self:any, hosts:Array<string>, callback:TCallback) => {
         let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
@@ -127,17 +115,8 @@ var thFunc = {
         + "-o parent=enp8s0f0 " + macvlanNetName
     },
     getCreateCalicoIpPoolCmd: (cidr: string) => {
-        return "cat <<EOF | /home/nscc/th/calico-2.6.11/calicoctl create "
-            + "--config=/home/nscc/th/calico-2.6.11/calico-1.cfg -f -\n"
-            + "apiVersion: v1\n"
-            + "kind: ipPool\n"
-            + "metadata:\n"
-            +"    cidr: " + cidr + "\n"
-            +"spec:\n"
-            +"    ipip:\n"
-            +"        enabled: cross-subnet\n"
-            +"    nat-outgoing: true\n"
-            +"EOF"
+        return cmdStrTpl.cmdCreateCalicoIpPool.replace("{-{cidr}-}", cidr)
+
     },
     getBaseInfo: (self:any, host:string, callback:(ret:object)=>void) => {
         let str0 = 'curl --unix-socket /var/run/docker.sock '

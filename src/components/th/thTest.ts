@@ -1,25 +1,12 @@
+import cmdStrTpl from './cmdStrTpl'
 var thTest = {
     getCmdToRunNNginx(n:number) {
-        return 'cat << EOF | sh -\n'
-            + 'exec 1 > logRun1kNginx.log\n'
-            + 'date "+%Y-%m-%d %H:%M:%S %N"\n'
-            + 'for i in \\$(seq 1 1000)\n'
-            + 'do\n'
-            + 'docker run -itd --network none --name nn_\\$1 alpine:3.7 sh\n'
-            + 'done\n'
-            + 'date "+%Y-%m-%d %H:%M:%S %N"\n'
-            + 'EOF'
+        return cmdStrTpl.test1K.cmdToRunNNginx.replace('{-{n}-}', n.toString())
     },
-    getCmdConnectToNetwork(networkName:string){
-        return 'cat << EOF | sh -\n'
-        + 'exec 1 > logConToNet.log\n'
-        + 'date "+%Y-%m-%d %H:%M:%S %N"\n'
-        + 'for i in \\$(seq 1 1000)\n'
-        + 'do\n'
-        + 'docker network connect ' + networkName + 'nn_\\$1\n'
-        + 'done\n'
-        + 'date "+%Y-%m-%d %H:%M:%S %N"\n'
-        + 'EOF'
+    getCmdConnectToNetwork(networkName:string, n:number){
+        return cmdStrTpl.test1K.cmdConnectToNetwork
+            .replace('{-{networkName}-}', networkName)
+            .replace('{-{n}-}', n.toString())
     }
 }
 export default thTest
