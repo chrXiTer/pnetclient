@@ -55,7 +55,7 @@ exec 1>logConToNet.log
 date "+%Y-%m-%d %H:%M:%S %N"
 for i in \\$(seq 1 {-{n}-})
 do
-docker rm -f {-{networkName}-} nn_\\$i
+docker rm -f nn_\\$i
 done
 date "+%Y-%m-%d %H:%M:%S %N"
 EOF`

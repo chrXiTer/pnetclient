@@ -17,6 +17,7 @@
     <el-button-group>
       <el-button v-on:click="create1k">创建容器</el-button>
       <el-button v-on:click="con1kToNet">加入网络</el-button>
+      <el-button v-on:click="rm1k">移除容器</el-button>
     </el-button-group>
   </div>
 </template>
@@ -49,17 +50,24 @@ export default {
   },
   methods: {
     create1k(){
-      let cmd = thTest.getCmdToRunNNginx(containerNum)
+      let cmd = thTest.getCmdToRunNNginx(this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self, resp) => {
           resp.data = JSON.stringify(resp.data)
-          thFunc.handlerRetStr(self, resp)
+          self.$emit('text1KResp', resp.data)
       })
     },
     con1kToNet(){
-      let cmd = thTest.getCmdConnectToNetwork(this.usedNetName, containerNum)
+      let cmd = thTest.getCmdConnectToNetwork(this.usedNetName, this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self,resp) => {
           resp.data = JSON.stringify(resp.data)
-          thFunc.handlerRetStr(self, resp)
+          self.$emit('text1KResp', resp.data)
+      })
+    },
+    rm1K(){
+      let cmd = thTest.getCmdToRmNNginx(this.containerNum)
+      thFunc.execCmdAHost(this, this.usedHost, cmd, (self,resp) => {
+          resp.data = JSON.stringify(resp.data)
+          self.$emit('text1KResp', resp.data)
       })
     }
   }

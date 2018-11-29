@@ -32,7 +32,7 @@
     <h2>创建容器</h2>
     <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
     <h2>1k容器入网测试</h2>
-     <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList"></CTest1K>
+     <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
@@ -47,7 +47,6 @@ import CTest1K from './sub/CTest1K.vue'
 
 export default {
   data(){
-    
     return {
       backendUrl:thFunc.rootUrl,
       isDiff: "",
@@ -61,7 +60,6 @@ export default {
       etcdHost:"10.144.0.26",
       mainHost:"10.144.0.26",
       calicoIpPool:"10.190.160.0/19",
-      networkToCon:"",
       networkList:[]
     }
   },
@@ -119,6 +117,9 @@ export default {
       this.hostList = newHostsInfoChg.hostList
       this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
       this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
+    },
+    onText1KResp(resp){
+      thFunc.handlerRetStr(this, resp)
     },
     sendACmd(){
       thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
