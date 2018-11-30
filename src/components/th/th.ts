@@ -139,8 +139,8 @@ var thFunc = {
         return cmdStrTpl.cmdEtcdDeploy.replace('{-{etcdHost}-}', etcdHost)
     },
     runCalico: (self:any, hosts:Array<string>, callback:TCallback) => {
-        let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 '
-        + '--config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
+        let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 \
+            --config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
         thFunc.execCmd(self, hosts, cmd, callback)
     },
     getCreateCalicoNetCmd: (calicoNetName:string) => {
@@ -151,10 +151,10 @@ var thFunc = {
         return "docker network create --driver overlay --attachable" + overlayNetName
     },
     getCreateMacvlanNetCmd: (macvlanNetName: string) => {
-        return "docker network create --driver macvlan "
-        + "--subnet=10.190.32.0/19 "
-        + "--gateway=10.190.32.1 "
-        + "-o parent=enp8s0f0 " + macvlanNetName
+        return "docker network create --driver macvlan \
+            --subnet=10.190.32.0/19 \
+            --gateway=10.190.32.1 \
+            -o parent=enp8s0f0 " + macvlanNetName
     },
     getCreateCalicoIpPoolCmd: (cidr: string) => {
         return cmdStrTpl.cmdCreateCalicoIpPool.replace("{-{cidr}-}", cidr)

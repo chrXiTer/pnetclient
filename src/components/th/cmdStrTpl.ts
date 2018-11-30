@@ -8,7 +8,8 @@ metadata:
     cidr: {-{cidr}-}
 spec:
     ipip:
-        enabled: cross-subnet
+        enabled: true
+        mode: cross-subnet
     nat-outgoing: true
 EOF`,
 
