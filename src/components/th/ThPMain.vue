@@ -69,7 +69,7 @@ k8s的工作节点1.2
 
     <h3 style="clear:both">要操作的主机--当前页有效</h3>
     <el-input type="textarea" :rows="5" placeholder="输入要操作的主机列表" v-on:blur="onBlur" v-model="hostsStr"></el-input>
-    <el-input v-bind:value="cmd">
+    <el-input v-model="cmd">
       <template slot="prepend">要执行的命令</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="execACmd">执行</el-button>
     </el-input>
