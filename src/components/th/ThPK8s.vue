@@ -6,11 +6,10 @@
     <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
 
     <h2>配置及 k8s 网络部署</h2>
-    <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-    <el-button @click="upDocker">更新k8s配置并重启</el-button>
-    <el-button @click="xxxxx">master 节点 init</el-button>
-    <el-button @click="xxxxx">work 节点 join</el-button>
+    <el-button @click="setKubelet">更新k8s配置并重启</el-button>
+    <el-button @click="masterNodeInit">master 节点 init</el-button>
+    <el-button @click="workNodeJoin">work 节点 join</el-button>
     <el-button @click="xxxxx">运行 calico-node </el-button><br />
   </div>
 </template>
@@ -82,15 +81,30 @@ export default class ThPK8s extends Vue{
       this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
       this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
     }
-    sendACmd(){
-      thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
-    }
     scpCfgFile(){
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     }
-    upDocker(){
+    setKubelet(){
+      let cmd = 'echo "KUBELET_EXTRA_ARGS=\"--max-pods=100000 --cadvisor-port=4194\"" > /etc/default/kubelet;'
+        + 'systemctl daemon-reload; systemctl restart kubelet'
+      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     }
-    xxxxx(){
+    masterNodeInit(){
+      let cmd = `kubeadm init --kubernetes-version=v1.11.3 --token-ttl 0 
+            --pod-network-cidr 10.190.224.0/19 
+            --service-cidr 10.190.96.0/19`
+      let cmd2 = "sed -i 's/10.96.0.10/10.190.96.10/g' /var/lib/kubelet/config.yaml"
+      thFunc.execCmdAHost(self, this.mainHost, cmd, (self,resp:any) => {
+          resp.data = JSON.stringify(resp.data)
+          thFunc.handlerRetStr(self, resp.data)
+          thFunc.execCmdAHost(self, this.mainHost, cmd2, (self,resp:any) => {
+            resp.data = JSON.stringify(resp.data)
+            thFunc.handlerRetStr(self, resp.data)
+          })
+      })
+    }
+    workNodeJoin(){
+
     }
   }
 </script>
