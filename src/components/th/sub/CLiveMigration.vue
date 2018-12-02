@@ -31,8 +31,8 @@
 
 <script>
 
-import thFunc from '../th'
-import thTest from '../thTest'
+import thFunc from '../ts/thFunc'
+import thTest from '../ts/thTest'
 
 export default {
   props:['hosts', "networks"],

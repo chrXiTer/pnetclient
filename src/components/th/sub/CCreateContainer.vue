@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import thFunc from '../th'
+import thFunc from '../ts/thFunc'
 export default {
   props:['hosts', "networks"],
   data () {

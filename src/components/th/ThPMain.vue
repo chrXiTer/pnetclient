@@ -1,192 +1,133 @@
 <template>
   <div>
-    <h2>在此输入后台url</h2>
-    <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
-      <template slot="prepend">后台url</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
-        {{isDiff}}</el-button>
-    </el-input>
-    <h2>在此输入主机列表</h2>
-    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
+  <h2>在此输入后台url-所有页面有效</h2>
+  <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
+  <h2>执行命令--同步文件夹</h2>
+      <h3>以下下供复制用</h3>
+<pre>
+靳鹏飞装的calico
+  10.145.0.1
+  10.145.0.2
+  10.145.0.3
+  10.145.0.4
+  10.145.0.5
 
-    <h2>配置及 calico 网络部署</h2>
-    <el-button @click="sendACmd">echo 测试</el-button>
-    <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-    <el-button @click="upDocker">更新docker配置并重启</el-button>
-    <el-button @click="deployEtcd">部署 Etcd 到 144.0.26</el-button>
-    <el-button @click="runCalico">运行 calico-node </el-button><br />
-    <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s）到[144,145].25-26</el-button>
-    <el-input placeholder="10.190.160.0/19" v-bind:value="calicoIpPool">
-      <template slot="prepend">请输入calico ipPool cidr</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
+靳鹏飞装的k8s
+  10.145.0.6
+  10.145.0.7
+  10.145.0.8
+</pre>
+<pre>
+  预留
+  10.145.0.7
+  10.145.0.8
+  10.144.0.21
+
+没有，协议测试用去
+  10.144.0.1-20
+
+k8s反射器(quagga k8s集群外)
+  10.145.0.22 145机框
+  10.144.0.22 144机框
+</pre>
+<pre>
+k8s工作节点2
+(移出状态，根据情况加入或移出)
+  10.145.0.11
+  10.145.0.12
+  10.145.0.13
+  10.145.0.14
+  10.145.0.15
+  10.145.0.16
+  10.145.0.17
+  10.145.0.18
+  10.145.0.19
+  10.145.0.20
+</pre>
+<pre>
+k8s 的 master
+  10.145.0.21 
+
+k8s的工作节点1.1
+  10.145.0.23
+  10.145.0.24
+  10.145.0.25
+
+k8s的工作节点1.2
+  10.144.0.23
+  10.144.0.24
+  10.144.0.25
+</pre>
+
+<pre>
+  calico+docker跨机框集群
+  10.144.0.26
+  10.144.0.27  
+  10.145.0.26
+  10.145.0.27
+</pre>
+
+    <h3 style="clear:both">要操作的主机--当前页有效</h3>
+    <el-input type="textarea" :rows="5" placeholder="输入要操作的主机列表" v-on:blur="onBlur" v-model="hostsStr"></el-input>
+    <el-input v-bind:value="cmd">
+      <template slot="prepend">要执行的命令</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="execACmd">执行</el-button>
     </el-input>
-    <h2>创建网络</h2>
-    <el-input placeholder="请输入网络名:" v-model="newNetName">
-      <template slot="prepend">输入网络名</template>
+    <el-input v-model="subDir">
+      <template slot="prepend">要同步的文件目录:/home/nscc/</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="syncDir">同步</el-button>
     </el-input>
-    <el-button-group>
-      <el-button v-on:click="createCalicoNet">创建 calico 网络</el-button>
-      <el-button v-on:click="createOverlayNet">创建 overlay 网络</el-button>
-      <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
-    </el-button-group>
-    <h2>创建容器</h2>
-    <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
-    <h2>容器迁移</h2>
-    
-    <h2>1k容器入网测试</h2>
-     <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
+    <el-button @click="sendEchoCmd">echo 测试</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
 
 <script>
 
-import thFunc from './th'
-import CHostList from './sub/CHostList.vue'
-import CCreateContainer from './sub/CCreateContainer.vue'
-import CTest1K from './sub/CTest1K.vue'
-
+import thFunc from './ts/thFunc'
+import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 
 export default {
   data(){
     return {
-      backendUrl:thFunc.rootUrl,
-      isDiff: "",
-      visible: false,
+      hostsStr:"",
+      cmd:"",
+      subDir:"th/test/",
       cmdoutContent: "",
-      newNetName: "",
-      hostList: [
-        {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
-        {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
-      ],
-      etcdHost:"10.144.0.26",
-      mainHost:"10.144.0.26",
-      calicoIpPool:"10.190.160.0/19",
-      networkList:[]
+      thFunc:thFunc
     }
-  },
-  mounted: function () {
-    let self = this
-    thFunc.getBaseInfo(this, this.mainHost, (ret)=>{
-      let images = JSON.parse(ret[0])
-      let imagesList = []
-      images.forEach((e)=>{
-        imagesList = imagesList.concat(e.RepoTags)
-      })
-
-      let networks = JSON.parse(ret[1])
-      let networkList = []
-      networks.forEach((e)=>{
-        networkList.push(e.Name)
-      })
-      this.networkList = networkList
-    })
   },
   computed: {
     hosts: function () {
-      let hosts = []
-      this.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
-      return [].concat(hosts)
-    },
-    hostsInfo:function(){
-      return {
-        hostList:this.hostList,
-        etcdHost:this.etcdHost,
-        mainHost:this.mainHost
-      }
-    },
-    optionsNet(){
-      return this.networkList.map(e => {
-        return {value: e, label: e}
-      });
+      let ip = /(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}/g;
+      let hosts = this.hostsStr.match(ip) || []
+      return hosts
     }
   },
   components:{
-    CHostList,
-    CCreateContainer,
-    CTest1K,
+    CSetBackendUrl
   },
   methods: {
-    onBackendUrlInput(evnet){
-      this.backendUrl = event.target.value
-      this.isDiff = thFunc.rootUrl == this.backendUrl ? "" : "请更新"
+    onBlur(){
+      this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
     },
-    chgRootUrl(){
-      thFunc.rootUrl = this.backendUrl
-      this.isDiff = ""
+    execACmd(){
+      //this.hostsStr = hosts.join(';')
+      thFunc.execCmd(this, this.hosts, this.cmd, thFunc.handlerRetStr)
     },
-    onHostsInfoChg(newHostsInfoChg){
-      this.hostList = newHostsInfoChg.hostList
-      this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
-      this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
+    sendEchoCmd(){
+      thFunc.execCmd(this, this.hosts, "echo 222222", thFunc.handlerRetStr)
     },
-    onText1KResp(resp){
-      thFunc.handlerRetStr(this, resp)
-    },
-    sendACmd(){
-      thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
-    },
-    deploy4Calico(){
-        let funcSeqsRev = []
-        th.funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
-        funcSeqsRev.reverse()
-        function execfuncSeqs(self, resp){
-          handlerRetStr(self, resp)
-          if(funcSeqsRev.length > 0){
-            let func = funcSeqsRev.pop()
-            func(self, execfuncSeqs)
-          }
-        }
-        let self = this
-        execfuncSeqs(self, {data:"*** start ****\n"})
-    },
-    scpCfgFile(){
-      thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
-    },
-    upDocker(){
-      let cmd = thFunc.getUpDockerCmd()
-      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
-    },
-    deployEtcd(){
-      let cmd = thFunc.getEtcdDeployCmd(etcdHost)
-      thFunc.execCmd(this, [this.etcdHost], cmd, (self, resp) => {
-          handlerRetStr(self, resp)
-      })
-    },
-    runCalico(){
-      thFunc.runCalico(this, this.hosts, thFunc.handlerRetStr)
-    },
-    createCalicoIpPool(){
-      if(this.calicoIpPool == ""){
-        return 
+    syncDir(){
+      this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
+      let index = this.subDir.lastIndexOf("/")
+      let dir1 = '/home/nscc/'
+      let dir2 = this.subDir
+      if(index >=0){
+        dir1 = dir1 + this.subDir.substring(0, index)
+        dir2 = this.subDir.substring(index)
       }
-      let cmd = thFunc.getCreateCalicoIpPoolCmd(this.calicoIpPool)
-      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
-      this.calicoIpPool = ""
-    },
-    createCalicoNet(){
-      if(this.newNetName == ""){
-        return
-      }
-      let cmd = thFunc.getCreateCalicoNetCmd(this.newNetName)
-      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
-      this.newNetName = ""
-    },
-    createOverlayNet(){
-      if(this.newNetName == ""){
-        return
-      }
-      let cmd = thFunc.getCreateOverlayNetCmd(this.newNetName)
-      thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
-      this.newNetName = ""
-    },
-    createMacvlanNet(){
-      if(this.newNetName == ""){
-        return
-      }
-      let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
-      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
-      this.newNetName = ""
+      thFunc.scpDir(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     }
   }
 }
@@ -195,5 +136,8 @@ export default {
 <style>
 h2 {
   text-align: left
+}
+pre {
+  float: left;
 }
 </style>
