@@ -10,47 +10,19 @@ var thFuncDocker = {
           thFunc.scpDir(self, self.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
-          let cmd = thFuncDocker.getUpDockerCmd()
+          let cmd = cmdStrTpl.hostE.getCmdCfgDocker()
           thFunc.execCmd(self, self.hosts, cmd, execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 在其中一个节点安装 etcd
-          let cmd = thFuncDocker.getEtcdDeployCmd(self.etcdHost)
+          let cmd = cmdStrTpl.dockerC.getEtcdDeployCmd(self.etcdHost)
           thFunc.execCmd(self, [self.etcdHost], cmd, execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 运行 calico node 2.6.11 容器
             thFuncDocker.runCalico(self, self.hosts, execfuncSeqs)
         },
     ],
-    getUpDockerCmd:() =>{
-        return 'cp /home/nscc/th/calico-2.6.11/daemon.json /etc/docker/;'
-          + 'systemctl daemon-reload; systemctl restart docker'
-    },
-    getEtcdDeployCmd:(etcdHost:string) => { 
-        return cmdStrTpl.cmdEtcdDeploy.replace('{-{etcdHost}-}', etcdHost)
-    },
     runCalico: (self:any, hosts:Array<string>, callback:TCallback) => {
-        let cmd='/home/nscc/th/calico-2.6.11/calicoctl node run --node-image=quay.io/calico/node:v2.6.11 \
-            --config=/home/nscc/th/calico-2.6.11/calico-1.cfg'
-        thFunc.execCmd(self, hosts, cmd, callback)
-    },
-    getCreateCalicoNetCmd: (calicoNetName:string) => {
-        return "docker network create --driver calico --ipam-driver calico-ipam "
-         + "--subnet=10.190.160.0/19 "+ calicoNetName
-    },
-    getCreateOverlayNetCmd: (overlayNetName:string) => {
-        return "docker network create --driver overlay --attachable" + overlayNetName
-    },
-    getCreateMacvlanNetCmd: (macvlanNetName: string) => {
-        return "docker network create --driver macvlan \
-            --subnet=10.190.32.0/19 \
-            --gateway=10.190.32.1 \
-            -o parent=enp8s0f0 " + macvlanNetName
-    },
-    getCreateCalicoIpPoolCmd: (cidr: string) => {
-        return cmdStrTpl.cmdCreateCalicoIpPool.replace("{-{cidr}-}", cidr)
-    },
-    getCmdCreateContainer:(network:string, host:string, name:string)=>{
-        return "docker run -itd --network " + network + " --name " + name + " nginx:1.15-alpine sh"
+        thFunc.execCmd(self, hosts, cmdStrTpl.hostE.cmdRunCalicoNode, callback)
     },
     genSnapshot:function(self:any, srcHost:string, descHost:string, containerName:string, callback:TCallback){
         let jsonObj = {

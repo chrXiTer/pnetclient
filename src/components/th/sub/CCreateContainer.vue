@@ -21,6 +21,7 @@
 
 <script>
 import thFunc from '../ts/thFunc'
+import cmdStrTpl from '../ts/cmdStrTpl'
 export default {
   props:['hosts', "networks"],
   data () {
@@ -47,7 +48,7 @@ export default {
       if(!this.usedNetName || !this.usedHost || !this.containerName){
         return
       }
-      let cmd = thFunc.getCmdCreateContainer(this.usedNetName, this.containerName)
+      let cmd = cmdStrTpl.dockerC.getCmdCreateContainer(this.usedNetName, this.containerName)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self, resp) => {
         resp.data = JSON.stringify(resp.data)
         self.$emit('text1KResp', resp)

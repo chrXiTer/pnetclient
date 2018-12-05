@@ -17,11 +17,7 @@ var thFunc = {
     rootUrl:"http://10.145.0.32:8100",
     jsonObj: {
       dict1:{
-        username:'nscc',
         host:'',
-        password:'nsccGZ-KD1810',
-        srcResDir:'',
-        destResDir:'',
         cmd:''
       },
       hosts:[""],
@@ -82,24 +78,28 @@ var thFunc = {
           callback(self, resp)
       });
     },
-    getBaseInfo: (self:any, host:string, callback:(ret:string[])=>void) => {
-        let str0 = 'curl --unix-socket /var/run/docker.sock '
-        let strH = '-H "Content-Type: application/json '
-        let cmd = str0 + 'http:/v1.24/images/json'
-        let ret: string[] = []
-        thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
+    getImages: (host:string, ret:string[], callback:(ret:string[])=>void) => {
+        thFunc.execCmdAHost(self, host, cmdStrTpl.dockerHttp.cmdImages, (self,resp:any) => {
             let first = resp.data.out.indexOf("[")
             let last = resp.data.out.lastIndexOf("]")
             let jsonStr = resp.data.out.substring(first, last+1)
             ret.push(jsonStr)
-            cmd = str0 + 'http:/v1.24/networks'
-            thFunc.execCmdAHost(self, host, cmd, (self,resp:any) => {
-                let first = resp.data.out.indexOf("[")
-                let last = resp.data.out.lastIndexOf("]")
-                let jsonStr = resp.data.out.substring(first, last+1)
-                ret.push(jsonStr)
-                callback(ret)
-            })
+            callback(ret)
+        })
+    },
+    getNetworks: (host:string, ret:string[], callback:(ret:string[])=>void) => {
+        thFunc.execCmdAHost(self, host, cmdStrTpl.dockerHttp.networks, (self,resp:any) => {
+            let first = resp.data.out.indexOf("[")
+            let last = resp.data.out.lastIndexOf("]")
+            let jsonStr = resp.data.out.substring(first, last+1)
+            ret.push(jsonStr)
+            callback(ret)
+        })
+    },
+    getBaseInfo: (host:string, callback:(ret:string[])=>void) => {
+        let ret: string[] = []
+        thFunc.getImages(host, ret, (ret) =>{
+            thFunc.getNetworks(host, ret, callback)       
         })
     }
 }

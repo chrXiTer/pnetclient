@@ -77,7 +77,8 @@ k8s的工作节点1.2
       <template slot="prepend">要同步的文件目录:/home/nscc/</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="syncDir">同步</el-button>
     </el-input>
-    <el-button @click="sendEchoCmd">echo 测试</el-button>
+    <el-button @click="chgAptSource">更新apt源</el-button>
+    <el-button @click="chgHostName">修改主机名</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
   </div>
 </template>
@@ -112,11 +113,18 @@ export default {
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
     },
     execACmd(){
-      //this.hostsStr = hosts.join(';')
       thFunc.execCmd(this, this.hosts, this.cmd, thFunc.handlerRetStr)
     },
-    sendEchoCmd(){
-      thFunc.execCmd(this, this.hosts, "echo 222222", thFunc.handlerRetStr)
+    chgAptSource(){
+        thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdChgAptSource, thFunc.handlerRetStr)
+    },
+    chgHostName(){
+      this.hosts.map((host)=>{
+        let h4ns = host.split(".")
+        let newHostName = `n-${h4ns[1]}-${h4ns[2]}-${h4ns[3]}`
+        let cmd = cmdStrTpl.hostE.getCmdChgHostName(newHostName)
+        thFunc.execCmdAHost(this, this.hosts, cmd, thFunc.handlerRetStr)
+      })
     },
     syncDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
@@ -135,7 +143,7 @@ export default {
 
 <style>
 h2 {
-  text-align: left
+  text-align: left;
 }
 pre {
   float: left;

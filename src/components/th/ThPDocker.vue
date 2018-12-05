@@ -37,6 +37,7 @@
 <script>
 
 import thFunc from './ts/thFunc'
+import cmdStrTpl from './ts/cmdStrTpl'
 import thFuncDocker from './ts/thFuncDocker'
 import CHostList from './sub/CHostList.vue'
 import CCreateContainer from './sub/CCreateContainer.vue'
@@ -62,7 +63,7 @@ export default {
   },
   mounted: function () {
     let self = this
-    thFunc.getBaseInfo(this, this.mainHost, (ret)=>{
+    thFunc.getBaseInfo(this.mainHost, (ret)=>{
       let images = JSON.parse(ret[0])
       let imagesList = []
       images.forEach((e)=>{
@@ -74,7 +75,7 @@ export default {
       networks.forEach((e)=>{
         networkList.push(e.Name)
       })
-      this.networkList = networkList
+      self.networkList = networkList
     })
   },
   computed: {
@@ -132,11 +133,11 @@ export default {
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     },
     upDocker(){
-      let cmd = thFunc.getUpDockerCmd()
+      let cmd = cmdStrTpl.hostE.getCmdCfgDocker()
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){
-      let cmd = thFunc.getEtcdDeployCmd(this.etcdHost)
+      let cmd = cmdStrTpl.dockerC.getEtcdDeployCmd(this.etcdHost)
       thFunc.execCmd(this, [this.etcdHost], cmd, (self, resp) => {
           thFunc.handlerRetStr(self, resp)
       })
@@ -148,7 +149,7 @@ export default {
       if(this.calicoIpPool == ""){
         return 
       }
-      let cmd = thFunc.getCreateCalicoIpPoolCmd(this.calicoIpPool)
+      let cmd = cmdStrTpl.getCreateCalicoIpPoolCmd(this.calicoIpPool)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.calicoIpPool = ""
     },
@@ -156,7 +157,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = thFunc.getCreateCalicoNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.getCreateCalicoNetCmd(this.newNetName)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
@@ -172,7 +173,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = thFunc.getCreateMacvlanNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.getCreateMacvlanNetCmd(this.newNetName)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     }

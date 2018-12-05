@@ -25,7 +25,7 @@
 <script>
 
 import thFunc from '../ts/thFunc'
-import thTest from '../ts/thTest'
+import thTest from '../ts/cmdStrTpl'
 
 export default {
   props:['hosts', "networks"],
@@ -50,21 +50,21 @@ export default {
   },
   methods: {
     create1k(){
-      let cmd = thTest.getCmdToRunNNginx(this.containerNum)
+      let cmd = cmdStrTpl.getCmdToRunNNginx(this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self, resp) => {
           resp.data = JSON.stringify(resp.data)
           self.$emit('text1KResp', resp)
       })
     },
     con1kToNet(){
-      let cmd = thTest.getCmdConnectToNetwork(this.usedNetName, this.containerNum)
+      let cmd = cmdStrTpl.getCmdConnectToNetwork(this.usedNetName, this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self,resp) => {
           resp.data = JSON.stringify(resp.data)
           self.$emit('text1KResp', resp)
       })
     },
     rm1k(){
-      let cmd = thTest.getCmdToRmNNginx(this.containerNum)
+      let cmd = cmdStrTpl.getCmdToRmNNginx(this.containerNum)
       thFunc.execCmdAHost(this, this.usedHost, cmd, (self,resp) => {
           resp.data = JSON.stringify(resp.data)
           self.$emit('text1KResp', resp)

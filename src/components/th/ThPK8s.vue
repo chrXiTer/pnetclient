@@ -21,6 +21,7 @@ import thFuncK8s from './ts/thFuncK8s'
 import CHostList from './sub/CHostList.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 import { Component, Vue } from 'vue-property-decorator';
+import cmdStrTpl from './ts/cmdStrTpl';
 
 @Component({
   components: {
@@ -44,7 +45,7 @@ export default class ThPK8s extends Vue{
 
   mounted() {
     let self = this
-    thFunc.getBaseInfo(this, this.mainHost, (ret:string[])=>{
+    thFunc.getBaseInfo(this.mainHost, (ret:string[])=>{
       let images = JSON.parse(ret[0]) as {RepoTags:string}[]
       let imagesList:string[] = []
       images.forEach((e)=>{
@@ -56,7 +57,7 @@ export default class ThPK8s extends Vue{
       networks.forEach((e)=>{
         networkList.push(e.Name as string)
       })
-      this.networkList = networkList
+      self.networkList = networkList
     })
   }
   get hosts():string[] {
@@ -85,19 +86,14 @@ export default class ThPK8s extends Vue{
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     }
     setKubelet(){
-      let cmd = 'echo "KUBELET_EXTRA_ARGS=\"--max-pods=100000 --cadvisor-port=4194\"" > /etc/default/kubelet;'
-        + 'systemctl daemon-reload; systemctl restart kubelet'
-      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cfgK8sCmd, thFunc.handlerRetStr)
     }
     masterNodeInit(){
-      let cmd = `kubeadm init --kubernetes-version=v1.11.3 --token-ttl 0 
-            --pod-network-cidr 10.190.224.0/19 
-            --service-cidr 10.190.96.0/19`
-      let cmd2 = "sed -i 's/10.96.0.10/10.190.96.10/g' /var/lib/kubelet/config.yaml"
-      thFunc.execCmdAHost(self, this.mainHost, cmd, (self,resp:any) => {
+
+      thFunc.execCmdAHost(self, this.mainHost, cmdStrTpl.k8s.masterInit, (self,resp:any) => {
           resp.data = JSON.stringify(resp.data)
           thFunc.handlerRetStr(self, resp.data)
-          thFunc.execCmdAHost(self, this.mainHost, cmd2, (self,resp:any) => {
+          thFunc.execCmdAHost(self, this.mainHost, cmdStrTpl.k8s.chgDnsAddr, (self,resp:any) => {
             resp.data = JSON.stringify(resp.data)
             thFunc.handlerRetStr(self, resp.data)
           })
