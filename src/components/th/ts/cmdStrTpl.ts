@@ -40,13 +40,13 @@ EOF
 
 let hostE = {
 getCmdCfgDocker:() =>{return `
-cat <<EOF | > /etc/docker/daemon.json
+cat << EOF > /etc/docker/daemon.json
 { 
     "experimental" :true,
     "cluster-store":"etcd://10.145.0.11:2379",
     "cluster-advertise":"enp8s0f0:2375"
 }
-EOF;
+EOF
 systemctl daemon-reload;
 systemctl restart docker;
 `.trim()
@@ -62,7 +62,7 @@ cmdRunCalicoNode:`
     --config=/home/nscc/th/calico-2.6.11/calico-1.cfg
 `.trim(),
 cmdChgAptSource:`
-cat <<EOF > /etc/apt/sources.list
+cat << EOF > /etc/apt/sources.list
 deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
@@ -131,7 +131,7 @@ docker network create --driver macvlan \
 `.trim()
 },
 getCreateCalicoIpPoolCmd: (cidr: string) => {return `
-cat <<EOF | /home/nscc/th/calico-2.6.11/calicoctl create \
+cat << EOF | /home/nscc/th/calico-2.6.11/calicoctl create \
     --config=/home/nscc/th/calico-2.6.11/calico-1.cfg -f -
 apiVersion: v1
 kind: ipPool
