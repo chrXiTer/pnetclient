@@ -10,7 +10,7 @@ var thFuncDocker = {
           thFunc.scpDir(self, self.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
-          let cmd = cmdStrTpl.hostE.getCmdCfgDocker()
+          let cmd = cmdStrTpl.hostE.getCmdCfgDocker(self.etcdHost)
           thFunc.execCmd(self, self.hosts, cmd, execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 在其中一个节点安装 etcd

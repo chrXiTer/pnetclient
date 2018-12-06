@@ -39,11 +39,11 @@ EOF
 }
 
 let hostE = {
-getCmdCfgDocker:() =>{return `
+getCmdCfgDocker:(etcdHost:string) =>{return `
 cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart docker;
 { 
     "experimental" :true,
-    "cluster-store":"etcd://10.145.0.11:2379",
+    "cluster-store":"etcd://${etcdHost}:2379",
     "cluster-advertise":"enp8s0f0:2375"
 }
 EOF
@@ -89,7 +89,7 @@ sed -i 's/10.96.0.10/10.190.96.10/g' /var/lib/kubelet/config.yaml
 
 let dockerC = {
 getEtcdDeployCmd:(etcdHost:string) => { return `
-IP_ADDR=${etcdHost};
+IP_ADDR=${etcdHost}; \
 docker run -d --name etcdv3 \
     --network host \
     -v /root/etcd:/var/etcd \
@@ -113,8 +113,8 @@ docker run -itd --network ${network} --name ${name} nginx:1.15-alpine sh
 
 let dockerE = {
 getCreateCalicoNetCmd: (calicoNetName:string) => { return `
-docker network create --driver calico --ipam-driver calico-ipam 
---subnet=10.190.160.0/19 ${calicoNetName}
+docker network create --driver calico --ipam-driver calico-ipam \
+    --subnet=10.190.160.0/19 ${calicoNetName}
 `.trim()
 },
 getCreateOverlayNetCmd: (overlayNetName:string) => {return `

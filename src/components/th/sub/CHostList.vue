@@ -10,7 +10,9 @@
       <el-input type="textarea" :rows="2" placeholder="在此输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="etcd 主机" v-model="etcdHost0"></el-input>
+      etcd 主机
+      <el-input placeholder="etcd 主机ip" v-model="etcdHost0"></el-input>
+      操作主机
       <el-input placeholder="操作主机" v-model="mainHost0"></el-input>
     </el-col>
     <el-col :span="6"><el-button @click="onUpdateClick">更新主机信息</el-button> </el-col>
@@ -52,4 +54,3 @@ export default {
   }
 }
 </script>
-
