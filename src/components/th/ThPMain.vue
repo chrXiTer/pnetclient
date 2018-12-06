@@ -134,11 +134,12 @@ export default {
         thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdChgAptSource, thFunc.handlerRetStr)
     },
     chgHostName(){
+      let self = this
       this.hosts.map((host)=>{
         let h4ns = host.split(".")
         let newHostName = `n-${h4ns[1]}-${h4ns[2]}-${h4ns[3]}`
         let cmd = cmdStrTpl.hostE.getCmdChgHostName(newHostName)
-        thFunc.execCmdAHost(this, this.hosts, cmd, thFunc.handlerRetStr)
+        thFunc.execCmdAHost(self, host, cmd, thFunc.handlerRetStr)
       })
     },
     syncDir(){
