@@ -86,6 +86,7 @@ k8s的工作节点1.2
 <script>
 
 import thFunc from './ts/thFunc'
+import cmdStrTpl from './ts/cmdStrTpl'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 
 export default {
