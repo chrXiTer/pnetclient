@@ -19,6 +19,11 @@
 </template>
 
 <script>
+function getIpFromStr(str){
+    let ip = /(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}/g;
+    let hosts = str.match(ip) || []
+    return hosts
+}
 export default {
   props:['hostList', "etcdHost", "mainHost"],
   data () {
@@ -37,8 +42,8 @@ export default {
     onUpdateClick: function(){
       this.$emit('hostsInfoChg', {
         hostList:[
-          {net:this.net0, ips:this.ips0}, 
-          {net:this.net1, ips:this.ips1}
+          {net:this.net0, ips:getIpFromStr(this.ips0)}, 
+          {net:this.net1, ips:getIpFromStr(this.ips1)}
         ],
         etcdHost:this.etcdHost0,
         mainHost:this.mainHost0
