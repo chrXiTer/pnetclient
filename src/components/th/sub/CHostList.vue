@@ -32,8 +32,8 @@ export default {
     return {
       net0: this.hostList[0].net,
       ips0: this.hostList[0].ips.join("\n"),
-      net1: this.hostList[0].net,
-      ips1: this.hostList[0].ips.join("\n"),
+      net1: this.hostList[1].net,
+      ips1: this.hostList[1].ips.join("\n"),
       etcdHost0: this.etcdHost,
       mainHost0: this.mainHost
     }
