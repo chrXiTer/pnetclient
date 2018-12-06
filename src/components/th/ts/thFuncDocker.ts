@@ -28,9 +28,7 @@ var thFuncDocker = {
         let jsonObj = {
             srcHost:srcHost,
             descHost:descHost,
-            containerName:containerName,
-            username:thFunc.jsonObj.dict1.username,
-            password:thFunc.jsonObj.dict1.password
+            containerName:containerName
         }
         var jsonStr = JSON.stringify(jsonObj)
         const url = thFunc.rootUrl + '/api/genSnapshot?jsonStr=' + encodeURIComponent(jsonStr)
@@ -42,9 +40,7 @@ var thFuncDocker = {
         let jsonObj = {
             srcHost:srcHost,
             descHost:descHost,
-            containerName:containerName,
-            username:thFunc.jsonObj.dict1.username,
-            password:thFunc.jsonObj.dict1.password
+            containerName:containerName
         }
         var jsonStr = JSON.stringify(jsonObj)
         const url = thFunc.rootUrl + '/api/restoreSnapshot?jsonStr=' + encodeURIComponent(jsonStr)
@@ -56,9 +52,7 @@ var thFuncDocker = {
         let jsonObj = {
             srcHost:srcHost,
             descHost:descHost,
-            containerName:containerName,
-            username:thFunc.jsonObj.dict1.username,
-            password:thFunc.jsonObj.dict1.password
+            containerName:containerName
         }
         var jsonStr = JSON.stringify(jsonObj)
         const url = thFunc.rootUrl + '/api/liveMigration?jsonStr=' + encodeURIComponent(jsonStr)
