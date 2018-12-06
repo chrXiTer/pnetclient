@@ -40,11 +40,13 @@ EOF
 
 let hostE = {
 getCmdCfgDocker:() =>{return `
-echo -e '{
+cat <<EOF | > /etc/docker/daemon.json
+{ 
     "experimental" :true,
     "cluster-store":"etcd://10.145.0.11:2379",
     "cluster-advertise":"enp8s0f0:2375"
-}' > /etc/docker/daemon.json;
+}
+EOF;
 systemctl daemon-reload;
 systemctl restart docker;
 `.trim()
