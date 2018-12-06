@@ -149,7 +149,7 @@ export default {
       if(this.calicoIpPool == ""){
         return 
       }
-      let cmd = cmdStrTpl.getCreateCalicoIpPoolCmd(this.calicoIpPool)
+      let cmd = cmdStrTpl.dockerE.getCreateCalicoIpPoolCmd(this.calicoIpPool)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.calicoIpPool = ""
     },
@@ -157,7 +157,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = cmdStrTpl.getCreateCalicoNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.dockerE.getCreateCalicoNetCmd(this.newNetName)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
