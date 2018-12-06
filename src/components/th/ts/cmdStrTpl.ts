@@ -71,7 +71,7 @@ getCmdChgHostName: (hnameNew:string)=> {return `
 hnameOld=$(hostname); \
 echo ${hnameNew} > /etc/hostname; \
 sed -i s/$hnameOld/${hnameNew}/ /etc/hosts; \
-hostname $hnameNew;
+hostname ${hnameNew};
 `.trim()
 }
 }
