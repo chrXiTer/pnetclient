@@ -139,7 +139,10 @@ export default {
         let h4ns = host.split(".")
         let newHostName = `n-${h4ns[1]}-${h4ns[2]}-${h4ns[3]}`
         let cmd = cmdStrTpl.hostE.getCmdChgHostName(newHostName)
-        thFunc.execCmdAHost(self, host, cmd, thFunc.handlerRetStr)
+        thFunc.execCmdAHost(self, host, cmd, (self, resp) => {
+          resp.data = JSON.stringify(resp.data)
+          thFunc.handlerRetStr(self, resp)
+        })
       })
     },
     syncDir(){

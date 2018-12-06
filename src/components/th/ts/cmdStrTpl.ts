@@ -68,9 +68,9 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe 
 EOF
 `.trim(),
 getCmdChgHostName: (hnameNew:string)=> {return `
-hnameOld=$(hostname);
-echo ${hnameNew} > /etc/hostname;
-sed -i s/$hnameOld/${hnameNew}/ /etc/hosts;
+hnameOld=$(hostname); \
+echo ${hnameNew} > /etc/hostname; \
+sed -i s/$hnameOld/${hnameNew}/ /etc/hosts; \
 hostname $hnameNew;
 `.trim()
 }
