@@ -50,7 +50,7 @@ export default new Router({
     {
       path: '/thHostsMino',
       name: 'ThPHostMino',
-      component: ThPMain
+      component: ThPHostMino
     },
     {
       path: '/th',
