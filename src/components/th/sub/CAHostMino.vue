@@ -30,7 +30,7 @@ export default {
       if(nowTime - self.lastRefreshTime > 20){
         self.lastRefreshTime = nowTime
         thFunc.execCmdAHost(this, this.host, "echo l23l", (self, resp) => {
-          if(resp.data.search('echo 1231\r\n1231') >=0 ){
+          if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
             self.status = {
               type: "success",
               title: "可连通"
