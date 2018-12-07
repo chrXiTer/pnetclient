@@ -90,7 +90,8 @@ cd /home/nscc/th/deb/k8s-1.11.3-adm.deb;\
 dpkg -i --force-all -B *.deb;
 `.trim(),
 cmdLoadImages:`
-ls /home/nscc/th/tar | xargs -n 1 docker load -i
+cd /home/nscc/th/tar; \
+ls | xargs -n 1 docker load -i
 `.trim()
 }
 
