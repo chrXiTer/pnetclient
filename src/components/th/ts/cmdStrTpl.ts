@@ -73,7 +73,22 @@ echo ${hnameNew} > /etc/hostname; \
 sed -i s/$hnameOld/${hnameNew}/ /etc/hosts; \
 hostname ${hnameNew};
 `.trim()
-}
+},
+cmdInstallBaseSoft:`
+cd /home/nscc/th/deb/vim-curl-unzip.deb;\
+dpkg -i --force-all -B *.deb;
+`.trim(),
+cmdInstallDocker:`
+service docker stop;\
+cd /home/nscc/th/deb/vim-curl-unzip.deb;\
+dpkg -i --force-all -B *.deb;\
+cd /home/nscc/th/deb/docker-17.03.2.deb;\
+dpkg -i --force-all -B *.deb;
+`.trim(),
+cmdInstallK8s:`
+cd /home/nscc/th/deb/k8s-1.11.3-adm.deb;\
+dpkg -i --force-all -B *.deb;
+`
 }
 
 let k8s = {
