@@ -15,15 +15,16 @@ export default {
     return {
       status:{
         type:'info',
-        title:'ssh未检测'
+        title:'ssh未测'
       },
       statusPing:{
         type:'info',
-        title:'ping未检测'
+        title:'ping未测'
       }
     }
   },
   mounted() {
+    this.refreshSsh()
     this.refreshPing()
   },
   methods: {
@@ -36,27 +37,35 @@ export default {
       let nowTime = nowDate.getTime()
       let self = this
       thFunc.gInfo_cahostmino = thFunc.gInfo_cahostmino || {}
-      thFunc.gInfo_cahostmino[self.host] = thFunc.gInfo_cahostmino[self.host] || 0
-      if(nowTime - thFunc.gInfo_cahostmino[self.host] > 20){
-        thFunc.gInfo_cahostmino[self.host] = nowTime
+      thFunc.gInfo_cahostmino[self.host] = thFunc.gInfo_cahostmino[self.host] || {
+        lasrRefreshTime:0,
+        status: {
+          type:'info',
+          title:'ssh未测'
+        }
+      }
+      let gInfoHost = thFunc.gInfo_cahostmino[self.host];
+      if(nowTime - gInfoHost.lasrRefreshTime > 30){
+        gInfoHost.lasrRefreshTime = nowTime
         thFunc.execCmdAHost(this, this.host, "echo 1231", (self, resp) => {
           if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
-            self.status = {
+            gInfoHost.status = {
               type: "success",
-              title: "ssh可连通"
+              title: "ssh可通"
             }
           }else{
-            self.status = {
+            gInfoHost.status = {
               type: "error",
-              title: "shh连不通"
+              title: "shh不通"
             }
           }
+          self.status = gInfoHost.status
           self.$emit('onCAHostminoRefresh', {host:self.host, data:resp.data.retStr})
         })
       }else{
         self.$emit('onCAHostminoRefresh', {
           host:self.host, 
-          data:"未刷新：" + thFunc.gInfo_cahostmino[self.host] + ": " + nowTime
+          data:"未刷新：" + gInfoHost.lasrRefreshTime + ": " + nowTime
         })
       }
     },

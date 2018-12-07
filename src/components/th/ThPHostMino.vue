@@ -79,7 +79,8 @@ export default {
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
     },
     onCAHostminoRefresh(data){
-      this.cmdoutContent = this.cmdoutContent + data.host + "\n" + data.data + "\n"
+      thFunc.handlerRetStr(this, {data:data.host + "\n" + data.data + "\n"})
+      //this.cmdoutContent = this.cmdoutContent + data.host + "\n" + data.data + "\n"
     }
   }
 }
