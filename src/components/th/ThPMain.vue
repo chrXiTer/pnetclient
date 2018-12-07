@@ -20,7 +20,7 @@
     <el-button @click="installDocker">安装docker</el-button>
     <el-button @click="loadImages">载入容器镜像</el-button>
     <el-button @click="installK8s">安装k8s</el-button>
-    <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
+    <pre id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></pre>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ export default {
     },
     loadImages(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdLoadImages, thFunc.handlerRetStr)
-    }
+    },
     syncDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
