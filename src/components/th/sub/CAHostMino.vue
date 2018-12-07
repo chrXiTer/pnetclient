@@ -64,12 +64,12 @@ export default {
         let cmd = "ping -c 2 " + this.host
         thFunc.execCmdLocal(this, cmd, (self, resp) => {
           if(resp.data.out.search('bytes from') >=0 ){
-            self.status = {
+            self.statusPing = {
               type: "success",
               title: "ping可通"
             }
           }else{
-            self.status = {
+            self.statusPing = {
               type: "error",
               title: "ping不通"
             }
