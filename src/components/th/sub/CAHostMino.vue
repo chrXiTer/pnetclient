@@ -36,7 +36,7 @@ export default {
               title: "可连通"
             }
           }
-          self.$emit('onCAHostminoRefresh', {host:self.host, data:resp.data})
+          self.$emit('onCAHostminoRefresh', {host:self.host, data:resp.data.retStr})
         })
       }else{
         self.$emit('onCAHostminoRefresh', {
