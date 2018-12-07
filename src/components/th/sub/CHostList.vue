@@ -3,19 +3,23 @@
   <el-row :gutter="20">
     <el-col :span="6">
       <el-input placeholder="输入子网地址" v-model="net0"></el-input>
-      <el-input type="textarea" :rows="2" placeholder="在此输入该子网内的ip地址列表" v-model="ips0"></el-input>
+      <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips0"></el-input>
     </el-col>
     <el-col :span="6">
       <el-input placeholder="输入子网地址" v-model="net1"></el-input>
-      <el-input type="textarea" :rows="2" placeholder="在此输入该子网内的ip地址列表" v-model="ips1"></el-input>
+      <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
     <el-col :span="6">
-      etcd 主机
-      <el-input placeholder="etcd 主机ip" v-model="etcdHost0"></el-input>
-      操作主机
-      <el-input placeholder="操作主机" v-model="mainHost0"></el-input>
+      <el-input placeholder="etcd 主机ip" v-model="etcdHost0">
+        <template slot="prepend">etcd主机</template>
+      </el-input>
+      <el-input placeholder="操作主机" v-model="mainHost0">
+        <template slot="prepend">操作主机</template>
+      </el-input>
     </el-col>
-    <el-col :span="6"><el-button @click="onUpdateClick">更新主机信息</el-button> </el-col>
+    <el-col :span="6">
+      <el-button @click="onUpdateClick">更新主机信息</el-button>
+    </el-col>
   </el-row>
 </div>
 </template>
