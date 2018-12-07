@@ -5,6 +5,7 @@ import PageMainHello from '@/components/PageMainHello.vue'
 import PageMainTable from '@/components/PageMainTable.vue'
 import PMainSSH from '@/components/PMainSSH.vue'
 import ThPEtcdTree from '@/components/th/ThPEtcdTree.vue'
+import ThPHostMino from "@/components/th/ThPHostMino.vue"
 import ThPMain from '@/components/th/ThPMain.vue'
 import ThPDocker from '@/components/th/ThPDocker.vue'
 import ThPK8s from '@/components/th/ThPK8s.vue'
@@ -45,6 +46,11 @@ export default new Router({
       path: '/etcdTree',
       name: 'ThPEtcdTree',
       component: ThPEtcdTree
+    },
+    {
+      path: '/thHostsMino',
+      name: 'ThPHostMino',
+      component: ThPMain
     },
     {
       path: '/th',

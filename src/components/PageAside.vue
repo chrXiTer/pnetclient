@@ -11,9 +11,10 @@
       <template slot="title"><i class="el-icon-menu"></i>TH</template>
       <el-menu-item-group>
         <template slot="title">th</template>
-        <el-menu-item index="/th">th</el-menu-item>
-        <el-menu-item index="/docker">docker</el-menu-item>
-        <el-menu-item index="/etcdTree">ThPEtcdTree</el-menu-item>
+        <el-menu-item index="/th">ThMain</el-menu-item>
+        <el-menu-item index="/docker">ThDocker</el-menu-item>
+        <el-menu-item index="/etcdTree">ThEtcdTree</el-menu-item>
+        <el-menu-item index="/thHostsMino">thHostsMino</el-menu-item>
         <el-menu-item index="/k8s">k8s</el-menu-item>
       </el-menu-item-group>
       <el-menu-item-group title="分组2">
