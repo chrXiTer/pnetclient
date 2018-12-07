@@ -15,11 +15,11 @@ export default {
     return {
       status:{
         type:'info',
-        title:'SSH检测中'
+        title:'ssh未检测'
       },
       statusPing:{
         type:'info',
-        title:'Ping检测中'
+        title:'ping未检测'
       }
     }
   },
@@ -61,7 +61,7 @@ export default {
       }
     },
     refreshPing(){
-        let cmd = "ping -c 2 %s" % this.host
+        let cmd = "ping -c 2 " + this.host
         thFunc.execCmdLocal(this, cmd, (self, resp) => {
           if(resp.data.out.search('bytes from') >=0 ){
             self.status = {
