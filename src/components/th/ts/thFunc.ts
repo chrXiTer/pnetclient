@@ -53,6 +53,14 @@ var thFunc = {
             callback(self, resp)
         });
     },
+    execCmdLocal:function(self:any, cmdStr:string, callback:TCallback){
+        let jsonObj = {cmd:cmdStr}
+        var jsonStr = JSON.stringify(jsonObj)
+        const url = thFunc.rootUrl + '/api/execCmdLocal?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+    },
     scpDir:function(self:any, hosts:Array<string>, parentDir:string, DirName:string, callback:TCallback){
         if(hosts.length == 0){
             return
