@@ -133,7 +133,7 @@ export default {
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     },
     upDocker(){
-      let cmd = cmdStrTpl.hostE.getCmdCfgDocker(self.etcdHost)
+      let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.etcdHost)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){
