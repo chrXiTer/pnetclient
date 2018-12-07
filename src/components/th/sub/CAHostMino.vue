@@ -29,7 +29,7 @@ export default {
       let self = this
       if(nowTime - self.lastRefreshTime > 20){
         self.lastRefreshTime = nowTime
-        thFunc.execCmdAHost(this, this.host, "echo l23l", (self, resp) => {
+        thFunc.execCmdAHost(this, this.host, "echo 1231", (self, resp) => {
           if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
             self.status = {
               type: "success",
