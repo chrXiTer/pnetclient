@@ -8,7 +8,8 @@
       <CAHostMino v-bind:host="host" v-on:onCAHostminoRefresh="onCAHostminoRefresh"></CAHostMino>
       </el-col>
     </div>
-    <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white">
+    <div id="cmdout" v-html="cmdoutContent" 
+      style="background-color:grey; color:white; font-size:small">
     </div>
   </div>
 </template>
