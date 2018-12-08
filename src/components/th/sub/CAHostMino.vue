@@ -2,8 +2,8 @@
   <el-card class="box-card" :body-style="{padding: '3px'}">
     <label style="font-size:small">{{host}}</label>
     <el-button size="mini" @click="refresh" icon="el-icon-refresh" circle></el-button>
-    <el-alert v-bind:title="status.title" v-bind:type="status.type" show-icon></el-alert>
-    <el-alert v-bind:title="statusPing.title" v-bind:type="statusPing.type" show-icon></el-alert>
+    <el-alert v-bind:title="status.title" v-bind:type="status.type" show-icon :closable="false"></el-alert>
+    <el-alert v-bind:title="statusPing.title" v-bind:type="statusPing.type" show-icon :closable="false"></el-alert>
   </el-card>
 </template>
 
