@@ -22,7 +22,7 @@
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
   </el-radio-group>  
-  <el-button @click="onUpdateClick" type="updateButtonType">更新主机信息</el-button>  
+  <el-button @click="onUpdateClick" v-bind:type="updateButtonType">更新主机信息</el-button>  
 </div>
 </template>
 
