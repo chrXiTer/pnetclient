@@ -119,9 +119,11 @@ export default {
   },
   methods: {
     onHostsInfoChg(newHostsInfoChg){
-      this.hostsInfo.hostList = newHostsInfoChg.hostList
-      this.hostsInfo.etcdHostsStr = newHostsInfoChg.etcdHostsStr || this.hostsInfo.etcdHostsStr
-      this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.hostsInfo.mainHost
+      this.hostsInfo = {
+        hostList: newHostsInfoChg.hostList,
+        etcdHostsStr: newHostsInfoChg.etcdHostsStr || this.hostsInfo.etcdHostsStr,
+        mainHost: newHostsInfoChg.mainHost || this.hostsInfo.mainHost
+      }
     },
     curHostsInfoChg(){
       this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
