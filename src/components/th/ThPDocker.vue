@@ -76,7 +76,7 @@ export default {
       cmdoutContent: "",
       newNetName: "",
       hostsInfo:{
-        hostList:{},
+        hostList:[],
         etcdHostsStr:"",
         mainHost:""
       },
