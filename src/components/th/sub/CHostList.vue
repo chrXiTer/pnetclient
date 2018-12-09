@@ -33,7 +33,7 @@
 import thFunc from '../ts/thFunc'
 
 export default {
-  props:['hostList', "etcdHostsStr", "mainHost"],
+  //props:['hostList', "etcdHostsStr", "mainHost"],
   data () {
     return {
       curHostInfoKey:"hostsInfo_1",
@@ -41,10 +41,10 @@ export default {
     }
   },
   computed:{
-      net0: function(){ return this.hostList[0].net},
-      ips0: function(){ return this.hostList[0].ips.join("\n")},
-      net1: function(){ return this.hostList[1].net},
-      ips1: function(){ return this.hostList[1].ips.join("\n")},
+      net0: function(){ return this.hostsInfo.hostList[0].net},
+      ips0: function(){ return this.hostsInfo.hostList[0].ips.join("\n")},
+      net1: function(){ return this.hostsInfo.hostList[1].net},
+      ips1: function(){ return this.hostsInfo.hostList[1].ips.join("\n")},
   },
   methods: {
     curHostsInfoChg:function(){

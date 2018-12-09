@@ -3,7 +3,7 @@
     <h2>在此输入后台url</h2>
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
-    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>  
+    <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>  
     <h2>配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
