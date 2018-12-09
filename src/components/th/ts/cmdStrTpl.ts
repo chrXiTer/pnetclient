@@ -138,9 +138,9 @@ docker run -itd --network ${network} --name ${name} nginx:1.15-alpine sh
 
 
 let dockerE = {
-getCreateCalicoNetCmd: (calicoNetName:string) => { return `
+getCreateCalicoNetCmd: (calicoNetName:string, subnet:string) => { return `
 docker network create --driver calico --ipam-driver calico-ipam \
-    --subnet=10.190.160.0/19 ${calicoNetName}
+    --subnet=${subnet} ${calicoNetName}
 `.trim()
 },
 getCreateOverlayNetCmd: (overlayNetName:string) => {return `

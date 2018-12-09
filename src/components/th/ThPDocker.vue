@@ -13,13 +13,16 @@
       <template slot="prepend">输入etcd主机列表</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
     </el-input>
-    <el-input placeholder="10.190.160.0/19" v-bind:value="calicoIpPool">
+    <el-input placeholder="10.190.160.0/19" v-model="calicoIpPool">
       <template slot="prepend">请输入calico ipPool cidr</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
     </el-input>
     <h2>创建网络</h2>
     <el-input placeholder="请输入网络名:" v-model="newNetName">
       <template slot="prepend">输入网络名</template>
+    </el-input>
+    <el-input placeholder="请输入ip池:" v-model="newNetSubnet">
+      <template slot="prepend">输入ip池</template>
     </el-input>
     <el-button-group>
       <el-button v-on:click="createCalicoNet">创建 calico 网络</el-button>
@@ -56,8 +59,9 @@ export default {
     return {
       cmdoutContent: "",
       newNetName: "",
+      newNetSubnet:"18.0.0.0/24",
       hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
-      calicoIpPool:"10.190.160.0/19",
+      calicoIpPool:"10.0.0.0/24",
       networkList:[],
       thFunc:thFunc
     }
@@ -171,7 +175,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = cmdStrTpl.dockerE.getCreateCalicoNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.dockerE.getCreateCalicoNetCmd(this.newNetName, this.newNetSubnet)
       thFunc.execCmd(this, [this.hostsInfo.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
