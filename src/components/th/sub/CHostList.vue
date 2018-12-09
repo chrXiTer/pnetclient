@@ -21,8 +21,8 @@
   <el-radio-group v-model="curHostInfoKey" v-on:change="curHostsInfoChg">
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
-    <el-button @click="onUpdateClick">更新主机信息</el-button>
-  </el-radio-group>    
+  </el-radio-group>  
+  <el-button @click="onUpdateClick" type="updateButtonType">更新主机信息</el-button>  
 </div>
 </template>
 
@@ -35,8 +35,12 @@ export default {
   data () {
     return {
       curHostInfoKey:"hostsInfo_1",
-      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"]))
+      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
+      updateButtonType:"success"
     }
+  },
+  mounted: function () {
+    this.onUpdateClick()
   },
   computed:{
       net0: function(){ return this.hostsInfo.hostList[0].net},
@@ -51,7 +55,13 @@ export default {
     },
     onUpdateClick: function(){
       this.$emit('hostsInfoChg', JSON.parse(JSON.stringify(this.hostsInfo)))
+      this.updateButtonType = "success"
     }
-  }
+  },
+  watch: {
+    hostsInfo: function (newHostsInfo, oldHostsInfo) {
+      this.updateButtonType = "danger"
+    }
+  },
 }
 </script>
