@@ -30,7 +30,7 @@
 
 <script>
 
-import thFunc from './ts/thFunc'
+import thFunc from '../ts/thFunc'
 
 export default {
   props:['hostList', "etcdHostsStr", "mainHost"],
