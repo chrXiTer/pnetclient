@@ -7,8 +7,8 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <el-input type="text" v-model="startNo" style="width :100px"><template slot="prepend">startNo</template></el-input>
-    <el-input type="text" v-model="endNo" style="width :100px"><template slot="prepend">endNo</template></el-input>
+    <el-input type="text" v-model="startNo" style="width :150px"><template slot="prepend">startNo</template></el-input>
+    <el-input type="text" v-model="endNo" style="width :150px"><template slot="prepend">endNo</template></el-input>
     <el-button-group>
       <el-button v-on:click="create1k">创建容器</el-button>
     </el-button-group>

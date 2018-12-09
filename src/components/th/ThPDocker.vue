@@ -61,7 +61,7 @@ export default {
       newNetName: "",
       newNetSubnet:"18.0.0.0/24",
       hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
-      calicoIpPool:"10.0.0.0/24",
+      calicoIpPool:"18.0.0.0/24",
       networkList:[],
       thFunc:thFunc
     }
@@ -176,7 +176,10 @@ export default {
         return
       }
       let cmd = cmdStrTpl.dockerE.getCreateCalicoNetCmd(this.newNetName, this.newNetSubnet)
-      thFunc.execCmd(this, [this.hostsInfo.mainHost], cmd, thFunc.handlerRetStr)
+      thFunc.execCmd(this, [this.hostsInfo.mainHost], cmd, (self, resp){
+        thFunc.handlerRetStr(self,resp)
+        this.onGetBaseInfo()
+      })
       this.newNetName = ""
     },
     createOverlayNet(){
