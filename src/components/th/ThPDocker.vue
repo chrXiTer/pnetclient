@@ -162,7 +162,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = thFunc.dockerE.getCreateOverlayNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.dockerE.getCreateOverlayNetCmd(this.newNetName)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
