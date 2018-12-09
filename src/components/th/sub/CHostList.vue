@@ -22,7 +22,7 @@
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
   </el-radio-group>  
-  <el-button @click="onUpdateClick" v-bind:hidden="updateButtonHidden" type="danger">更新主机信息</el-button>  
+  <el-button @click="onUpdateClick" v-show="upBtnIsShow" type="danger">更新主机信息</el-button>  
 </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     return {
       curHostInfoKey:"hostsInfo_1",
       hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
-      updateButtonHidden:false
+      upBtnIsShow:false
     }
   },
   mounted: function () {
@@ -46,31 +46,31 @@ export default {
   computed:{
       net0: {
         get: function(){ return this.hostsInfo.hostList[0].net },
-        set: function(){ return this.hostsInfo.hostList[0].net; this.updateButtonHidden = false}
+        set: function(){ return this.hostsInfo.hostList[0].net; this.upBtnIsShow = true}
       },
       ips0: {
         get: function(){ return this.hostsInfo.hostList[0].ips.join('\n') },
         set: function(newValue){this.hostsInfo.hostList[0].ips = util.getIpsFromStr(newValue);
-          this.updateButtonHidden = false
+          this.upBtnIsShow = true
         }
       },
       net1: {
         get: function(){ return this.hostsInfo.hostList[1].net },
-        set: function(){ return this.hostsInfo.hostList[1].net; this.updateButtonHidden = false}
+        set: function(){ return this.hostsInfo.hostList[1].net; this.upBtnIsShow = true}
       },
       ips1: {
         get: function(){ return this.hostsInfo.hostList[1].ips.join('\n') },
         set: function(newValue){this.hostsInfo.hostList[1].ips = util.getIpsFromStr(newValue)
-          this.updateButtonHidden = false
+          this.upBtnIsShow = true
         }
       },
       etcdHostsStr:{
         get: function(){ return this.hostsInfo.etcdHostsStr },
-        set: function(newValue) { this.hostsInfo.etcdHostsStr = newValue, this.updateButtonHidden = false}
+        set: function(newValue) { this.hostsInfo.etcdHostsStr = newValue, this.upBtnIsShow = true}
       },
       mainHost:{
         get: function(){ return this.hostsInfo.mainHost },
-        set: function(newValue) { this.hostsInfo.mainHost = newValue, this.updateButtonHidden = false}
+        set: function(newValue) { this.hostsInfo.mainHost = newValue, this.upBtnIsShow = true}
       }
   },
   methods: {
@@ -80,12 +80,12 @@ export default {
     },
     onUpdateClick: function(){
       this.$emit('hostsInfoChg', JSON.parse(JSON.stringify(this.hostsInfo)))
-      this.updateButtonHidden = true
+      this.upBtnIsShow = false
     }
   },
   watch: {
     hostsInfo: function (newHostsInfo, oldHostsInfo) {
-      this.updateButtonHidden = false
+      this.upBtnIsShow = true
     }
   },
 }
