@@ -7,10 +7,13 @@
     <h2>配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-    <el-button @click="upDocker">更新docker配置并重启</el-button>
     <el-button @click="deployEtcd">部署 Etcd 到</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
     <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s</el-button>
+    <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" v-bind:value="etcdHostsStr">
+      <template slot="prepend">输入etcd主机列表</template>
+      <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
+    </el-input>
     <el-input placeholder="10.190.160.0/19" v-bind:value="calicoIpPool">
       <template slot="prepend">请输入calico ipPool cidr</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
@@ -55,6 +58,7 @@ export default {
         {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
       ],
       etcdHost:"10.144.0.26",
+      etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
       mainHost:"10.144.0.26",
       calicoIpPool:"10.190.160.0/19",
       networkList:[],
@@ -132,8 +136,12 @@ export default {
     scpCfgFile(){
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     },
-    upDocker(){
+    upDocker0(){
       let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.etcdHost)
+      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
+    },
+    upDocker(){
+      let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.etcdHostsStr)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){

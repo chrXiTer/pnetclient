@@ -1,3 +1,5 @@
+import util from '../../../lib/cx_util'
+
 let test1K = {
 getCmdToRunNNginx(n:number) { return `
 cat << EOF | sh -
@@ -39,11 +41,16 @@ EOF
 }
 
 let hostE = {
-getCmdCfgDocker:(etcdHost:string) =>{return `
+getCmdCfgDocker:(etcdHostsStr:string) =>{
+    let ips = util.getIpsFromStr(etcdHostsStr)
+    let etcdUrlsStr = ips.map((ip)=>{
+        return `etcd://${ip}:2379`
+    }).join(",")
+    return `
 cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart docker;
 { 
     "experimental" :true,
-    "cluster-store":"etcd://${etcdHost}:2379",
+    "cluster-store":"${etcdUrlsStr}",
     "cluster-advertise":"enp8s0f0:2375"
 }
 EOF
