@@ -176,7 +176,7 @@ export default {
         return
       }
       let cmd = cmdStrTpl.dockerE.getCreateCalicoNetCmd(this.newNetName, this.newNetSubnet)
-      thFunc.execCmd(this, [this.hostsInfo.mainHost], cmd, (self, resp){
+      thFunc.execCmd(this, [this.hostsInfo.mainHost], cmd, (self, resp)=>{
         thFunc.handlerRetStr(self,resp)
         this.onGetBaseInfo()
       })
