@@ -86,7 +86,7 @@ export default {
       if(mainHosts.length !=1){
         return
       }
-      mainHost = mainHosts[0]
+      let mainHost = mainHosts[0]
       thFunc.getBaseInfo(mainHost, (ret)=>{
         let images = JSON.parse(ret[0])
         let imagesList = []
