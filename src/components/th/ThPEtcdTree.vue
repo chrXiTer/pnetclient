@@ -55,14 +55,6 @@
           dataObj.dir2 = false
           dataObj.value = newData.value
       }
-      /*
-      var newLines = newText.split('\n')
-      var newLinesEncode = newLines.map(function(e){
-          return util.htmlEncode(e)
-      })
-      var newAddStr = newLinesEncode.join("<br/>")
-      s_this.cmdoutContent = s_this.cmdoutContent + newAddStr
-      */
   }
 
   export default {

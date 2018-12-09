@@ -27,6 +27,7 @@
 <script>
 
 import thFunc from './ts/thFunc'
+import util from '../../lib/cx_util';
 import cmdStrTpl from './ts/cmdStrTpl'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 import CHostsToCopy from './sub/CHostsToCopy.vue'

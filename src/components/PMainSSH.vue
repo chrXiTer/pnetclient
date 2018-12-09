@@ -10,6 +10,8 @@
 
 <script>
   import axios from 'axios'
+  import util from '../lib/cx_util';
+
   let rootUrl = "http://localhost:5000"
 
   function handlerRetStr(self, resp){
