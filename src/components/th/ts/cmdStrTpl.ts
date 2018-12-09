@@ -183,7 +183,7 @@ getCmdToRunNAlpine(host:string, startNo:number, endNo:number) {
     let hostStr = host.replace(/\./g, '_').trim()
     return `
 cat << EOF | sh -
-for i in \\$(seq ${startNo} ${endNo}
+for i in \\$(seq ${startNo} ${endNo})
 do
 docker run -itd --network none --name ${hostStr}_no_\\$i alpine:3.8 sh
 done
