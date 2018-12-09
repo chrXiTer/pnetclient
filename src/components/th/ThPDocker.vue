@@ -75,12 +75,8 @@ export default {
     return {
       cmdoutContent: "",
       newNetName: "",
-      hostsInfo:{
-        hostList:[],
-        etcdHostsStr:"",
-        mainHost:""
-      },
       curHostInfo:"hostsInfo_1",
+      hostsInfo: JSON.parse(JSON.stringify(G_allHostsInfos["hostsInfo_1"])),
       calicoIpPool:"10.190.160.0/19",
       networkList:[],
       thFunc:thFunc
@@ -88,7 +84,6 @@ export default {
   },
   mounted: function () {
     let self = this
-    this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
     thFunc.getBaseInfo(this.hostsInfo.mainHost, (ret)=>{
       let images = JSON.parse(ret[0])
       let imagesList = []
