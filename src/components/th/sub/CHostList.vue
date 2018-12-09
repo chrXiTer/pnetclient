@@ -10,10 +10,10 @@
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="etcd 主机ip" v-model="etcdHostsStr">
+      <el-input placeholder="etcd 主机ip" v-model="hostsInfo.etcdHostsStr">
         <template slot="prepend">etcd主机</template>
       </el-input>
-      <el-input placeholder="操作主机" v-model="mainHost">
+      <el-input placeholder="操作主机" v-model="hostsInfo.mainHost">
         <template slot="prepend">操作主机</template>
       </el-input>
     </el-col>
