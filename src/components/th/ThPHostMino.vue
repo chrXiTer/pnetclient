@@ -65,9 +65,7 @@ export default {
   },
   computed: {
     hosts: function () {
-      let ip = /(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}/g;
-      let hosts = this.hostsStr.match(ip) || []
-      return hosts
+      return util.getIpsFromStr(this.hostsStr)
     }
   },
   components:{

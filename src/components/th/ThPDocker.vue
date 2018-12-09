@@ -3,11 +3,7 @@
     <h2>在此输入后台url</h2>
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
-    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
-    <el-radio-group v-model="curHostInfo" v-on:change="curHostsInfoChg">
-      <el-radio-button label="hostsInfo_1"></el-radio-button>
-      <el-radio-button label="hostsInfo_2"></el-radio-button>
-    </el-radio-group>      
+    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>  
     <h2>配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
@@ -51,32 +47,12 @@ import CCreateContainer from './sub/CCreateContainer.vue'
 import CTest1K from './sub/CTest1K.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 
-let G_allHostsInfos = {
-hostsInfo_1: {
-  hostList: [
-    {net:"10.144.0.26/24", ips:["10.144.0.26", "10.144.0.27"]},
-    {net:"10.145.0.26/24", ips:["10.145.0.26", "10.145.0.27"]}
-  ],
-  etcdHostsStr:"10.144.0.26;",
-  mainHost:"10.144.0.26",
-},
-hostsInfo_2:{
-  hostList: [
-    {net:"10.145.16.0/24", ips:["10.145.16.1", "10.145.16.2"]},
-    {net:"10.145.32.0/24", ips:[]}
-  ],
-  etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
-  mainHost:"10.144.0.26",
-}
-}
-
 export default {
   data(){
     return {
       cmdoutContent: "",
       newNetName: "",
-      curHostInfo:"hostsInfo_1",
-      hostsInfo: JSON.parse(JSON.stringify(G_allHostsInfos["hostsInfo_1"])),
+      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
       calicoIpPool:"10.190.160.0/19",
       networkList:[],
       thFunc:thFunc
@@ -125,11 +101,7 @@ export default {
         mainHost: newHostsInfoChg.mainHost || this.hostsInfo.mainHost
       }
     },
-    curHostsInfoChg(){
-      //this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
-      let newHostsInfoChg = JSON.parse(JSON.stringify(G_allHostsInfos[this.curHostInfo]))
-      this.hostsInfo = newHostsInfoChg
-    },
+
     onText1KResp(resp){
       thFunc.handlerRetStr(this, resp)
     },

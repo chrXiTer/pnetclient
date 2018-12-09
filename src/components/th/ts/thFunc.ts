@@ -109,6 +109,25 @@ var thFunc = {
         thFunc.getImages(host, ret, (ret) =>{
             thFunc.getNetworks(host, ret, callback)       
         })
+    },
+
+    allHostsInfosTmp:{
+        hostsInfo_1: {
+          hostList: [
+            {net:"10.144.0.26/24", ips:["10.144.0.26", "10.144.0.27"]},
+            {net:"10.145.0.26/24", ips:["10.145.0.26", "10.145.0.27"]}
+          ],
+          etcdHostsStr:"10.144.0.26;",
+          mainHost:"10.144.0.26",
+        },
+        hostsInfo_2:{
+          hostList: [
+            {net:"10.145.16.0/24", ips:["10.145.16.1", "10.145.16.2"]},
+            {net:"10.145.32.0/24", ips:[]}
+          ],
+          etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
+          mainHost:"10.144.0.26",
+        }
     }
 }
 
