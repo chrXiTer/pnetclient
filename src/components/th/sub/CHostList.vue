@@ -31,14 +31,14 @@ function getIpFromStr(str){
     return hosts
 }
 export default {
-  props:['hostList', "etcdHost", "mainHost"],
+  props:['hostList', "etcdHostsStr", "mainHost"],
   data () {
     return {
       net0: this.hostList[0].net,
       ips0: this.hostList[0].ips.join("\n"),
       net1: this.hostList[1].net,
       ips1: this.hostList[1].ips.join("\n"),
-      etcdHost0: this.etcdHost,
+      etcdHost0: this.etcdHostsStr,
       mainHost0: this.mainHost
     }
   },
@@ -51,7 +51,7 @@ export default {
           {net:this.net0, ips:getIpFromStr(this.ips0)}, 
           {net:this.net1, ips:getIpFromStr(this.ips1)}
         ],
-        etcdHost:this.etcdHost0,
+        etcdHostsStr:this.etcdHost0,
         mainHost:this.mainHost0
       })
     }

@@ -33,19 +33,21 @@ import cmdStrTpl from './ts/cmdStrTpl';
 export default class ThPK8s extends Vue{
   cmdoutContent = ""
   newNetName = ""
-  hostList = [
-    {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
-    {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
-  ]
-  etcdHost = "10.144.0.26"
-  mainHost = "10.144.0.26"
+  hostsInfo = {
+    hostList: [
+      {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
+      {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
+    ],
+    etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
+    mainHost:"10.144.0.26",
+  }
   calicoIpPool = "10.190.160.0/19"
   networkList:string[] = []
   thFunc = thFunc
 
   mounted() {
     let self = this
-    thFunc.getBaseInfo(this.mainHost, (ret:string[])=>{
+    thFunc.getBaseInfo(this.hostsInfo.mainHost, (ret:string[])=>{
       let images = JSON.parse(ret[0]) as {RepoTags:string}[]
       let imagesList:string[] = []
       images.forEach((e)=>{
@@ -62,15 +64,8 @@ export default class ThPK8s extends Vue{
   }
   get hosts():string[] {
     let hosts:string[] = []
-    this.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
+    this.hostsInfo.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
     return hosts//[].concat(hosts)
-  }
-  get hostsInfo(){
-    return {
-      hostList:this.hostList,
-      etcdHost:this.etcdHost,
-      mainHost:this.mainHost
-    }
   }
   get optionsNet(){
     return this.networkList.map(e => {
@@ -78,9 +73,9 @@ export default class ThPK8s extends Vue{
     });
   }
     onHostsInfoChg(newHostsInfoChg:any){
-      this.hostList = newHostsInfoChg.hostList
-      this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
-      this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
+      this.hostsInfo.hostList = newHostsInfoChg.hostList
+      this.hostsInfo.etcdHostsStr = newHostsInfoChg.etcdHost || this.hostsInfo.etcdHostsStr
+      this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.hostsInfo.mainHost
     }
     scpCfgFile(){
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
@@ -90,10 +85,10 @@ export default class ThPK8s extends Vue{
     }
     masterNodeInit(){
 
-      thFunc.execCmdAHost(self, this.mainHost, cmdStrTpl.k8s.masterInit, (self,resp:any) => {
+      thFunc.execCmdAHost(self, this.hostsInfo.mainHost, cmdStrTpl.k8s.masterInit, (self,resp:any) => {
           resp.data = JSON.stringify(resp.data)
           thFunc.handlerRetStr(self, resp.data)
-          thFunc.execCmdAHost(self, this.mainHost, cmdStrTpl.k8s.chgDnsAddr, (self,resp:any) => {
+          thFunc.execCmdAHost(self, this.hostsInfo.mainHost, cmdStrTpl.k8s.chgDnsAddr, (self,resp:any) => {
             resp.data = JSON.stringify(resp.data)
             thFunc.handlerRetStr(self, resp.data)
           })

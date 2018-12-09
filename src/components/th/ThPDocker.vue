@@ -3,7 +3,11 @@
     <h2>在此输入后台url</h2>
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
-    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>      
+    <CHostList v-bind="hostsInfo" v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
+    <el-radio-group v-model="curHostInfo" v-on:change="curHostsInfoChg">
+      <el-radio-button label="hostsInfo_1"></el-radio-button>
+      <el-radio-button label="hostsInfo_2"></el-radio-button>
+    </el-radio-group>      
     <h2>配置及 calico 网络部署</h2>
     <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
@@ -47,19 +51,36 @@ import CCreateContainer from './sub/CCreateContainer.vue'
 import CTest1K from './sub/CTest1K.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 
+let G_allHostsInfos = {
+hostsInfo_1: {
+  hostList: [
+    {net:"10.144.0.26/24", ips:["10.144.0.26", "10.144.0.27"]},
+    {net:"10.145.0.26/24", ips:["10.145.0.26", "10.145.0.27"]}
+  ],
+  etcdHostsStr:"10.144.0.26;",
+  mainHost:"10.144.0.26",
+},
+hostsInfo_2:{
+  hostList: [
+    {net:"10.145.16.0/24", ips:["10.145.16.1", "10.145.16.2"]},
+    {net:"10.145.32.0/24", ips:[]}
+  ],
+  etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
+  mainHost:"10.144.0.26",
+}
+}
 
 export default {
   data(){
     return {
       cmdoutContent: "",
       newNetName: "",
-      hostList: [
-        {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
-        {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
-      ],
-      etcdHost:"10.144.0.26",
-      etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
-      mainHost:"10.144.0.26",
+      hostsInfo:{
+        hostList:{},
+        etcdHostsStr:"",
+        mainHost:""
+      },
+      curHostInfo:"hostsInfo_1",
       calicoIpPool:"10.190.160.0/19",
       networkList:[],
       thFunc:thFunc
@@ -67,7 +88,8 @@ export default {
   },
   mounted: function () {
     let self = this
-    thFunc.getBaseInfo(this.mainHost, (ret)=>{
+    this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
+    thFunc.getBaseInfo(this.getBaseInfo.mainHost, (ret)=>{
       let images = JSON.parse(ret[0])
       let imagesList = []
       images.forEach((e)=>{
@@ -88,13 +110,6 @@ export default {
       this.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
       return [].concat(hosts)
     },
-    hostsInfo:function(){
-      return {
-        hostList:this.hostList,
-        etcdHost:this.etcdHost,
-        mainHost:this.mainHost
-      }
-    },
     optionsNet(){
       return this.networkList.map(e => {
         return {value: e, label: e}
@@ -109,9 +124,12 @@ export default {
   },
   methods: {
     onHostsInfoChg(newHostsInfoChg){
-      this.hostList = newHostsInfoChg.hostList
-      this.etcdHost = newHostsInfoChg.etcdHost || this.etcdHost
-      this.mainHost = newHostsInfoChg.etcdHost || this.mainHost
+      this.hostsInfo.hostList = newHostsInfoChg.hostList
+      this.hostsInfo.etcdHostsStr = newHostsInfoChg.etcdHostsStr || this.getBaseInfo.etcdHostsStr
+      this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.getBaseInfo.mainHost
+    },
+    curHostsInfoChg(){
+      this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
     },
     onText1KResp(resp){
       thFunc.handlerRetStr(this, resp)
@@ -120,6 +138,7 @@ export default {
       thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
     },
     deploy4Calico(){
+      /*
         let funcSeqsRev = []
         thFuncDocker.funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
         funcSeqsRev.reverse()
@@ -132,23 +151,22 @@ export default {
         }
         let self = this
         execfuncSeqs(self, {data:"*** start ****\n"})
+      */
     },
     scpCfgFile(){
       thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
-    },
-    upDocker0(){
-      let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.etcdHost)
-      thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     upDocker(){
       let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.etcdHostsStr)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){
+      /*
       let cmd = cmdStrTpl.dockerC.getEtcdDeployCmd(this.etcdHost)
-      thFunc.execCmd(this, [this.etcdHost], cmd, (self, resp) => {
+      thFunc.execCmd(this, [this.etcdHostsStr], cmd, (self, resp) => {
           thFunc.handlerRetStr(self, resp)
       })
+      */
     },
     runCalico(){
       thFunc.runCalico(this, this.hosts, thFunc.handlerRetStr)
@@ -173,7 +191,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = thFunc.getCreateOverlayNetCmd(this.newNetName)
+      let cmd = thFunc.dockerE.getCreateOverlayNetCmd(this.newNetName)
       thFunc.execCmd(this, [this.mainHost], cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     },
@@ -181,7 +199,7 @@ export default {
       if(this.newNetName == ""){
         return
       }
-      let cmd = cmdStrTpl.getCreateMacvlanNetCmd(this.newNetName)
+      let cmd = cmdStrTpl.dockerE.getCreateMacvlanNetCmd(this.newNetName)
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
       this.newNetName = ""
     }
