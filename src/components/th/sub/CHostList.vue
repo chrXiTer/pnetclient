@@ -17,13 +17,11 @@
         <template slot="prepend">操作主机</template>
       </el-input>
     </el-col>
-    <el-col :span="6">
-      <el-button @click="onUpdateClick">更新主机信息</el-button>
-    </el-col>
   </el-row>
   <el-radio-group v-model="curHostInfoKey" v-on:change="curHostsInfoChg">
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
+    <el-button @click="onUpdateClick">更新主机信息</el-button>
   </el-radio-group>    
 </div>
 </template>
