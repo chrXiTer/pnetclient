@@ -5,7 +5,6 @@
     <h2>在此输入主机列表</h2>
     <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>  
     <h2>配置及 calico 网络部署</h2>
-    <el-button @click="sendACmd">echo 测试</el-button>
     <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
     <el-button @click="deployEtcd">部署 Etcd 到</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
@@ -46,6 +45,7 @@ import CHostList from './sub/CHostList.vue'
 import CCreateContainer from './sub/CCreateContainer.vue'
 import CTest1K from './sub/CTest1K.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
+import util from '../../lib/cx_util';
 
 export default {
   data(){
@@ -59,21 +59,7 @@ export default {
     }
   },
   mounted: function () {
-    let self = this
-    thFunc.getBaseInfo(this.hostsInfo.mainHost, (ret)=>{
-      let images = JSON.parse(ret[0])
-      let imagesList = []
-      images.forEach((e)=>{
-        imagesList = imagesList.concat(e.RepoTags)
-      })
-
-      let networks = JSON.parse(ret[1])
-      let networkList = []
-      networks.forEach((e)=>{
-        networkList.push(e.Name)
-      })
-      self.networkList = networkList
-    })
+    this.onGetBaseInfo();
   },
   computed: {
     hosts: function () {
@@ -94,19 +80,45 @@ export default {
     CSetBackendUrl,
   },
   methods: {
+    onGetBaseInfo(){
+      let self = this
+      let mainHosts = util.getIpsFromStr(this.hostsInfo.mainHost)
+      if(mainHosts.length !=1){
+        return
+      }
+      mainHost = mainHosts[0]
+      thFunc.getBaseInfo(mainHost, (ret)=>{
+        let images = JSON.parse(ret[0])
+        let imagesList = []
+        images.forEach((e)=>{
+          imagesList = imagesList.concat(e.RepoTags)
+        })
+        let networks = JSON.parse(ret[1])
+        let networkList = []
+        networks.forEach((e)=>{
+          networkList.push(e.Name)
+        })
+        self.networkList = networkList
+      })
+    },
     onHostsInfoChg(newHostsInfoChg){
+      let oldMainHost = this.hostsInfo.mainHost
       this.hostsInfo = {
         hostList: newHostsInfoChg.hostList,
         etcdHostsStr: newHostsInfoChg.etcdHostsStr || this.hostsInfo.etcdHostsStr,
         mainHost: newHostsInfoChg.mainHost || this.hostsInfo.mainHost
       }
+      let oldMainHosts = util.getIpsFromStr(oldMainHost)
+      let newMainHosts = util.getIpsFromStr(this.hostsInfo.mainHost)
+      if(oldMainHosts.length >= 1 && newMainHosts.length >= 1){
+        if(oldMainHost[0] != newMainHosts[0]){
+          this.onGetBaseInfo()
+        }
+      }
     },
 
     onText1KResp(resp){
       thFunc.handlerRetStr(this, resp)
-    },
-    sendACmd(){
-      thFunc.execCmd(this, ["10.144.0.20", "10.145.0.20"], "echo 222222", thFunc.handlerRetStr)
     },
     deploy4Calico(){
       /*
@@ -140,7 +152,7 @@ export default {
       */
     },
     runCalico(){
-      thFunc.runCalico(this, this.hosts, thFunc.handlerRetStr)
+      thFuncDocker.runCalico(this, this.hosts, thFunc.handlerRetStr)
     },
     createCalicoIpPool(){
       if(this.calicoIpPool == ""){
