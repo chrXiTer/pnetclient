@@ -2,11 +2,11 @@
 <div>
   <el-row :gutter="20">
     <el-col :span="6">
-      <el-input placeholder="输入子网地址" v-model="net0"></el-input>
+      <el-input placeholder="输入子网地址" v-model="hostsInfo.hostList[0].net"></el-input>
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips0"></el-input>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="输入子网地址" v-model="net1"></el-input>
+      <el-input placeholder="输入子网地址" v-model="hostsInfo.hostList[1].net"></el-input>
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
     <el-col :span="6">
@@ -29,6 +29,7 @@
 <script>
 
 import thFunc from '../ts/thFunc'
+import util from '../../../lib/cx_util';
 
 export default {
   //props:['hostList', "etcdHostsStr", "mainHost"],
@@ -43,10 +44,14 @@ export default {
     this.onUpdateClick()
   },
   computed:{
-      net0: function(){ return this.hostsInfo.hostList[0].net},
-      ips0: function(){ return this.hostsInfo.hostList[0].ips.join("\n")},
-      net1: function(){ return this.hostsInfo.hostList[1].net},
-      ips1: function(){ return this.hostsInfo.hostList[1].ips.join("\n")},
+      ips0: {
+        get: function(){ return this.hostsInfo.hostList[0].ips.join('\n') },
+        set: function(newValue){this.hostsInfo.hostList[0].ips = util.getIpsFromStr(newValue)}
+      },
+      ips1: {
+        get: function(){ return this.hostsInfo.hostList[1].ips.join('\n') },
+        set: function(newValue){this.hostsInfo.hostList[1].ips = util.getIpsFromStr(newValue)}
+      }
   },
   methods: {
     curHostsInfoChg:function(){
