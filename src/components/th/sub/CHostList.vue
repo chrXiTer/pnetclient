@@ -21,7 +21,7 @@
       <el-button @click="onUpdateClick">更新主机信息</el-button>
     </el-col>
   </el-row>
-  <el-radio-group v-model="curHostInfo" v-on:change="curHostsInfoChg">
+  <el-radio-group v-model="curHostInfoKey" v-on:change="curHostsInfoChg">
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
   </el-radio-group>    
@@ -36,7 +36,7 @@ export default {
   props:['hostList', "etcdHostsStr", "mainHost"],
   data () {
     return {
-      curHostInfo:"hostsInfo_1",
+      curHostInfoKey:"hostsInfo_1",
       hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"]))
     }
   },
@@ -48,7 +48,8 @@ export default {
   },
   methods: {
     curHostsInfoChg:function(){
-      this.hostsInfo = JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"]))
+      let curHostInfo = thFunc.allHostsInfosTmp[this.curHostInfoKey]
+      this.hostsInfo = JSON.parse(JSON.stringify(curHostInfo))
     },
     onUpdateClick: function(){
       this.$emit('hostsInfoChg', JSON.parse(JSON.stringify(this.hostsInfo)))
