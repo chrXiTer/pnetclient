@@ -2,18 +2,18 @@
 <div>
   <el-row :gutter="20">
     <el-col :span="6">
-      <el-input placeholder="输入子网地址" v-model="hostsInfo.hostList[0].net"></el-input>
+      <el-input placeholder="输入子网地址" v-model="net0"></el-input>
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips0"></el-input>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="输入子网地址" v-model="hostsInfo.hostList[1].net"></el-input>
+      <el-input placeholder="输入子网地址" v-model="net1"></el-input>
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="etcd 主机ip" v-model="hostsInfo.etcdHostsStr">
+      <el-input placeholder="etcd 主机ip" v-model="etcdHostsStr">
         <template slot="prepend">etcd主机</template>
       </el-input>
-      <el-input placeholder="操作主机" v-model="hostsInfo.mainHost">
+      <el-input placeholder="操作主机" v-model="mainHost">
         <template slot="prepend">操作主机</template>
       </el-input>
     </el-col>
@@ -44,13 +44,33 @@ export default {
     this.onUpdateClick()
   },
   computed:{
+      net0: {
+        get: function(){ return hostsInfo.hostList[0].net },
+        set: function(){ return hostsInfo.hostList[0].net; this.updateButtonType = "danger"}
+      },
       ips0: {
         get: function(){ return this.hostsInfo.hostList[0].ips.join('\n') },
-        set: function(newValue){this.hostsInfo.hostList[0].ips = util.getIpsFromStr(newValue)}
+        set: function(newValue){this.hostsInfo.hostList[0].ips = util.getIpsFromStr(newValue);
+          this.updateButtonType = "danger"
+        }
+      },
+      net1: {
+        get: function(){ return hostsInfo.hostList[1].net },
+        set: function(){ return hostsInfo.hostList[1].net; this.updateButtonType = "danger"}
       },
       ips1: {
         get: function(){ return this.hostsInfo.hostList[1].ips.join('\n') },
-        set: function(newValue){this.hostsInfo.hostList[1].ips = util.getIpsFromStr(newValue)}
+        set: function(newValue){this.hostsInfo.hostList[1].ips = util.getIpsFromStr(newValue)
+          this.updateButtonType = "danger"
+        }
+      },
+      etcdHostsStr:{
+        get: function(){ return this.hostsInfo.etcdHostsStr },
+        set: function(newValue) { this.hostsInfo.etcdHostsStr = newValue, this.updateButtonType = "danger"}
+      },
+      mainHost:{
+        get: function(){ return this.hostsInfo.mainHost },
+        set: function(newValue) { this.hostsInfo.mainHost = newValue, this.updateButtonType = "danger"}
       }
   },
   methods: {
