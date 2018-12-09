@@ -13,7 +13,7 @@
       <el-input placeholder="etcd 主机ip" v-model="etcdHostsStr">
         <template slot="prepend">etcd主机</template>
       </el-input>
-      <el-input placeholder="操作主机" v-model="mainHost0">
+      <el-input placeholder="操作主机" v-model="mainHost">
         <template slot="prepend">操作主机</template>
       </el-input>
     </el-col>
