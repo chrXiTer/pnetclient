@@ -9,7 +9,7 @@
       <el-input placeholder="输入子网地址" v-model="net1"></el-input>
       <el-input type="textarea" :rows="2" placeholder="输入该子网内的ip地址列表" v-model="ips1"></el-input>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="10">
       <el-input placeholder="etcd 主机ip" v-model="etcdHostsStr">
         <template slot="prepend">etcd主机</template>
       </el-input>
