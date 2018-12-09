@@ -127,12 +127,8 @@ export default {
     },
     curHostsInfoChg(){
       //this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
-      let newHostsInfoChg = G_allHostsInfos[this.curHostInfo]
-        this.hostsInfo = {
-        hostList: newHostsInfoChg.hostList,
-        etcdHostsStr: newHostsInfoChg.etcdHostsStr || this.hostsInfo.etcdHostsStr,
-        mainHost: newHostsInfoChg.mainHost || this.hostsInfo.mainHost
-      }
+      let newHostsInfoChg = JSON.parse(JSON.stringify(G_allHostsInfos[this.curHostInfo]))
+      this.hostsInfo = newHostsInfoChg
     },
     onText1KResp(resp){
       thFunc.handlerRetStr(this, resp)
