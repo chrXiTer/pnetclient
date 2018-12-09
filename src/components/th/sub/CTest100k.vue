@@ -18,7 +18,7 @@
 <script>
 
 import thFunc from '../ts/thFunc'
-import thTest from '../ts/cmdStrTpl'
+import cmdStrTpl from '../ts/cmdStrTpl'
 
 export default {
   props:['hosts', "networks"],
