@@ -89,7 +89,7 @@ export default {
   mounted: function () {
     let self = this
     this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
-    thFunc.getBaseInfo(this.getBaseInfo.mainHost, (ret)=>{
+    thFunc.getBaseInfo(this.hostsInfo.mainHost, (ret)=>{
       let images = JSON.parse(ret[0])
       let imagesList = []
       images.forEach((e)=>{
@@ -125,8 +125,8 @@ export default {
   methods: {
     onHostsInfoChg(newHostsInfoChg){
       this.hostsInfo.hostList = newHostsInfoChg.hostList
-      this.hostsInfo.etcdHostsStr = newHostsInfoChg.etcdHostsStr || this.getBaseInfo.etcdHostsStr
-      this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.getBaseInfo.mainHost
+      this.hostsInfo.etcdHostsStr = newHostsInfoChg.etcdHostsStr || this.hostsInfo.etcdHostsStr
+      this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.hostsInfo.mainHost
     },
     curHostsInfoChg(){
       this.onHostsInfoChg(G_allHostsInfos[this.curHostInfo])
