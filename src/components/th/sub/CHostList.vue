@@ -80,12 +80,12 @@ export default {
     },
     onUpdateClick: function(){
       this.$emit('hostsInfoChg', JSON.parse(JSON.stringify(this.hostsInfo)))
-      this.updateButtonHidden = false
+      this.updateButtonHidden = true
     }
   },
   watch: {
     hostsInfo: function (newHostsInfo, oldHostsInfo) {
-      this.updateButtonHidden = true
+      this.updateButtonHidden = false
     }
   },
 }
