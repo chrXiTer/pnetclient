@@ -107,7 +107,7 @@ export default {
   computed: {
     hosts: function () {
       let hosts = []
-      this.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
+      this.hostsInfo.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
       return [].concat(hosts)
     },
     optionsNet(){
