@@ -178,8 +178,23 @@ let dockerHttp = {
     networks:'curl --unix-socket /var/run/docker.sock http:/v1.24/networks'
 }
 
+let test100k = {
+getCmdToRunNAlpine(host:string, startNo:number, endNo:number) { 
+    let hostStr = host.replace(/\./g, '_').trim()
+    return `
+cat << EOF | sh -
+for i in \\$(seq ${startNo} ${endNo}
+do
+docker run -itd --network none --name ${hostStr}_no_\\$i alpine:3.8 sh
+done
+EOF
+`.trim()
+}
+}
+
 let cmdStrTpl = {
 test1K:test1K,
+test100k:test100k,
 hostE:hostE,
 dockerC:dockerC,
 dockerE:dockerE,
