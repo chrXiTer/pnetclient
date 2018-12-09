@@ -35,7 +35,7 @@
     
     <h2>1k容器入网测试</h2>
      <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
-    <div id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></div>
+    <div id="cmdout" v-html="cmdoutContent" style="clear:both background-color: grey; color: white"></div>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ import thFuncDocker from './ts/thFuncDocker'
 import CHostList from './sub/CHostList.vue'
 import CCreateContainer from './sub/CCreateContainer.vue'
 import CTest1K from './sub/CTest1K.vue'
-import CTest1K from './sub/CTest100k.vue'
+import CTest100k from './sub/CTest100k.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 import util from '../../lib/cx_util';
 

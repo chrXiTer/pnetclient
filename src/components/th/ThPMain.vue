@@ -20,7 +20,7 @@
     <el-button @click="installDocker">安装docker</el-button>
     <el-button @click="loadImages">载入容器镜像</el-button>
     <el-button @click="installK8s">安装k8s</el-button>
-    <pre id="cmdout" v-html="cmdoutContent" style="background-color: grey; color: white"></pre>
+    <pre id="cmdout" v-html="cmdoutContent" style="clear:both background-color: grey; color: white"></pre>
   </div>
 </template>
 

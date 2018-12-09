@@ -9,7 +9,7 @@
       </el-col>
     </div>
     <div id="cmdout" v-html="cmdoutContent" 
-      style="background-color:grey; color:white; font-size:small">
+      style="clear:both background-color:grey; color:white; font-size:small">
     </div>
   </div>
 </template>
