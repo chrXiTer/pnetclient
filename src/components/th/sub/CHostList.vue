@@ -45,8 +45,8 @@ export default {
   },
   computed:{
       net0: {
-        get: function(){ return hostsInfo.hostList[0].net },
-        set: function(){ return hostsInfo.hostList[0].net; this.updateButtonType = "danger"}
+        get: function(){ return this.hostsInfo.hostList[0].net },
+        set: function(){ return this.hostsInfo.hostList[0].net; this.updateButtonType = "danger"}
       },
       ips0: {
         get: function(){ return this.hostsInfo.hostList[0].ips.join('\n') },
@@ -55,8 +55,8 @@ export default {
         }
       },
       net1: {
-        get: function(){ return hostsInfo.hostList[1].net },
-        set: function(){ return hostsInfo.hostList[1].net; this.updateButtonType = "danger"}
+        get: function(){ return this.hostsInfo.hostList[1].net },
+        set: function(){ return this.hostsInfo.hostList[1].net; this.updateButtonType = "danger"}
       },
       ips1: {
         get: function(){ return this.hostsInfo.hostList[1].ips.join('\n') },
