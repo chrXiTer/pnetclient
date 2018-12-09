@@ -14,7 +14,7 @@
     <el-button @click="deployEtcd">部署 Etcd 到</el-button>
     <el-button @click="runCalico">运行 calico-node </el-button><br />
     <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s</el-button>
-    <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" v-bind:value="etcdHostsStr">
+    <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" v-bind:value="hostsInfo.etcdHostsStr">
       <template slot="prepend">输入etcd主机列表</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
     </el-input>
