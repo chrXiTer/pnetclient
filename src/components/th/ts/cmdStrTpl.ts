@@ -133,7 +133,19 @@ docker run -d --name etcdv3 \
 getCmdCreateContainer:(network:string, name:string)=>{return `
 docker run -itd --network ${network} --name ${name} nginx:1.15-alpine sh
 `.trim()
-}
+},
+cmdRunCadvisor:`
+docker run \
+    --publish=8080:8080 -d \
+    --network host \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:rw \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    --volume=/dev/disk/:/dev/disk:ro \
+    --detach=true \
+    --name=cadvisor google/cadvisor:v0.32.0
+`.trim()
 }
 
 
