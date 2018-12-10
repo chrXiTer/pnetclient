@@ -179,13 +179,13 @@ let dockerHttp = {
 }
 
 let test100k = {
-getCmdToRunNAlpine(host:string, startNo:number, endNo:number) { 
+getCmdToRunNAlpine(network:string, host:string, startNo:number, endNo:number) { 
     let hostStr = host.replace(/\./g, '_').trim()
     return `
 cat << EOF | sh -
 for i in \\$(seq ${startNo} ${endNo})
 do
-docker run -itd --network none --name ${hostStr}_no_\\$i alpine:3.8 sh
+docker run -itd --network ${network} --name ${hostStr}_no_\\$i alpine:3.8 sh
 done
 EOF
 `.trim()

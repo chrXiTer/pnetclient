@@ -45,7 +45,7 @@ export default {
     create1k(){
       
       this.hosts.forEach((host) => {
-        let cmd = cmdStrTpl.test100k.getCmdToRunNAlpine(host, this.startNo, this.endNo)
+        let cmd = cmdStrTpl.test100k.getCmdToRunNAlpine(this.usedNetName, host, this.startNo, this.endNo)
         thFunc.execCmdAHost(this, host, cmd, (self, resp) => {
             resp.data = JSON.stringify(resp.data)
             self.$emit('text100kResp', resp)
