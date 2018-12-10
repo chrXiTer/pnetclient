@@ -39,7 +39,7 @@
     <h2>1k容器入网测试</h2>
      <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
     <el-button v-on:click="cleanCmdOutContent">创建calico ipPood</el-button>
-    <div id="cmdout" v-html="cmdoutContent" style="clear:both background-color: grey; color: white"></div>
+    <div id="cmdout" v-html="cmdoutContent" style="clear:both; background-color: grey; color: white"></div>
   </div>
 </template>
 

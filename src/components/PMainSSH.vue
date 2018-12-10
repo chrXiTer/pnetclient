@@ -3,7 +3,7 @@
       <el-button @click="scpToLinux">复制文件到新装的ubuntu</el-button>
       <el-button @click="setRootPassword">设置root密码</el-button>
       <div id="cmdout" v-html="cmdoutContent" 
-          style="clear:both background-color: grey; color: white"></div>
+          style="clear:both; background-color: grey; color: white"></div>
   </div>
 </template>
 
