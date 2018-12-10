@@ -11,6 +11,7 @@
     <el-input type="text" v-model="endNo" style="width :150px"><template slot="prepend">endNo</template></el-input>
     <el-button-group>
       <el-button v-on:click="create100k">创建容器</el-button>
+      <el-button v-on:click="delete100k">删除容器</el-button>
     </el-button-group>
   </div>
 </template>
