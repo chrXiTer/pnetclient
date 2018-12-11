@@ -100,19 +100,23 @@ export default {
         return
       }
       let mainHost = mainHosts[0]
-      thFunc.getBaseInfo(mainHost, (ret)=>{
-        let images = JSON.parse(ret[0])
-        let imagesList = []
-        images.forEach((e)=>{
-          imagesList = imagesList.concat(e.RepoTags)
+      if(mainHost == "10.145.16.1"){
+        self.networkList = ["L3net-m"]  //有100k容器数据量太大
+      }else{
+        thFunc.getBaseInfo(mainHost, (ret)=>{
+          let images = JSON.parse(ret[0])
+          let imagesList = []
+          images.forEach((e)=>{
+            imagesList = imagesList.concat(e.RepoTags)
+          })
+          let networks = JSON.parse(ret[1])
+          let networkList = []
+          networks.forEach((e)=>{
+            networkList.push(e.Name)
+          })
+          self.networkList = networkList
         })
-        let networks = JSON.parse(ret[1])
-        let networkList = []
-        networks.forEach((e)=>{
-          networkList.push(e.Name)
-        })
-        self.networkList = networkList
-      })
+      }
     },
     onHostsInfoChg(newHostsInfoChg){
       let oldMainHost = this.hostsInfo.mainHost
