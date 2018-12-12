@@ -37,7 +37,6 @@ export default {
     refresh: function(){
       this.refreshSsh()
       this.refreshPing()
-      this.refreshDocker()
     },
     refreshSsh(){
       let nowDate = new Date()
@@ -57,8 +56,12 @@ export default {
           type:'info',
           title:'ssh未测'
         }
+        this.statusDocker = {
+          type:'info',
+          title:'docker未测'
+        }
         gInfoHost.lasrRefreshTime = nowTime
-        thFunc.execCmdAHost(this, this.host, "echo 1231", (self, resp) => {
+        thFunc.execCmdAHost(this, this.host, "echo 1231;docker -v", (self, resp) => {
           if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
             gInfoHost.status = {
               type: "success",
@@ -68,6 +71,17 @@ export default {
             gInfoHost.status = {
               type: "error",
               title: "shh不通"
+            }
+          }
+          if(resp.data.out.search('Docker version') >=0 ){
+            self.statusDocker = {
+              type: "success",
+              title: "docker可用"
+            }
+          }else{
+            self.statusDocker = {
+              type: "error",
+              title: "docker不可用"
             }
           }
           self.status = gInfoHost.status
@@ -100,27 +114,6 @@ export default {
           }
           self.$emit('onCAHostminoRefresh', {host:self.host, data:resp.data.retStr})
         })
-    },
-    refreshDocker(){
-      this.statusDocker = {
-        type:'info',
-        title:'docker未测'
-      }
-      let cmd = "docker -v" + this.host
-      thFunc.execCmdLocal(this, cmd, (self, resp) => {
-        if(resp.data.out.search('Docker version') >=0 ){
-          self.statusDocker = {
-            type: "success",
-            title: "docker可用"
-          }
-        }else{
-          self.statusDocker = {
-            type: "error",
-            title: "docker不可用"
-          }
-        }
-        self.$emit('onCAHostminoRefresh', {host:self.host, data:resp.data.retStr})
-      })
     }
   }
 }
