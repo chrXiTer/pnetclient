@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-input placeholder="输入etcd的url" v-bind:value="backendUrl">
+  <el-input placeholder="输入etcd的url" v-model="backendUrl">
         <template slot="prepend">etcd的url</template>
         <el-button slot="append" icon="el-icon-check" v-on:click="onChgEtcdUrl"></el-button>
   </el-input>
