@@ -25,7 +25,7 @@ export default {
       },
       statusDocker:{
         type:'info',
-        title:'docker未测'
+        title:'dock未测'
       }
     }
   },
@@ -61,8 +61,8 @@ export default {
           title:'docker未测'
         }
         gInfoHost.lasrRefreshTime = nowTime
-        thFunc.execCmdAHost(this, this.host, "echo 1231;docker -v", (self, resp) => {
-          if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
+        thFunc.execCmdAHost(this, this.host, "echo 1231;docker -v;", (self, resp) => {
+          if(resp.data.out.search('echo 1231;docker -v;\r\n1231\r\n') >=0 ){
             gInfoHost.status = {
               type: "success",
               title: "ssh可通"
