@@ -66,7 +66,7 @@
     data() {
       return {
         rootUrl:"http://10.144.0.26:2379/v2/keys",
-        backendUrl:rootUrl,
+        backendUrl:"http://10.144.0.26:2379/v2/keys",
         data2: dataTree,
         defaultProps: {
           children: 'children',
