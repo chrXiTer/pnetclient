@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card" :body-style="{padding: '3px'}">
-    <label style="font-size:small">{{host}}</label>
+    <label style="font-size:8px">{{host}}</label>
     <el-button size="mini" @click="refresh" icon="el-icon-refresh" circle></el-button>
     <el-alert style="padding:0" v-bind:title="statusPing.title" v-bind:type="statusPing.type"  :closable="false"></el-alert>
     <el-alert style="padding:0" v-bind:title="status.title" v-bind:type="status.type"  :closable="false"></el-alert>
@@ -58,7 +58,7 @@ export default {
         }
         this.statusDocker = {
           type:'info',
-          title:'docker未测'
+          title:'dock未测'
         }
         gInfoHost.lasrRefreshTime = nowTime
         thFunc.execCmdAHost(this, this.host, "echo 1231;docker -v;", (self, resp) => {
