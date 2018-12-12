@@ -76,12 +76,12 @@ export default {
           if(resp.data.out.search('Docker version') >=0 ){
             self.statusDocker = {
               type: "success",
-              title: "docker可用"
+              title: "docker有"
             }
           }else{
             self.statusDocker = {
               type: "error",
-              title: "docker不可用"
+              title: "docker无"
             }
           }
           self.status = gInfoHost.status
