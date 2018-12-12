@@ -77,7 +77,7 @@
 
     methods: {
       onChgEtcdUrl(){
-        rootUrl = backendUrl
+        this.rootUrl = this.backendUrl
       },
       onNodeExpand(dataObj, node, nodeComponent){
           if(dataObj.dir){
