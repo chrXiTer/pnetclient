@@ -8,6 +8,7 @@
       <CAHostMino v-bind:host="host" v-on:onCAHostminoRefresh="onCAHostminoRefresh"></CAHostMino>
       </el-col>
     </div>
+    <el-button v-on:click="cmdoutContent=''"> 清空 cmdout </el-button>
     <div id="cmdout" v-html="cmdoutContent" 
       style="clear:both; background-color:grey; color:white; font-size:small">
     </div>
