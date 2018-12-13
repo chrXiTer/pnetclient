@@ -63,7 +63,7 @@ do
 docker run -itd  --network ${usedNetName} --name ${cNamePrefix}$i alpine:3.8 sh
 echo $i
 done
-`
+`.trim()
 },
 getCmdDeleteContainer(usedNetName:string, host:string, startNo:string, endNo:string){
     let netNo = Number.parseInt((usedNetName.match(/\d+/) || ["-1"])[0])
@@ -75,7 +75,7 @@ do
 docker rm ${cNamePrefix}$i alpine:3.8 sh
 echo $i
 done
-`
+`.trim()
 }
 }
 
