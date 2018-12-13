@@ -12,7 +12,7 @@ getCmdCreateBridgeNet(host:string, hosts:string[]){
     let subnetPrefixs = HostToSubnetPrefix[host]
     // host本机创建网桥的命令
     let c = subnetPrefixs.map((subnetPrefix, index,)=>{return `
-docker network create --subnet=${subnetPrefix}.0/20 --gateway=${subnetPrefix}.1 netb${index+1};
+docker network create --subnet=${subnetPrefix}0/20 --gateway=${subnetPrefix}1 netb${index+1};
         `.trim()}).join(' ')
 
     // host本机添加到达其他主机相关网桥的路由命令
@@ -22,7 +22,7 @@ docker network create --subnet=${subnetPrefix}.0/20 --gateway=${subnetPrefix}.1 
         }else{
             let subnetPrefixs = HostToSubnetPrefix[ohost]
             return subnetPrefixs.map((subnetPrefix, index,)=>{return `
-route add -net ${subnetPrefix}.0/20  gw ${ohost};
+route add -net ${subnetPrefix}0/20  gw ${ohost};
             `.trim()}).join(' ')
         }
     }).join(' ')
@@ -48,7 +48,7 @@ docker network rm ${usedNetName}
         }
         let subnetPrefix = HostToSubnetPrefix[ohost][netNo - 1]
         return `
-route del -net ${subnetPrefix}.0/20;
+route del -net ${subnetPrefix}0/20;
         `.trim()
     }).join(' ')
     return c + r;
