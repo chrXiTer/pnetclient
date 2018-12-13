@@ -4,7 +4,7 @@
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
     <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames">
       <el-collapse-item title="配置及 calico 网络部署" name="1">
         <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
         <el-button @click="deployEtcd">部署 Etcd 到</el-button>
@@ -39,6 +39,13 @@
         <CTest100kb v-bind:hosts="hosts" v-bind:networks="networkList" 
           v-on:text100kResp="onText1KResp" v-on:needRefreshNetList="onGetBaseInfo"></CTest100kb>
       </el-collapse-item>
+      <el-collapse-item title="结果输出 cmdout" name="5">
+        <el-button v-on:click="cleanCmdOutContent"> 清空 cmdout </el-button>
+        <div id="cmdout" v-html="cmdoutContent" style="clear:both; background-color: grey; color: white"></div>
+      </el-collapse-item>
+
+
+      
     </el-collapse>
     <!--
     <h2>容器迁移</h2>
@@ -47,8 +54,6 @@
     <h2>1k容器入网测试</h2>
     <CTest1K v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text1KResp="onText1KResp"></CTest1K>
     -->
-    <el-button v-on:click="cleanCmdOutContent"> 清空 cmdout </el-button>
-    <div id="cmdout" v-html="cmdoutContent" style="clear:both; background-color: grey; color: white"></div>
   </div>
 </template>
 
