@@ -1,4 +1,6 @@
 import util from '../../../lib/cx_util'
+import test100kb from './cmdStrTpl/test100kb'
+import test100k from './cmdStrTpl/test100k'
 
 let test1K = {
 getCmdToRunNNginx(n:number) { return `
@@ -190,34 +192,12 @@ let dockerHttp = {
     networks:'curl --unix-socket /var/run/docker.sock http:/v1.24/networks'
 }
 
-let test100k = {
-getCmdToRunNAlpine(network:string, host:string, startNo:number, endNo:number) { 
-    let hostStr = host.replace(/\./g, '_').trim()
-    return `
-cat << EOF | sh -
-for i in \\$(seq ${startNo} ${endNo})
-do
-docker run -itd --network ${network} --name ${hostStr}_no_\\$i alpine:3.8 sh
-done
-EOF
-`.trim()
-},
-getCmdToRmNAlpine(host:string, startNo:number, endNo:number) { 
-    let hostStr = host.replace(/\./g, '_').trim()
-    return `
-cat << EOF | sh -
-for i in \\$(seq ${startNo} ${endNo})
-do
-docker rm -f ${hostStr}_no_\\$i 
-done
-EOF
-`.trim()
-}
-}
+
 
 let cmdStrTpl = {
 test1K:test1K,
 test100k:test100k,
+test100kb:test100kb,
 hostE:hostE,
 dockerC:dockerC,
 dockerE:dockerE,
