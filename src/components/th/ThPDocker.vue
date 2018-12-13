@@ -3,39 +3,43 @@
     <h2>在此输入后台url</h2>
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
-    <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>  
-    <h2>配置及 calico 网络部署</h2>
-    <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-    <el-button @click="deployEtcd">部署 Etcd 到</el-button>
-    <el-button @click="runCalico">运行 calico-node </el-button><br />
-    <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s</el-button>
-    <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" readonly="readonly" v-bind:value="hostsInfo.etcdHostsStr">
-      <template slot="prepend">输入etcd主机列表</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
-    </el-input>
-    <el-input placeholder="10.190.160.0/19" v-model="calicoIpPool">
-      <template slot="prepend">请输入calico ipPool cidr</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
-    </el-input>
-    <h2>创建网络</h2>
-    <el-input placeholder="请输入网络名:" v-model="newNetName">
-      <template slot="prepend">输入网络名</template>
-    </el-input>
-    <el-input placeholder="请输入ip池:" v-model="newNetSubnet">
-      <template slot="prepend">输入ip池</template>
-    </el-input>
-    <el-button-group>
-      <el-button v-on:click="createCalicoNet">创建 calico 网络</el-button>
-      <el-button v-on:click="createOverlayNet">创建 overlay 网络</el-button>
-      <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
-    </el-button-group>
-    <h2>创建容器</h2>
-    <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
-
-    <h2>100k容器测试</h2>
-    <CTest100kb v-bind:hosts="hosts" v-bind:networks="networkList" 
-      v-on:text100kResp="onText1KResp" v-on:needRefreshNetList="onGetBaseInfo"></CTest100kb>
-
+    <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="配置及 calico 网络部署" name="1">
+        <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
+        <el-button @click="deployEtcd">部署 Etcd 到</el-button>
+        <el-button @click="runCalico">运行 calico-node </el-button><br />
+        <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s</el-button>
+        <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" readonly="readonly" v-bind:value="hostsInfo.etcdHostsStr">
+          <template slot="prepend">输入etcd主机列表</template>
+          <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
+        </el-input>
+        <el-input placeholder="10.190.160.0/19" v-model="calicoIpPool">
+          <template slot="prepend">请输入calico ipPool cidr</template>
+          <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
+        </el-input>
+      </el-collapse-item>
+      <el-collapse-item title="创建网络" name="2">
+        <el-input placeholder="请输入网络名:" v-model="newNetName">
+          <template slot="prepend">输入网络名</template>
+        </el-input>
+        <el-input placeholder="请输入ip池:" v-model="newNetSubnet">
+          <template slot="prepend">输入ip池</template>
+        </el-input>
+        <el-button-group>
+          <el-button v-on:click="createCalicoNet">创建 calico 网络</el-button>
+          <el-button v-on:click="createOverlayNet">创建 overlay 网络</el-button>
+          <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
+        </el-button-group>
+      </el-collapse-item>
+      <el-collapse-item title="创建容器" name="3">
+        <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
+      </el-collapse-item>
+      <el-collapse-item title="100k容器测试" name="4">
+        <CTest100kb v-bind:hosts="hosts" v-bind:networks="networkList" 
+          v-on:text100kResp="onText1KResp" v-on:needRefreshNetList="onGetBaseInfo"></CTest100kb>
+      </el-collapse-item>
+    </el-collapse>
     <!--
     <h2>容器迁移</h2>
     <h2>100k容器测试</h2>
@@ -49,7 +53,6 @@
 </template>
 
 <script>
-
 import thFunc from './ts/thFunc'
 import cmdStrTpl from './ts/cmdStrTpl'
 import thFuncDocker from './ts/thFuncDocker'
@@ -226,6 +229,8 @@ export default {
 
 <style>
 h2 {
-  text-align: left
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  text-align: left;
+  font-size: 18px
 }
 </style>
