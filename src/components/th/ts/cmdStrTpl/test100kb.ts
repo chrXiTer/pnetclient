@@ -53,7 +53,7 @@ route del -net ${subnetPrefix}0/20;
     }).join(' ')
     return c + r;
 },
-createContainer(usedNetName:string, host:string, startNo:string, endNo:string){
+getCmdCreateContainer(usedNetName:string, host:string, startNo:string, endNo:string){
     let netNo = Number.parseInt((usedNetName.match(/\d+/) || ["-1"])[0])
     if(netNo < 0){return ''}
     let cNamePrefix = 'b' + netNo + '-'
@@ -65,7 +65,7 @@ echo $i
 done
 `
 },
-deleteContainer(usedNetName:string, host:string, startNo:string, endNo:string){
+getCmdDeleteContainer(usedNetName:string, host:string, startNo:string, endNo:string){
     let netNo = Number.parseInt((usedNetName.match(/\d+/) || ["-1"])[0])
     if(netNo < 0){return ''}
     let cNamePrefix = 'b' + netNo + '-'

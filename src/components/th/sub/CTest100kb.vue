@@ -32,7 +32,9 @@ export default {
   },
   computed:{
     optionsNet(){
-      return this.networks.map(e => {
+      return this.networks.filter((network) => {
+        return network.search(/^netb/) >= 0
+      }).map(e => {
         return {value: e, label: e}
       });
     },
@@ -49,6 +51,7 @@ export default {
         thFunc.execCmdAHost(this, host, cmd, (self, resp) => {
             resp.data = JSON.stringify(resp.data)
             self.$emit('text100kResp', resp)
+            self.$emit('needRefreshNetList')
         })
       })
     },
@@ -58,6 +61,7 @@ export default {
         thFunc.execCmdAHost(this, host, cmd, (self, resp) => {
             resp.data = JSON.stringify(resp.data)
             self.$emit('text100kResp', resp)
+            self.$emit('needRefreshNetList')
         })
       })
     },

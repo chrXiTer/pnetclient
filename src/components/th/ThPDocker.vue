@@ -33,7 +33,8 @@
     <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
 
     <h2>100k容器测试</h2>
-    <CTest100kb v-bind:hosts="hosts" v-bind:networks="networkList" v-on:text100kResp="onText1KResp"></CTest100kb>
+    <CTest100kb v-bind:hosts="hosts" v-bind:networks="networkList" 
+      v-on:text100kResp="onText1KResp" v-on:needRefreshNetList="onGetBaseInfo"></CTest100kb>
 
     <!--
     <h2>容器迁移</h2>
