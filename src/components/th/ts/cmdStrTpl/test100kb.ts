@@ -27,7 +27,9 @@ route add -net ${subnetPrefix}0/20  gw ${ohost};
         }
     }).join(' ')
     let d = `
-iptables -D FORWARD -j DOCKER-ISOLATION;
+iptables -P FORWARD ACCEPT; \
+iptables -D FORWARD -j DOCKER-ISOLATION; \
+sysctl fs.inotify.max_user_watches=91234;
 `.trim()
     return c + r + d;
 },
@@ -72,7 +74,7 @@ getCmdDeleteContainer(usedNetName:string, host:string, startNo:string, endNo:str
 return `
 for i in $(seq ${startNo} ${endNo})
 do
-docker rm ${cNamePrefix}$i alpine:3.8 sh
+docker rm -f ${cNamePrefix}$i alpine:3.8 sh
 echo $i
 done
 `.trim()
