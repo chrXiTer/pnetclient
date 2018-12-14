@@ -43,7 +43,10 @@ EOF
 }
 
 let hostE = {
-getCmdCfgDocker:(etcdHostsStr:string) =>{
+getCmdCfgDocker:(etcdHostsStr:string) => {
+    if(etcdHostsStr==null){
+        return ""
+    }
     let ips = util.getIpsFromStr(etcdHostsStr)
     let etcdUrlsStr = ips.map((ip)=>{
         return `etcd://${ip}:2379`
