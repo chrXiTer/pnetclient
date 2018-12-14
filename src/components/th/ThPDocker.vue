@@ -43,6 +43,7 @@
         <el-button v-on:click="cleanCmdOutContent"> 清空 cmdout </el-button>
         <div id="cmdout" v-html="cmdoutContent" 
           style="clear:both; background-color:grey; color:white; font-size:small">
+        </div>
       </el-collapse-item>
     </el-collapse>
     <!--
