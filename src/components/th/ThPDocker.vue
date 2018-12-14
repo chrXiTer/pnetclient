@@ -44,9 +44,6 @@
         <div id="cmdout" v-html="cmdoutContent" 
           style="clear:both; background-color:grey; color:white; font-size:small">
       </el-collapse-item>
-
-
-      
     </el-collapse>
     <!--
     <h2>容器迁移</h2>
