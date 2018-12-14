@@ -45,7 +45,7 @@
           v-on:text100kResp="onText1KResp" v-on:needRefreshNetList="onGetBaseInfo"></CTest100kb>
       </el-collapse-item>
       <el-collapse-item title="结果输出 cmdout" name="7">
-        <el-button v-on:click="cleanCmdOutContent"> 清空 cmdout </el-button>
+        <el-button v-on:click="cmdoutContent=''">清空 cmdout</el-button>
         <div id="cmdout" v-html="cmdoutContent" 
           style="clear:both; background-color:grey; color:white; font-size:small">
         </div>
@@ -111,9 +111,6 @@ export default {
     CExecAcmd,
   },
   methods: {
-    cleanCmdOutContent(){
-      this.cmdoutContent = ""
-    },
     onGetBaseInfo(){
       let self = this
       let mainHosts = util.getIpsFromStr(this.hostsInfo.mainHost)
