@@ -4,7 +4,7 @@
     <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
     <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
-    <el-collapse v-model="activeNames">
+    <el-collapse>
       <el-collapse-item title="配置及 calico 网络部署" name="1">
         <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
         <el-button @click="deployEtcd">部署 Etcd 到</el-button>

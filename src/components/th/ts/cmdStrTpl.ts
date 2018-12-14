@@ -44,8 +44,14 @@ EOF
 
 let hostE = {
 getCmdCfgDocker:(etcdHostsStr:string) => {
-    if(etcdHostsStr==null){
-        return ""
+    if(etcdHostsStr=="noetcd"){
+        return `
+cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart docker;
+{
+    "experimental" :true
+}
+EOF
+`.trim()
     }
     let ips = util.getIpsFromStr(etcdHostsStr)
     let etcdUrlsStr = ips.map((ip)=>{
