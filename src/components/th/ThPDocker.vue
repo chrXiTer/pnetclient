@@ -6,7 +6,7 @@
     <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
     <el-collapse>
       <el-collapse-item title="执行一个命令" name="1">
-        <CExecAcmd v-bind:hosts="hosts" v-on:cmdOutUpdate="onText1KResp"></CExecAcmd>
+        <CExecACmd v-bind:hosts="hosts" v-on:cmdOutUpdate="onText1KResp"></CExecACmd>
       </el-collapse-item>
       <el-collapse-item title="更新docker配置" name="2">
           <el-input placeholder="10.145.16.32;10.145.16.31;10.145.16.30;" readonly="readonly" v-bind:value="hostsInfo.etcdHostsStr">
@@ -71,7 +71,7 @@ import CTest1K from './sub/CTest1K.vue'
 import CTest100k from './sub/CTest100k.vue'
 import CTest100kb from './sub/CTest100kb.vue'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
-import CExecAcmd from './sub/CExecAcmd.vue'
+import CExecACmd from './sub/CExecACmd.vue'
 import util from '../../lib/cx_util';
 
 export default {
@@ -108,7 +108,7 @@ export default {
     CTest100k,
     CTest100kb,
     CSetBackendUrl,
-    CExecAcmd,
+    CExecACmd,
   },
   methods: {
     onGetBaseInfo(){
