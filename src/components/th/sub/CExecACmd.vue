@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-input v-model="cmd" v-on:input="execACmd">
+  <el-input v-model="cmd">
     <template slot="prepend">要执行的命令</template>
     <el-button slot="append" icon="el-icon-check" v-on:click="execACmd">执行</el-button>
   </el-input>
