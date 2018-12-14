@@ -54,6 +54,7 @@ EOF
 `.trim()
     }
     let ips = util.getIpsFromStr(etcdHostsStr)
+    ips = [ips[0]]  // docker 不可以配置多个etcd地址
     let etcdUrlsStr = ips.map((ip)=>{
         return `etcd://${ip}:2379`
     }).join(",")

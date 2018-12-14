@@ -21,6 +21,7 @@
   <el-radio-group v-model="curHostInfoKey" v-on:change="curHostsInfoChg">
     <el-radio-button label="hostsInfo_1"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
+    <el-radio-button label="hostsInfo_3"></el-radio-button>
   </el-radio-group>  
   <el-button @click="onUpdateClick" v-show="upBtnIsShow" type="danger">更新主机信息</el-button>  
 </div>
