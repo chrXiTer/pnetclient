@@ -8,7 +8,7 @@ let hostE = {
 cmdSetNsccOwn:`
 chown -R nscc /home/nscc
 `.trim(),
-getCmdCfgDocker0:(etcdHostsStr:string) => {
+getCmdCfgDocker:(etcdHostsStr:string) => {
     if(etcdHostsStr=="noetcd"){
         return `
 cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart docker;
@@ -18,8 +18,6 @@ cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart
 EOF
 `.trim()
     }
-},
-getCmdCfgDocker:(etcdHostsStr:string) => {
     let ips = util.getIpsFromStr(etcdHostsStr)
     ips = [ips[0]]  // docker 不可以配置多个etcd地址
     let etcdUrlsStr = ips.map((ip)=>{
