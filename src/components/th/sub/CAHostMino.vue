@@ -1,9 +1,10 @@
 <template>
   <el-card class="box-card" :body-style="{padding: '3px'}">
-    <label style="font-size:small">{{host}}</label>
+    <label style="font-size:8px">{{host}}</label>
     <el-button size="mini" @click="refresh" icon="el-icon-refresh" circle></el-button>
-    <el-alert v-bind:title="status.title" v-bind:type="status.type" show-icon :closable="false"></el-alert>
-    <el-alert v-bind:title="statusPing.title" v-bind:type="statusPing.type" show-icon :closable="false"></el-alert>
+    <el-alert style="padding:0" v-bind:title="statusPing.title" v-bind:type="statusPing.type"  :closable="false"></el-alert>
+    <el-alert style="padding:0" v-bind:title="status.title" v-bind:type="status.type"  :closable="false"></el-alert>
+    <el-alert style="padding:0" v-bind:title="statusDocker.title" v-bind:type="statusDocker.type"  :closable="false"></el-alert>
   </el-card>
 </template>
 
@@ -21,6 +22,10 @@ export default {
       statusPing:{
         type:'info',
         title:'ping未测'
+      },
+      statusDocker:{
+        type:'info',
+        title:'dock未测'
       }
     }
   },
@@ -47,9 +52,17 @@ export default {
       }
       let gInfoHost = thFunc.gInfo_cahostmino[self.host];
       if(nowTime - gInfoHost.lasrRefreshTime > 30){
+        this.status = {
+          type:'info',
+          title:'ssh未测'
+        }
+        this.statusDocker = {
+          type:'info',
+          title:'dock未测'
+        }
         gInfoHost.lasrRefreshTime = nowTime
-        thFunc.execCmdAHost(this, this.host, "echo 1231", (self, resp) => {
-          if(resp.data.out.search('echo 1231\r\n1231') >=0 ){
+        thFunc.execCmdAHost(this, this.host, "echo 1231;docker -v;", (self, resp) => {
+          if(resp.data.out.search('echo 1231;docker -v;\r\n1231\r\n') >=0 ){
             gInfoHost.status = {
               type: "success",
               title: "ssh可通"
@@ -58,6 +71,17 @@ export default {
             gInfoHost.status = {
               type: "error",
               title: "shh不通"
+            }
+          }
+          if(resp.data.out.search('Docker version') >=0 ){
+            self.statusDocker = {
+              type: "success",
+              title: "docker有"
+            }
+          }else{
+            self.statusDocker = {
+              type: "error",
+              title: "docker无"
             }
           }
           self.status = gInfoHost.status
@@ -71,6 +95,10 @@ export default {
       }
     },
     refreshPing(){
+        this.statusPing = {
+          type:'info',
+          title:'ping未测'
+        }
         let cmd = "ping -c 2 " + this.host
         thFunc.execCmdLocal(this, cmd, (self, resp) => {
           if(resp.data.out.search('bytes from') >=0 ){

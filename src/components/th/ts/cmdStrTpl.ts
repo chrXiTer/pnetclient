@@ -1,4 +1,6 @@
 import util from '../../../lib/cx_util'
+import test100kb from './cmdStrTpl/test100kb'
+import test100k from './cmdStrTpl/test100k'
 
 let test1K = {
 getCmdToRunNNginx(n:number) { return `
@@ -44,8 +46,20 @@ let hostE = {
 cmdSetNsccOwn:`
 chown -R nscc /home/nscc
 `.trim(),
-getCmdCfgDocker:(etcdHostsStr:string) =>{
+getCmdCfgDocker0:(etcdHostsStr:string) => {
+    if(etcdHostsStr=="noetcd"){
+        return `
+cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart docker;
+{
+    "experimental" :true
+}
+EOF
+`.trim()
+    }
+},
+getCmdCfgDocker:(etcdHostsStr:string) => {
     let ips = util.getIpsFromStr(etcdHostsStr)
+    ips = [ips[0]]  // docker 不可以配置多个etcd地址
     let etcdUrlsStr = ips.map((ip)=>{
         return `etcd://${ip}:2379`
     }).join(",")
@@ -193,35 +207,17 @@ let dockerHttp = {
     networks:'curl --unix-socket /var/run/docker.sock http:/v1.24/networks'
 }
 
-let test100k = {
-getCmdToRunNAlpine(network:string, host:string, startNo:number, endNo:number) { 
-    let hostStr = host.replace(/\./g, '_').trim()
-    return `
-cat << EOF | sh -
-for i in \\$(seq ${startNo} ${endNo})
-do
-docker run -itd --network ${network} --name ${hostStr}_no_\\$i alpine:3.8 sh
-done
-EOF
-`.trim()
-},
-getCmdToRmNAlpine(host:string, startNo:number, endNo:number) { 
-    let hostStr = host.replace(/\./g, '_').trim()
-    return `
-cat << EOF | sh -
-for i in \\$(seq ${startNo} ${endNo})
-do
-docker rm -f ${hostStr}_no_\\$i 
-done
-EOF
-`.trim()
-}
-}
+
 
 let cmdStrTpl = {
 test1K:test1K,
 test100k:test100k,
+<<<<<<< HEAD
 hostE:hostE,  //远程执行的命令
+=======
+test100kb:test100kb,
+hostE:hostE,
+>>>>>>> f003e6d41717421f7b43ca3076c0d6634435e772
 dockerC:dockerC,
 dockerE:dockerE,
 dockerHttp:dockerHttp,

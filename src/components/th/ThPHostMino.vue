@@ -4,10 +4,11 @@
     <el-input type="textarea" :rows="5" placeholder="要监控的主机列表" v-on:blur="onBlur" v-model="hostsStr">
     </el-input>    
     <div v-for="host in hosts" :key="host" class="text item">
-      <el-col :span="3">
+      <el-col :span="2">
       <CAHostMino v-bind:host="host" v-on:onCAHostminoRefresh="onCAHostminoRefresh"></CAHostMino>
       </el-col>
     </div>
+    <el-button v-on:click="cmdoutContent=''">清空 cmdout</el-button>
     <div id="cmdout" v-html="cmdoutContent" 
       style="clear:both; background-color:grey; color:white; font-size:small">
     </div>
