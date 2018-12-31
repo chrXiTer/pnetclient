@@ -10,9 +10,11 @@
       <template slot="prepend">要执行的命令</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="execACmd">执行</el-button>
     </el-input>
+    <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button>
     <el-input v-model="subDir">
       <template slot="prepend">要同步的文件目录:/home/nscc/</template>
-      <el-button slot="append" icon="el-icon-check" v-on:click="syncDir">同步</el-button>
+      <el-button slot="append" icon="el-icon-check" v-on:click="scpDir">scp同步</el-button>
+      <el-button slot="append" icon="el-icon-check" v-on:click="rsyncDir">rsync同步</el-button>
     </el-input>
     <el-button @click="chgAptSource">更新apt源</el-button>
     <el-button @click="chgHostName">修改主机名</el-button>
@@ -58,6 +60,9 @@ export default {
     execACmd(){
       thFunc.execCmd(this, this.hosts, this.cmd, thFunc.handlerRetStr)
     },
+    setNsccOwn(){
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdSetNsccOwn, thFunc.handlerRetStr)
+    },
     chgAptSource(){
         thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdChgAptSource, thFunc.handlerRetStr)
     },
@@ -85,7 +90,7 @@ export default {
     loadImages(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdLoadImages, thFunc.handlerRetStr)
     },
-    syncDir(){
+    scpDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
       let dir1 = '/home/nscc/'
@@ -94,7 +99,18 @@ export default {
         dir1 = dir1 + this.subDir.substring(0, index)
         dir2 = this.subDir.substring(index)
       }
-      thFunc.scpDir(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
+      thFunc.scpFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
+    },
+    rsyncDir(){
+      this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
+      let index = this.subDir.lastIndexOf("/")
+      let dir1 = '/home/nscc/'
+      let dir2 = this.subDir
+      if(index >=0){
+        dir1 = dir1 + this.subDir.substring(0, index)
+        dir2 = this.subDir.substring(index)
+      }
+      thFunc.rsyncFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     }
   }
 }

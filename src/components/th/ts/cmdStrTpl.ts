@@ -41,6 +41,9 @@ EOF
 }
 
 let hostE = {
+cmdSetNsccOwn:`
+chown -R nscc /home/nscc
+`.trim(),
 getCmdCfgDocker:(etcdHostsStr:string) =>{
     let ips = util.getIpsFromStr(etcdHostsStr)
     let etcdUrlsStr = ips.map((ip)=>{
@@ -218,7 +221,7 @@ EOF
 let cmdStrTpl = {
 test1K:test1K,
 test100k:test100k,
-hostE:hostE,
+hostE:hostE,  //远程执行的命令
 dockerC:dockerC,
 dockerE:dockerE,
 dockerHttp:dockerHttp,

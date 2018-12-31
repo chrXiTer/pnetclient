@@ -161,7 +161,7 @@ export default {
       */
     },
     scpCfgFile(){
-      thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
+      thFunc.scpFile(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     },
     upDocker(){
       let cmd = cmdStrTpl.hostE.getCmdCfgDocker(this.hostsInfo.etcdHostsStr)

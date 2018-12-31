@@ -7,7 +7,7 @@ type TCallback = (self:any, resp:object)=>void
 var thFuncDocker = {
     funcSeqs:[ //数组内的函数，将从前至后依次执行
         (self:any, execfuncSeqs:()=>{})=>{ // 将最新的配置文件同步到各主机
-          thFunc.scpDir(self, self.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
+          thFunc.scpFile(self, self.hosts, '/home/nscc/th/', 'calico-2.6.11', execfuncSeqs)
         },
         (self:any, execfuncSeqs:()=>{})=>{ // 配置docker使用试验特征、以及使用etcd存储(用于2.6.11)
           let cmd = cmdStrTpl.hostE.getCmdCfgDocker(self.etcdHost)
