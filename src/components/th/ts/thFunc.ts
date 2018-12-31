@@ -75,6 +75,20 @@ var thFunc = {
           callback(self, resp)
       });
     },
+    rsyncFile:(self:any, hosts:Array<string>, dirPath:string, filename:string, callback:TCallback) =>{
+        if(hosts.length == 0){
+          return
+        }
+        let jsonObj = thFunc.jsonObj
+        jsonObj.hosts = hosts
+        jsonObj.dirPath = dirPath
+        jsonObj.filename = filename
+        var jsonStr = JSON.stringify(jsonObj)
+        const url = thFunc.rootUrl + '/api/rsyncFile?jsonStr=' + encodeURIComponent(jsonStr)
+        axios({method: 'get', url: url}).then(resp => {
+            callback(self, resp)
+        });
+      },
     getImages: (host:string, ret:string[], callback:(ret:string[])=>void) => {
         thFunc.execCmdAHost(self, host, cmdStrTpl.dockerHttp.cmdImages, (self,resp:any) => {
             let first = resp.data.out.indexOf("[")

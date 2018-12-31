@@ -13,8 +13,8 @@
     <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button>
     <el-input v-model="subDir">
       <template slot="prepend">要同步的文件目录:/home/nscc/</template>
-      <el-button slot="append" v-on:click="scpDir">scp同步|</el-button>
-      <el-button slot="append" v-on:click="rsyncDir">|rsync同步</el-button>
+      <el-button slot="append" v-on:click="scpDir">scp同步</el-button>|
+      <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>
     </el-input>
     <el-button @click="chgAptSource">更新apt源</el-button>
     <el-button @click="chgHostName">修改主机名</el-button>
