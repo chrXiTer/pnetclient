@@ -212,12 +212,8 @@ let dockerHttp = {
 let cmdStrTpl = {
 test1K:test1K,
 test100k:test100k,
-<<<<<<< HEAD
 hostE:hostE,  //远程执行的命令
-=======
 test100kb:test100kb,
-hostE:hostE,
->>>>>>> f003e6d41717421f7b43ca3076c0d6634435e772
 dockerC:dockerC,
 dockerE:dockerE,
 dockerHttp:dockerHttp,
