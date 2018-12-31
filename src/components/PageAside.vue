@@ -26,8 +26,9 @@
       </el-submenu>
     </el-submenu>
     <el-submenu index="3">
-        <el-menu-item index="/th">ThMain</el-menu-item>
+      <template slot="title"><i class="el-icon-menu"></i>THM</template>
+      <el-menu-item index="/th">ThMain</el-menu-item>
     </el-submenu>
-    <el-menu-item index="/th">ThMain</el-menu-item>
+    <el-menu-item index="/th"><i class="el-icon-message"></i>ThMain</el-menu-item>
   </el-menu>
 </template>
