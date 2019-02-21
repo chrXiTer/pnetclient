@@ -78,7 +78,7 @@ export default class ThPK8s extends Vue{
       this.hostsInfo.mainHost = newHostsInfoChg.mainHost || this.hostsInfo.mainHost
     }
     scpCfgFile(){
-      thFunc.scpDir(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
+      thFunc.scpFile(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     }
     setKubelet(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cfgK8sCmd, thFunc.handlerRetStr)
