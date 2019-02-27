@@ -72,10 +72,6 @@ dpkg -i --force-all -B *.deb;
 cmdInstallK8s:`
 cd /home/nscc/th/deb/k8s-1.11.3-adm.deb;\
 dpkg -i --force-all -B *.deb;
-`.trim(),
-cmdLoadImages:`
-cd /home/nscc/th/tar; \
-ls | xargs -n 1 docker load -i
 `.trim()
 }
 
@@ -90,7 +86,19 @@ sed -i 's/10.96.0.10/10.190.96.10/g' /var/lib/kubelet/config.yaml
 `.trim()
 }
 
-let dockerC = {
+
+let dockerI = {   // 与容器Image相关的命令
+cmdLoadImages:(fromDir:string) => { return `
+cd ${fromDir}; \
+ls | xargs -n 1 docker load -i
+`.trim()
+},
+cmdDelNoneImages:`
+docker image rm  $(docker image ls | grep '<none>' | awk '{print $3}')
+`.trim()
+}
+
+let dockerC = {  // 与运行容器相关的命令
 getEtcdDeployCmd:(etcdHost:string) => { return `
 IP_ADDR=${etcdHost}; \
 docker run -d --name etcdv3 \
@@ -126,7 +134,7 @@ docker run \
 }
 
 
-let dockerE = {
+let dockerE = {  //与容器网络相关的命令
 getCreateCalicoNetCmd: (calicoNetName:string, subnet:string) => { return `
 docker network create --driver calico --ipam-driver calico-ipam \
     --subnet=${subnet} ${calicoNetName}
@@ -174,6 +182,7 @@ test1K:test1K,
 test100k:test100k,
 hostE:hostE,  //远程执行的命令
 test100kb:test100kb,
+dockerI:dockerI,
 dockerC:dockerC,
 dockerE:dockerE,
 dockerHttp:dockerHttp,

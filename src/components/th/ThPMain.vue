@@ -12,10 +12,12 @@
     </el-input>
     <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button>
     <el-input v-model="subDir">
-      <template slot="prepend">要同步的文件目录:/home/nscc/</template>
+      <template slot="prepend">要处理的文件目录:/home/nscc/</template>
       <el-button slot="append" v-on:click="scpDir">scp同步</el-button>|
-      <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>
+      <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>|
+      <el-button slot="append" v-on:click="loadImageDir">load所有image</el-button>|
     </el-input>
+    <el-button @click="delNoneImage">删除 none image</el-button>
     <el-button @click="chgAptSource">更新apt源</el-button>
     <el-button @click="chgHostName">修改主机名</el-button>
     <el-button @click="installBaseSoft">安装基础软件vim-curl-unzip</el-button>
@@ -89,7 +91,7 @@ export default {
       thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdInstallK8s, thFunc.handlerRetStr)
     },
     loadImages(){
-      thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cmdLoadImages, thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages('/home/nscc/th/tar'), thFunc.handlerRetStr)
     },
     scpDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
@@ -112,6 +114,13 @@ export default {
         dir2 = this.subDir.substring(index)
       }
       thFunc.rsyncFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
+    },
+    loadImageDir(){
+      this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages(this.subDir), thFunc.handlerRetStr)
+    },
+    delNoneImage(){
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdDelNoneImages, thFunc.handlerRetStr)
     }
   }
 }
