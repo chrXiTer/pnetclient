@@ -11,7 +11,24 @@ import util from './lib/cx_util'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
-
+router.beforeEach((
+  to, from: any, 
+  next: { (): void; (arg0: { path: string; query: { redirect: string; }; }): void; (): void; (): void; })=> {
+  if (to.name == 'Login') {
+    next();
+    return;
+  }
+  var name = store.state.user.name;
+  if (name === '未登录') {
+    if (to.meta.requireAuth || to.name == null) {
+      next({path: '/', query: {redirect: to.path}})
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+})
 
 new Vue({
   router,
