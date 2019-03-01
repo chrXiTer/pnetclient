@@ -117,7 +117,8 @@ export default {
     },
     loadImageDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
-      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages(this.subDir), thFunc.handlerRetStr)
+      let dir1 = '/home/nscc/'
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages(dir1 + this.subDir), thFunc.handlerRetStr)
     },
     delNoneImage(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdDelNoneImages, thFunc.handlerRetStr)
