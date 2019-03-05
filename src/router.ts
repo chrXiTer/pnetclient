@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Login from '@/components/user/Login.vue'
+import MailReg from '@/components/user/MailReg.vue'
+import AddUser from '@/components/user/AddUser.vue'
 import PageMainHello from '@/components/PageMainHello.vue'
 import PageMainTable from '@/components/PageMainTable.vue'
 import PMainSSH from '@/components/PMainSSH.vue'
@@ -26,6 +29,21 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    }, 
+    {
+      path: '/mailreg',
+      name: 'MailReg',
+      component: MailReg,
+    },
+    {
+      path: '/adduser',
+      name: 'AddUser',
+      component: AddUser,
     },
     {
       path: '/',

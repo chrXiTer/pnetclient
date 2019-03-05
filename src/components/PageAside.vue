@@ -26,8 +26,9 @@
       </el-submenu>
     </el-submenu>
     <el-submenu index="3">
-      <template slot="title"><i class="el-icon-menu"></i>THM</template>
-      <el-menu-item index="/th">ThMain</el-menu-item>
+      <template slot="title"><i class="el-icon-menu"></i>用户权限管理</template>
+      <el-menu-item index="/adduser">用户列表</el-menu-item>
+      <el-menu-item index="/adduser">添加用户</el-menu-item>
     </el-submenu>
     <el-menu-item index="/th"><i class="el-icon-message"></i>ThMain</el-menu-item>
   </el-menu>
