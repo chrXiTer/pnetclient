@@ -2,6 +2,7 @@ import util from '../../../lib/cx_util'
 import test100kb from './cmdStrTpl/test100kb'
 import test100k from './cmdStrTpl/test100k'
 import test1K from './cmdStrTpl/test1k'
+import k8s from './cmdStrTpl/k8s'
 
 
 let hostE = {
@@ -33,11 +34,6 @@ cat << EOF > /etc/docker/daemon.json; systemctl daemon-reload; systemctl restart
 EOF
 `.trim()
 },
-cfgK8sCmd:`
-echo 'KUBELET_EXTRA_ARGS="--max-pods=100000 --cadvisor-port=4194"' > /etc/default/kubelet;
-systemctl daemon-reload;
-systemctl restart kubelet
-`.trim(),
 cmdRunCalicoNode:`
 /home/nscc/th/calico-2.6.11/calicoctl node run \
     --node-image=quay.io/calico/node:v2.6.11 \
@@ -74,18 +70,6 @@ cd /home/nscc/th/deb/k8s-1.11.3-adm.deb;\
 dpkg -i --force-all -B *.deb;
 `.trim()
 }
-
-let k8s = {
-masterInit:`
-kubeadm init --kubernetes-version=v1.11.3 --token-ttl 0 
-    --pod-network-cidr 10.190.224.0/19 
-    --service-cidr 10.190.96.0/19
-`.trim(),
-chgDnsAddr:`
-sed -i 's/10.96.0.10/10.190.96.10/g' /var/lib/kubelet/config.yaml
-`.trim()
-}
-
 
 let dockerI = {   // 与容器Image相关的命令
 cmdLoadImages:(fromDir:string) => { return `
@@ -174,8 +158,6 @@ let dockerHttp = {
     cmdImages:'curl --unix-socket /var/run/docker.sock http:/v1.24/images/json',
     networks:'curl --unix-socket /var/run/docker.sock http:/v1.24/networks'
 }
-
-
 
 let cmdStrTpl = {
 test1K:test1K,

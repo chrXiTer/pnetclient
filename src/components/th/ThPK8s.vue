@@ -35,11 +35,11 @@ export default class ThPK8s extends Vue{
   newNetName = ""
   hostsInfo = {
     hostList: [
-      {net:"10.144.0.26/16", ips:["10.144.0.26", "10.144.0.27"]},
-      {net:"10.145.0.26/16", ips:["10.145.0.26", "10.145.0.27"]}
+      {net:"10.144.0.0/16", ips:["10.144.0.23", "10.144.0.24", "10.144.0.25"]},
+      {net:"10.145.0.0/16", ips:["10.145.0.23", "10.145.0.24", "10.145.0.25"]}
     ],
-    etcdHostsStr:"10.145.16.32;10.145.16.31;10.145.16.30;",
-    mainHost:"10.144.0.26",
+    etcdHostsStr:"在本页无用",
+    mainHost:"10.144.0.21",
   }
   calicoIpPool = "10.190.160.0/19"
   networkList:string[] = []
@@ -81,21 +81,20 @@ export default class ThPK8s extends Vue{
       thFunc.scpFile(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
     }
     setKubelet(){
-      thFunc.execCmd(this, this.hosts, cmdStrTpl.hostE.cfgK8sCmd, thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.k8s.cfgK8sCmd, thFunc.handlerRetStr)
     }
     masterNodeInit(){
-
-      thFunc.execCmdAHost(self, this.hostsInfo.mainHost, cmdStrTpl.k8s.masterInit, (self,resp:any) => {
+      let masterHost = this.hostsInfo.mainHost
+      thFunc.execCmdAHost(self, masterHost, cmdStrTpl.k8s.masterInit, (self,resp:any) => {
           resp.data = JSON.stringify(resp.data)
           thFunc.handlerRetStr(self, resp.data)
-          thFunc.execCmdAHost(self, this.hostsInfo.mainHost, cmdStrTpl.k8s.chgDnsAddr, (self,resp:any) => {
+          thFunc.execCmdAHost(self, masterHost, cmdStrTpl.k8s.chgDnsAddr, (self,resp:any) => {
             resp.data = JSON.stringify(resp.data)
             thFunc.handlerRetStr(self, resp.data)
           })
       })
     }
     workNodeJoin(){
-
     }
   }
 </script>
