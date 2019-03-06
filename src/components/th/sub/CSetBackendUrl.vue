@@ -45,14 +45,13 @@ export default {
 
       querySearch(queryString, cb) {
         var restaurants = this.restaurants;
-        var results = restaurants //queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        var results = restaurants 
         cb(results); // 调用 callback 返回建议列表的数据
       },
-      createFilter(queryString) {
-        return (restaurant) => {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
+     handleSelect(item){
+        this.newBackendUrl = item.value
+        this.isDiff = this.newBackendUrl == this.backendUrl ? "" : "请更新"
+     }
   }
 }
 </script>
