@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-input placeholder="请输入后台url" v-bind:value="backendUrl" v-on:input="onBackendUrlInput">
+    <el-input placeholder="请输入后台url" v-bind:value="newBackendUrl" v-on:input="onBackendUrlInput">
       <template slot="prepend">后台url</template>
       <el-button slot="append" icon="el-icon-check" v-on:click="chgRootUrl">
         {{isDiff}}</el-button>
@@ -35,7 +35,7 @@ export default {
   methods: {
     onBackendUrlInput(evnet){
       this.newBackendUrl = event.target.value
-      this.isDiff = this.backendUrl == this.backendUrl ? "" : "请更新"
+      this.isDiff = this.newBackendUrl == this.backendUrl ? "" : "请更新"
     },
     chgRootUrl(){
       this.$emit('chgBackendUrl',this.newBackendUrl)     
@@ -45,7 +45,7 @@ export default {
 
       querySearch(queryString, cb) {
         var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        var results = restaurants //queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
         cb(results); // 调用 callback 返回建议列表的数据
       },
       createFilter(queryString) {
