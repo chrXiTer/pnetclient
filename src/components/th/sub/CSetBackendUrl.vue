@@ -24,7 +24,10 @@ export default {
     return {
       newBackendUrl: this.backendUrl,
       isDiff: '',
-      restaurants:[this.backendUrl, 'http://localhost:18100']
+      restaurants:[
+        {"value": this.backendUrl}, 
+        {"value": "http://localhost:18100"}
+      ]
     }
   },
   computed:{
