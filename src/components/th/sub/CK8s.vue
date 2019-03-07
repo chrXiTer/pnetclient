@@ -60,7 +60,7 @@ export default class CK8s extends Vue{
   }
   get hosts():string[] {
     let hosts:string[] = []
-    this.hostsInfo.hostList.forEach((e) => {hosts = hosts.concat(e.ips)})
+    this.hostsInfo.hostList.forEach((e:any) => {hosts = hosts.concat(e.ips)})
     return hosts//[].concat(hosts)
   }
   get optionsNet(){
