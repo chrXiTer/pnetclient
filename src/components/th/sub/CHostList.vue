@@ -19,9 +19,11 @@
     </el-col>
   </el-row>
   <el-radio-group v-model="curHostInfoKey" v-on:change="curHostsInfoChg">
-    <el-radio-button label="hostsInfo_1"></el-radio-button>
+    <el-radio-button label="hostsInfo_main"></el-radio-button>
+    <el-radio-button label="hostsInfo_k8s"></el-radio-button>
     <el-radio-button label="hostsInfo_2"></el-radio-button>
-    <el-radio-button label="hostsInfo_3"></el-radio-button>
+    <el-radio-button label="hostsInfo_100k"></el-radio-button>
+    <el-radio-button label="hostsInfo_10k"></el-radio-button>
   </el-radio-group>  
   <el-button @click="onUpdateClick" v-show="upBtnIsShow" type="danger">更新主机信息</el-button>  
 </div>
@@ -36,8 +38,8 @@ export default {
   //props:['hostList', "etcdHostsStr", "mainHost"],
   data () {
     return {
-      curHostInfoKey:"hostsInfo_1",
-      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
+      curHostInfoKey:"hostsInfo_main",
+      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_main"])),
       upBtnIsShow:false
     }
   },

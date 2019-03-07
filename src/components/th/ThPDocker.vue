@@ -80,7 +80,7 @@ export default {
       cmdoutContent: "",
       newNetName: "",
       newNetSubnet:"18.0.0.0/24",
-      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_1"])),
+      hostsInfo: JSON.parse(JSON.stringify(thFunc.allHostsInfosTmp["hostsInfo_main"])),
       calicoIpPool:"18.0.0.0/24",
       networkList:[],
       thFunc:thFunc
