@@ -21,16 +21,13 @@ import cmdStrTpl from '../ts/cmdStrTpl'
 import thFuncK8s from '../ts/thFuncK8s'
 import CHostList from '../sub/CHostList.vue'
 import CSetBackendUrl from '../sub/CSetBackendUrl.vue'
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
     CHostList,
     CSetBackendUrl
   },
-  props: {
-    hostsInfo: Object
-  }
 })
 
 export default class CK8s extends Vue{
@@ -39,7 +36,8 @@ export default class CK8s extends Vue{
   calicoIpPool = "10.190.160.0/19"
   networkList:string[] = []
   thFunc = thFunc
-  hostsInfo = this.$props.hostsInfo
+
+  @Prop(Number) hostsInfo:any
 
   mounted() {
     let self = this
