@@ -14,17 +14,15 @@
           <el-button slot="append" icon="el-icon-check" v-on:click="upDocker">更新docker配置并重启</el-button>
         </el-input>
       </el-collapse-item>
-      <el-collapse-item title="配置及 calico 网络部署" name="3">
+      <el-collapse-item title="docker 集群部署（非swarm）" name="3">
         <el-button @click="scpCfgFile">同步配置文件到主机</el-button>
-        <el-button @click="deployEtcd">部署 Etcd 到</el-button>
-        <el-button @click="runCalico">运行 calico-node </el-button><br />
+        <el-button @click="deployEtcd">部署 Etcd</el-button>
+        <el-button @click="runCalico">运行 calico-node</el-button><br />
         <el-button @click="deploy4Calico">[一步完成]部署calico（无k8s</el-button>
         <el-input placeholder="10.190.160.0/19" v-model="calicoIpPool">
           <template slot="prepend">请输入calico ipPool cidr</template>
           <el-button slot="append" icon="el-icon-check" v-on:click="createCalicoIpPool">创建calico ipPood</el-button>
         </el-input>
-      </el-collapse-item>
-      <el-collapse-item title="创建网络" name="4">
         <el-input placeholder="请输入网络名:" v-model="newNetName">
           <template slot="prepend">输入网络名</template>
         </el-input>
@@ -37,7 +35,10 @@
           <el-button v-on:click="createMacvlanNet">创建 macvlan 网络</el-button>
         </el-button-group>
       </el-collapse-item>
-      <el-collapse-item title="创建容器" name="5">
+      <el-collapse-item title="k8s 集群部署" name="4">
+        ing
+      </el-collapse-item>
+      <el-collapse-item title="单主机创建容器" name="5">
         <CCreateContainer v-bind:hosts="hosts" v-bind:networks="networkList"></CCreateContainer>
       </el-collapse-item>
       <el-collapse-item title="100k容器测试" name="6">
