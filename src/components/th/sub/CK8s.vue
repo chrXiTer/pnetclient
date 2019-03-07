@@ -16,34 +16,30 @@
 
 <script lang="tsx">
 
-import thFunc from './ts/thFunc'
-import thFuncK8s from './ts/thFuncK8s'
-import CHostList from './sub/CHostList.vue'
-import CSetBackendUrl from './sub/CSetBackendUrl.vue'
+import thFunc from '../ts/thFunc'
+import cmdStrTpl from '../ts/cmdStrTpl'
+import thFuncK8s from '../ts/thFuncK8s'
+import CHostList from '../sub/CHostList.vue'
+import CSetBackendUrl from '../sub/CSetBackendUrl.vue'
 import { Component, Vue } from 'vue-property-decorator';
-import cmdStrTpl from './ts/cmdStrTpl';
 
 @Component({
   components: {
     CHostList,
     CSetBackendUrl
+  },
+  props: {
+    hostsInfo: Object
   }
 })
 
-export default class ThPK8s extends Vue{
+export default class CK8s extends Vue{
   cmdoutContent = ""
   newNetName = ""
-  hostsInfo = {
-    hostList: [
-      {net:"10.144.0.0/16", ips:["10.144.0.23", "10.144.0.24", "10.144.0.25"]},
-      {net:"10.145.0.0/16", ips:["10.145.0.23", "10.145.0.24", "10.145.0.25"]}
-    ],
-    etcdHostsStr:"在本页无用",
-    mainHost:"10.144.0.21",
-  }
   calicoIpPool = "10.190.160.0/19"
   networkList:string[] = []
   thFunc = thFunc
+  hostsInfo = this.$props.hostsInfo
 
   mounted() {
     let self = this
