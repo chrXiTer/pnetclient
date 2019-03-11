@@ -119,7 +119,6 @@ export default {
         return
       }
       let mainHost = mainHosts[0]
-      /*
       if(mainHost == "10.145.16.1"){
         self.networkList = [
           "L3net-m",
@@ -130,7 +129,6 @@ export default {
           "L3net-m5"
           ]  //有100k容器数据量太大
       }else{
-        */
         thFunc.getBaseInfo(mainHost, (ret)=>{
           let images = JSON.parse(ret[0])
           let imagesList = []
