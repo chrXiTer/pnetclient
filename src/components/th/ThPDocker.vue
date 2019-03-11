@@ -142,7 +142,7 @@ export default {
           })
           self.networkList = networkList
         })
-      //}
+      }
     },
     onHostsInfoChg(newHostsInfoChg){
       let oldMainHost = this.hostsInfo.mainHost
