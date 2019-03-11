@@ -1,6 +1,5 @@
 import util from '../../../lib/cx_util'
 import test100kb from './cmdStrTpl/test100kb'
-import test100k from './cmdStrTpl/test100k'
 import test1K from './cmdStrTpl/test1k'
 import k8s from './cmdStrTpl/k8s'
 
@@ -161,7 +160,6 @@ let dockerHttp = {
 
 let cmdStrTpl = {
 test1K:test1K,
-test100k:test100k,
 hostE:hostE,  //远程执行的命令
 test100kb:test100kb,
 dockerI:dockerI,

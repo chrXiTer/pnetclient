@@ -63,7 +63,7 @@ getCmdDeleteBridgeNet(usedNetName:string, host:string, hosts:string[]){
     let subnetPrefixs = HostToSubnetPrefix[host]
     // host本机删网桥的命令
     let c = `
-docker network rm ${usedNetName}
+docker network rm ${usedNetName};
 `.trim()
     // host本机删除到达其他主机对应网桥的路由命令
     let r = hosts.map((ohost) =>{
