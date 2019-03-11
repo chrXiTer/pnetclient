@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>在此输入后台url</h2>
-    <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="thFunc.chgRootUrl"></CSetBackendUrl>
+    <CSetBackendUrl v-bind:backendUrl="thFunc.rootUrl" v-on:chgBackendUrl="onChgBackendUrl"></CSetBackendUrl>
     <h2>在此输入主机列表</h2>
     <CHostList v-on:hostsInfoChg="onHostsInfoChg"></CHostList>
     <el-collapse>
@@ -159,7 +159,10 @@ export default {
         }
       }
     },
-
+    onChgBackendUrl(newUrl){
+      thFunc.chgRootUrl(newUrl)
+      this.onGetBaseInfo()
+    },
     onText1KResp(resp){
       thFunc.handlerRetStr(this, resp)
     },
