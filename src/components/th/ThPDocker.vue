@@ -121,12 +121,11 @@ export default {
       let mainHost = mainHosts[0]
       if(mainHost == "10.145.16.1"){
         self.networkList = [
-          "L3net-m",
-          "L3net-m1",
-          "L3net-m2",
-          "L3net-m3",
-          "L3net-m4",
-          "L3net-m5"
+          "netb1",
+          "netb2",
+          "netb3",
+          "netb4",
+          "netb5",
           ]  //有100k容器数据量太大
       }else{
         thFunc.getBaseInfo(mainHost, (ret)=>{
