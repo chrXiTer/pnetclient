@@ -100,7 +100,7 @@ getCmdDeleteContainer(usedNetName:string, host:string, startNo:string, endNo:str
 return `
 for i in $(seq ${startNo} ${endNo})
 do
-docker rm -f ${cNamePrefix}$i alpine:3.8 sh
+docker rm -f ${cNamePrefix}$i
 echo $i
 done
 `.trim()
