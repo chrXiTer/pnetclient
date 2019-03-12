@@ -11,23 +11,14 @@
 <script>
   import axios from 'axios'
   import util from '../lib/cx_util';
+  import thFunc from './th/ts/thFunc'
 
   let rootUrl = "http://localhost:5000"
-
-  function handlerRetStr(self, resp){
-      let newText = resp.data.replace(/\r\n?/g, '\n')
-      const newLines = newText.split('\n')
-      let newLinesEncode = newLines.map((e) => {
-          return util.htmlEncode(e)
-      })
-      const newAddStr = newLinesEncode.join("<br/>")
-      self.cmdoutContent = self.cmdoutContent + newAddStr
-  }
 
   function sendACmd(self, urlPath){
       const url = rootUrl + urlPath
       axios({method: 'get', url: url}).then(resp => {
-        handlerRetStr(self, resp)
+        thFunc.handlerRetStr(self, resp)
       });
   }
   export default {

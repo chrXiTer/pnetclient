@@ -12,7 +12,7 @@ var thFunc = {
             return util.htmlEncode(e)
         })
         const newAddStr = newLinesEncode.join("<br/>")
-        self.cmdoutContent = self.cmdoutContent + newAddStr
+        self.cmdoutContent = self.cmdoutContent + newAddStr + "<br/>"
     },
     rootUrl:"http://10.145.0.32:8100",
     jsonObj: {
