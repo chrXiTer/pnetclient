@@ -16,7 +16,6 @@ var util = {
         let hosts = str.match(ip) || []
         return hosts
     }
-
 };
 
 export default util

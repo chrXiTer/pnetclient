@@ -121,7 +121,6 @@ export default {
           "netb2",
           "netb3",
           "netb4",
-          "netb5",
           ]  //有100k容器数据量太大
       }else{
         thFunc.getBaseInfo(mainHost, (ret)=>{
@@ -162,7 +161,6 @@ export default {
       thFunc.handlerRetStr(this, resp)
     },
     deploy4Calico(){
-      /*
         let funcSeqsRev = []
         thFuncDocker.funcSeqs.forEach((v) => {funcSeqsRev.push(v)})
         funcSeqsRev.reverse()
@@ -175,7 +173,6 @@ export default {
         }
         let self = this
         execfuncSeqs(self, {data:"*** start ****\n"})
-      */
     },
     scpCfgFile(){
       thFunc.scpFile(this, this.hosts, '/home/nscc/th/', 'calico-2.6.11', thFunc.handlerRetStr)
@@ -185,12 +182,10 @@ export default {
       thFunc.execCmd(this, this.hosts, cmd, thFunc.handlerRetStr)
     },
     deployEtcd(){
-      /*
       let cmd = cmdStrTpl.dockerC.getEtcdDeployCmd(this.etcdHost)
       thFunc.execCmd(this, [this.etcdHostsStr], cmd, (self, resp) => {
           thFunc.handlerRetStr(self, resp)
       })
-      */
     },
     runCalico(){
       thFuncDocker.runCalico(this, this.hosts, thFunc.handlerRetStr)
