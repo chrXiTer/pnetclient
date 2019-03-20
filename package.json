@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.6.1",
-    "vue": "^2.6.8",
+    "vue": "^2.6.10",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.3.0",
     "vue-router": "^3.0.2",
@@ -18,8 +18,8 @@
   "devDependencies": {
     "@vue/cli-plugin-typescript": "^3.5.1",
     "@vue/cli-service": "^3.5.1",
-    "typescript": "^3.3.3333",
-    "vue-template-compiler": "^2.6.8"
+    "typescript": "^3.3.4000",
+    "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
     "plugins": {
