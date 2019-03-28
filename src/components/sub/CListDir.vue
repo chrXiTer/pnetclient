@@ -45,7 +45,6 @@ function handlerRetStr(s_this, resp, dataObj, node, nodeComponent){
 export default {
     data() {
         return {
-            rootUrl:thFunc.rootUrl,
             data2: dataTree,
             defaultProps: {
                 children: 'children',
@@ -56,12 +55,11 @@ export default {
     },
 
     methods: {
-        onChgEtcdUrl(){
-            this.rootUrl = this.backendUrl
-        },
         onNodeExpand(dataObj, node, nodeComponent){
             if(dataObj.dir){
-                const url = this.rootUrl + "listDir?dir=" + encodeURIComponent(dataObj.key)
+                const reqVar = {dir:dataObj.key}
+                const jsonStr = JSON.stringify(reqVar)
+                const url = thFunc.rootUrl + "listDir?dir=jsonStr=" + encodeURIComponent(jsonStr)
                 let self = this
                 axios({method: 'get', url: url}).then(resp=> {
                     handlerRetStr(self, resp, dataObj, node, nodeComponent)
