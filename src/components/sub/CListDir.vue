@@ -24,9 +24,12 @@ var dataTree = [{
     }]
 }]
 
-function handlerRetStr(s_this, resp, dataObj, node, nodeComponent){
+function handlerRetStr(s_this, resp, dataObj, t){
     const newData = resp.data
-    for(let item of newData){
+    if(newData.t != t){
+        return
+    }
+    for(let item of newData.dirs){
         dataObj.children.push({
             id: id,
             key: dataObj.key + "/" + item.name,
@@ -57,12 +60,16 @@ export default {
     methods: {
         onNodeExpand(dataObj, node, nodeComponent){
             if(dataObj.dir){
-                const reqVar = {dir:dataObj.key}
+                this.curDir = dataObj.key
+                const reqVar = {
+                    dir:dataObj.key,
+                    t:Date.now()
+                }
                 const jsonStr = JSON.stringify(reqVar)
                 const url = thFunc.rootUrl + "/api/listDir?jsonStr=" + encodeURIComponent(jsonStr)
                 let self = this
                 axios({method: 'get', url: url}).then(resp=> {
-                    handlerRetStr(self, resp, dataObj, node, nodeComponent)
+                    handlerRetStr(self, resp, dataObj, reqVar.t)
                 });
             }
         },
