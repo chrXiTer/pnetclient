@@ -29,7 +29,7 @@ function handlerRetStr(s_this, resp, dataObj, node, nodeComponent){
     for(let item of newData){
         dataObj.children.push({
             id: id,
-            key: dataObj.key + "/" + item,
+            key: dataObj.key + "/" + item.name,
             label: item.name,
             value: item.name,
             dir: item.isDir,
