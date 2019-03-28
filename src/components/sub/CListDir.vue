@@ -54,7 +54,7 @@ function handlerRetStr(s_this, resp, dataObj, t){
 export default {
   data() {
     return {
-      dialogVisible:true,
+      dialogVisible:fasle,
       data2: dataTree,
       defaultProps: {
         children: 'children',
@@ -68,7 +68,7 @@ export default {
     onNodeExpand(dataObj, node, nodeComponent){
       if(dataObj.dir){
         this.curDir = dataObj.key
-        self.$emit('curDirChg', this.curDir)
+        this.$emit('curDirChg', this.curDir)
         const reqVar = {
           dir:dataObj.key,
           t:Date.now()
