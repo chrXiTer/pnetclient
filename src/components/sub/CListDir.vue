@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="text" @click="dialogVisible=true">选择目录</el-button>
+    <!--<el-button type="text" @click="dialogVisible=true">选择目录</el-button>-->
     <el-dialog
       title="选择目录"
       :visible.sync="dialogVisible"
@@ -52,9 +52,10 @@ function handlerRetStr(s_this, resp, dataObj, t){
 }
 
 export default {
+  proos:["dialogVisible"],
   data() {
     return {
-      dialogVisible:false,
+      //dialogVisible:false,
       data2: dataTree,
       defaultProps: {
         children: 'children',
@@ -85,7 +86,6 @@ export default {
       return (
         h("span",[
           h("span", node.label),
-          h("span", {style: {color: "red"}}, node.data.value),
           h("span", {style: {color: "green"}}, node.data.dir?"dir":"")]
         )
       );
