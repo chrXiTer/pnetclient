@@ -54,7 +54,7 @@ function handlerRetStr(s_this, resp, dataObj, t){
 export default {
   data() {
     return {
-      dialogVisible:fasle,
+      dialogVisible:false,
       data2: dataTree,
       defaultProps: {
         children: 'children',
