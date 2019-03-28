@@ -64,7 +64,7 @@ export default {
     CListDir
   },
   methods: {
-    ddddd(){
+    dddd(){
       dirDialogVisible=true
     },
     onCurDirChg(newValue){
