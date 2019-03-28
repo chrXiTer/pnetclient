@@ -59,7 +59,7 @@ export default {
             if(dataObj.dir){
                 const reqVar = {dir:dataObj.key}
                 const jsonStr = JSON.stringify(reqVar)
-                const url = thFunc.rootUrl + "/listDir?dir=jsonStr=" + encodeURIComponent(jsonStr)
+                const url = thFunc.rootUrl + "/api/listDir?dir=jsonStr=" + encodeURIComponent(jsonStr)
                 let self = this
                 axios({method: 'get', url: url}).then(resp=> {
                     handlerRetStr(self, resp, dataObj, node, nodeComponent)
