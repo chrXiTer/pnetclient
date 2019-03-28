@@ -65,10 +65,10 @@ export default {
   },
   methods: {
     dddd(){
-      dirDialogVisible=true
+      this.dirDialogVisible=true
     },
     onCurDirChg(newValue){
-      curDirText = "将处理的文件目录:/home/nscc/" + newValue
+      this.curDirText = "将处理的文件目录:/home/nscc/" + newValue
     },
     onBlur(){
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
