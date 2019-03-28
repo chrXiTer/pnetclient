@@ -25,6 +25,7 @@
     <el-button @click="installDocker">安装docker</el-button>
     <el-button @click="loadImages">载入容器镜像</el-button>
     <el-button @click="installK8s">安装k8s</el-button>
+    <CListDir></CListDir>
     <el-button v-on:click="cmdoutContent=''">清空 cmdout</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="clear:both; background-color: grey; color: white"></div>
   </div>
@@ -37,6 +38,7 @@ import util from '../../lib/cx_util';
 import cmdStrTpl from './ts/cmdStrTpl'
 import CSetBackendUrl from './sub/CSetBackendUrl.vue'
 import CHostsToCopy from './sub/CHostsToCopy.vue'
+import CListDir from '../sub/CListDir.vue'
 
 export default {
   data(){
@@ -55,7 +57,8 @@ export default {
   },
   components:{
     CSetBackendUrl,
-    CHostsToCopy
+    CHostsToCopy,
+    CListDir
   },
   methods: {
     onBlur(){

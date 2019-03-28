@@ -1,0 +1,82 @@
+<template>
+<div>
+  <p>{{curDir}}</p>
+  <el-tree :data="data2" :props="defaultProps" node-key="id"
+    :render-content="renderContent" @node-expand="onNodeExpand"	>
+  </el-tree>
+</div>
+</template>
+
+<script>
+import axios from 'axios'
+import thFunc from '@/components/th/ts/thFunc';
+
+let id = 1000;
+var dataTree = [{
+    id: 1,
+    key: "/home/nscc",
+    label: '/',
+    value: "...",
+    dir: true,
+    children: [{
+        id: 30001,
+        label: '...',
+    }]
+}]
+
+function handlerRetStr(s_this, resp, dataObj, node, nodeComponent){
+    const newData = resp.data.node
+    for(let item of newData.nodes){
+        dataObj.children.push({
+            id: id,
+            key: dataObj.key + "/" + item,
+            label: item.name,
+            value: item.name,
+            dir: item.isDir,
+            children: [{
+                id: 30001,
+                label: '...',
+            }]
+        })
+        id = id + 1
+    }
+}
+
+export default {
+    data() {
+        return {
+            rootUrl:thFunc.rootUrl,
+            data2: dataTree,
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
+            curDir = "/home/nscc"
+        }
+    },
+
+    methods: {
+        onChgEtcdUrl(){
+            this.rootUrl = this.backendUrl
+        },
+        onNodeExpand(dataObj, node, nodeComponent){
+            if(dataObj.dir){
+                const url = this.rootUrl + "listDir?dir=" + encodeURIComponent(dataObj.key)
+                let self = this
+                axios({method: 'get', url: url}).then(resp=> {
+                    handlerRetStr(self, resp, dataObj, node, nodeComponent)
+                });
+            }
+        },
+        renderContent(h, { node, data, store }) {
+            return (
+                h("span",[
+                    h("span", node.label),
+                    h("span", {style: {color: "red"}}, node.data.value),
+                    h("span", {style: {color: "green"}}, node.data.dir?"dir":"")]
+                )
+            );
+        }
+    }
+};
+</script>
