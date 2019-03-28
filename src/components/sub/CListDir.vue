@@ -52,7 +52,7 @@ function handlerRetStr(s_this, resp, dataObj, t){
 }
 
 export default {
-  proos:["dialogVisible"],
+  props:["dialogVisible"],
   data() {
     return {
       //dialogVisible:false,
