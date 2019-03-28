@@ -11,12 +11,14 @@
       <el-button slot="append" icon="el-icon-check" v-on:click="execACmd">执行</el-button>
       <el-button slot="append" icon="el-icon-check" v-on:click="execACmd2">执行2</el-button>
     </el-input>
-    <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button>
+    <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button><br/>
+
     <el-tag>{{curDirText}}</el-tag><el-button type="primary" plain 
-      v-on:click="dirDialogVisible=true">修改</el-button>
-    <el-button slot="append" v-on:click="scpDir">scp同步</el-button>|
-    <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>|
-    <el-button slot="append" v-on:click="loadImageDir">load所有image</el-button>|
+      v-on:click="dddd">修改</el-button>
+    <el-button slot="append" v-on:click="scpDir">scp同步</el-button>
+    <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button><br/>
+
+    <el-button slot="append" v-on:click="loadImageDir">load所有image</el-button>
     <el-button @click="delNoneImage">删除 none image</el-button>
     <el-button @click="chgAptSource">更新apt源</el-button>
     <el-button @click="chgHostName">修改主机名</el-button>
@@ -62,6 +64,9 @@ export default {
     CListDir
   },
   methods: {
+    ddddd(){
+      dirDialogVisible=true
+    },
     onCurDirChg(newValue){
       curDirText = "将处理的文件目录:/home/nscc/" + newValue
     },
