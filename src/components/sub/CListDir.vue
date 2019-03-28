@@ -25,7 +25,7 @@ var dataTree = [{
 }]
 
 function handlerRetStr(s_this, resp, dataObj, node, nodeComponent){
-    const newData = resp.data.node
+    const newData = resp.data
     for(let item of newData.nodes){
         dataObj.children.push({
             id: id,
