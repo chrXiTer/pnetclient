@@ -51,7 +51,7 @@ export default {
                 children: 'children',
                 label: 'label'
             },
-            curDir = "/home/nscc"
+            curDir: "/home/nscc"
         }
     },
 
