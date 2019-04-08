@@ -20,7 +20,7 @@ import thFunc from '@/components/th/ts/thFunc';
 let id = 1000;
 var dataTree = [{
   id: 1,
-  key: "/home/nscc",
+  key: "/home/nscc/th",
   label: '/',
   value: "...",
   dir: true,
@@ -61,7 +61,7 @@ export default {
         children: 'children',
         label: 'label'
       },
-      curDir: "/home/nscc"
+      curDir: "/home/nscc/th"
     }
   },
 

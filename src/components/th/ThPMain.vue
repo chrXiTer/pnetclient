@@ -47,7 +47,7 @@ export default {
       dirDialogVisible:false,
       hostsStr:"",
       cmd:"",
-      subDir:"th/test/",
+      subDir:"/home/nscc/th/test/",
       cmdoutContent: "",
       thFunc:thFunc,
       curDirText: "将处理的文件目录:" + "/home/nscc/th/test/"
