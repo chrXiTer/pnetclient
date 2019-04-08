@@ -120,15 +120,15 @@ export default {
     scpDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
-      dir1 = this.subDir.substring(0, index)
-      dir2 = this.subDir.substring(index)
+      let dir1 = this.subDir.substring(0, index)
+      let dir2 = this.subDir.substring(index)
       thFunc.scpFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     },
     rsyncDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
-      dir1 = this.subDir.substring(0, index)
-      dir2 = this.subDir.substring(index)
+      let dir1 = this.subDir.substring(0, index)
+      let dir2 = this.subDir.substring(index)
       thFunc.rsyncFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     },
     loadImageDir(){
