@@ -70,7 +70,7 @@ export default {
     onCurDirChg(newValue){
       this.curDirText = "将处理的文件目录:" + newValue
       this.subDir = newValue
-      this.dirDialogVisible=true
+      this.dirDialogVisible=false
     },
     onBlur(){
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
@@ -120,23 +120,15 @@ export default {
     scpDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
-      let dir1 = '/home/nscc/'
-      let dir2 = this.subDir
-      if(index >=0){
-        dir1 = dir1 + this.subDir.substring(0, index)
-        dir2 = this.subDir.substring(index)
-      }
+      dir1 = this.subDir.substring(0, index)
+      dir2 = this.subDir.substring(index)
       thFunc.scpFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     },
     rsyncDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
       let index = this.subDir.lastIndexOf("/")
-      let dir1 = '/home/nscc/'
-      let dir2 = this.subDir
-      if(index >=0){
-        dir1 = dir1 + this.subDir.substring(0, index)
-        dir2 = this.subDir.substring(index)
-      }
+      dir1 = this.subDir.substring(0, index)
+      dir2 = this.subDir.substring(index)
       thFunc.rsyncFile(this, this.hosts, dir1, dir2, thFunc.handlerRetStr)
     },
     loadImageDir(){
