@@ -50,7 +50,7 @@ export default {
       subDir:"th/test/",
       cmdoutContent: "",
       thFunc:thFunc,
-      curDirText: "将处理的文件目录:/home/nscc/"
+      curDirText: "将处理的文件目录:" + "/home/nscc/"
     }
   },
   computed: {
@@ -68,7 +68,8 @@ export default {
       this.dirDialogVisible=true
     },
     onCurDirChg(newValue){
-      this.curDirText = "将处理的文件目录:/home/nscc/" + newValue
+      this.curDirText = "将处理的文件目录:" + newValue
+      this.dirDialogVisible=true
     },
     onBlur(){
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
