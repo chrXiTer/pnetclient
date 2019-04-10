@@ -4,6 +4,7 @@
     <el-dialog
       title="选择目录"
       :visible.sync="dialogVisible"
+      @close="onClose"
       width="80%">
       <p>{{curDir}}</p>
       <el-tree :data="data2" :props="defaultProps" node-key="id"
@@ -89,6 +90,9 @@ export default {
           h("span", {style: {color: "green"}}, node.data.dir?"dir":"")]
         )
       );
+    },
+    onClose(){
+      this.$emit('onClose')
     }
   }
 };

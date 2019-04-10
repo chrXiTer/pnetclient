@@ -13,8 +13,9 @@
     </el-input>
     <el-button @click="setNsccOwn">设置/home/nscc所有文件归nscc所有</el-button><br/>
 
-    <el-tag>{{curDirText}}</el-tag><el-button type="primary" plain  size="small"
-      v-on:click="dddd">修改目录</el-button>
+    <CListDir v-bind:dialogVisible="dirDialogVisible" v-on:curDirChg="onCurDirChg" v-on:onClose="onCurDirDialogClose"></CListDir>
+    <el-tag>{{curDirText}}</el-tag>
+    <el-button type="primary" plain  size="small" v-on:click="openCurDirDialog">修改目录</el-button>
     <el-button slot="append" v-on:click="scpDir">scp同步</el-button>
     <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>
     <el-button slot="append" v-on:click="loadImageDir">load所有image</el-button><br/>
@@ -26,7 +27,6 @@
     <el-button @click="installDocker">安装docker</el-button>
     <el-button @click="loadImages">载入容器镜像</el-button>
     <el-button @click="installK8s">安装k8s</el-button>
-    <CListDir v-bind:dialogVisible="dirDialogVisible" v-on:curDirChg="onCurDirChg"></CListDir>
     <el-button v-on:click="cmdoutContent=''">清空 cmdout</el-button>
     <div id="cmdout" v-html="cmdoutContent" style="clear:both; background-color: grey; color: white"></div>
   </div>
@@ -64,13 +64,16 @@ export default {
     CListDir
   },
   methods: {
-    dddd(){
+    openCurDirDialog(){
       this.dirDialogVisible=true
+    },
+    onCurDirDialogClose(){
+      this.dirDialogVisible=false
     },
     onCurDirChg(newValue){
       this.curDirText = "将处理的文件目录:" + newValue
       this.subDir = newValue
-      this.dirDialogVisible=false
+      
     },
     onBlur(){
       this.hostsStr = this.hostsStr.replace(/\n/g, ";").replace(/\s/g, '').replace(/;;+/g, ";\n")
@@ -133,8 +136,7 @@ export default {
     },
     loadImageDir(){
       this.subDir = this.subDir.replace(/\s/g, '').replace(/\/$/, '')
-      let dir1 = '/home/nscc/'
-      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages(dir1 + this.subDir), thFunc.handlerRetStr)
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdLoadImages(this.subDir), thFunc.handlerRetStr)
     },
     delNoneImage(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdDelNoneImages, thFunc.handlerRetStr)
