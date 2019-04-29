@@ -78,6 +78,9 @@ ls | xargs -n 1 docker load -i
 },
 cmdDelNoneImages:`
 docker image rm  $(docker image ls | grep '<none>' | awk '{print $3}')
+`.trim(),
+cmdDelStopContainer:`
+docker container rm $(docker container ls -aq)
 `.trim()
 }
 

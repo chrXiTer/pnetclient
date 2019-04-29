@@ -20,7 +20,8 @@
     <el-button slot="append" v-on:click="rsyncDir">rsync同步</el-button>
     <el-button slot="append" v-on:click="loadImageDir">load所有image</el-button><br/>
 
-    <el-button @click="delNoneImage">删除 none image</el-button>
+    <el-button @click="delNoneImage">删除none镜像</el-button>
+    <el-button @click="delStopContainer">删除stoped容器</el-button>
     <el-button @click="chgAptSource">更新apt源</el-button>
     <el-button @click="chgHostName">修改主机名</el-button>
     <el-button @click="installBaseSoft">安装基础软件vim-curl-unzip</el-button>
@@ -140,6 +141,9 @@ export default {
     },
     delNoneImage(){
       thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdDelNoneImages, thFunc.handlerRetStr)
+    },
+    delStopContainer(){
+      thFunc.execCmd(this, this.hosts, cmdStrTpl.dockerI.cmdDelStopContainer, thFunc.handlerRetStr)
     }
   }
 }
