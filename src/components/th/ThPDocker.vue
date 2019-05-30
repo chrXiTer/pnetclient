@@ -121,6 +121,7 @@ export default {
           "netb2",
           "netb3",
           "netb4",
+          "netb5",
           ]  //有100k容器数据量太大
       }else{
         thFunc.getBaseInfo(mainHost, (ret)=>{
