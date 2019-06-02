@@ -2,7 +2,7 @@
   <el-menu :default-openeds="['1']" unique-opened router>
 
     <el-submenu index="1">
-      <template slot="title"><i class="el-icon-menu"></i>容器管理系统</template>
+      <template slot="title"><i class="el-icon-menu"></i>容器网络管理</template>
       <el-menu-item-group>
         <!--
         <el-menu-item><a href="http://10.145.0.8:8080/env/1a5/infra/hosts" style="text-decoration:unset;color:black" target="_blank">主机管理</a></el-menu-item>
