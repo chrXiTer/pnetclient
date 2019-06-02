@@ -22,7 +22,7 @@
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/container-log?instanceId=1i17206&isPopup=true" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/registries" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/admin/processes" style="text-decoration:unset;color:black" target="_blank">系统进程</a></el-menu-item>
-                -->
+        -->
 
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/hosts" style="text-decoration:unset;color:black" target="_blank">主机管理</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/containers" style="text-decoration:unset;color:black" target="_blank">容器管理</a></el-menu-item>

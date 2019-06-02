@@ -10,6 +10,11 @@ import PMainSSH from '@/components/PMainSSH.vue'
 import ThPEtcdTree from '@/components/th/ThPEtcdTree.vue'
 import ThPHostMino from "@/components/th/ThPHostMino.vue"
 import ThScope from "@/components/th/ThScope.vue"
+import THR1 from "@/components/th/THR1.vue"
+import THR2 from "@/components/th/THR1.vue"
+import THR3 from "@/components/th/THR1.vue"
+import THR4 from "@/components/th/THR1.vue"
+import THR5 from "@/components/th/THR1.vue"
 import ThPMain from '@/components/th/ThPMain.vue'
 import ThPDocker from '@/components/th/ThPDocker.vue'
 
@@ -86,7 +91,32 @@ export default new Router({
       name: 'ThScope',
       component: ThScope
     },
-    
+
+    {
+      path: '/htr1',
+      name: 'THR1',
+      component: THR1
+    },
+    {
+      path: '/htr2',
+      name: 'THR2',
+      component: THR2
+    },
+    {
+      path: '/htr3',
+      name: 'THR3',
+      component: THR3
+    },
+    {
+      path: '/htr4',
+      name: 'THR4',
+      component: THR4
+    },
+    {
+      path: '/htr5',
+      name: 'THR5',
+      component: THR5
+    },
   ]
 })
 
