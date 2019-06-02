@@ -7,6 +7,7 @@
         <template slot="title">th</template>
         <el-menu-item><a href="http://localhost:9040/" style="text-decoration:unset;color:black" target="_blank">主机管理</a></el-menu-item>
         <el-menu-item><a href="http://localhost:9040/" style="text-decoration:unset;color:black" target="_blank">容器管理</a></el-menu-item>
+        <el-menu-item index="/scope">主机管理2</el-menu-item>
         <el-menu-item index="/ssh">容器镜像管理</el-menu-item>
         <el-menu-item index="/ssh2">测试1</el-menu-item>
         <el-menu-item index="/th">ThMain</el-menu-item>

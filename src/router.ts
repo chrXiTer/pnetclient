@@ -9,6 +9,7 @@ import PageMainTable from '@/components/PageMainTable.vue'
 import PMainSSH from '@/components/PMainSSH.vue'
 import ThPEtcdTree from '@/components/th/ThPEtcdTree.vue'
 import ThPHostMino from "@/components/th/ThPHostMino.vue"
+import ThScope from "@/components/th/ThScope.vue"
 import ThPMain from '@/components/th/ThPMain.vue'
 import ThPDocker from '@/components/th/ThPDocker.vue'
 
@@ -78,6 +79,12 @@ export default new Router({
       path: '/docker',
       name: 'ThPDocker',
       component: ThPDocker
+    },
+
+    {
+      path: '/scope',
+      name: 'ThScope',
+      component: ThScope
     },
     
   ]
