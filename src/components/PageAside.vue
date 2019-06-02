@@ -5,7 +5,7 @@
       <template slot="title"><i class="el-icon-menu"></i>TH</template>
       <el-menu-item-group>
         <template slot="title">th</template>
-        <el-menu-item index="http://localhost:9040/">主机管理</el-menu-item>
+        <el-menu-item><a href="http://localhost:9040/" target="_blank">  Core Docs </a>主机管理</el-menu-item>
         <el-menu-item index="/home">容器管理</el-menu-item>
         <el-menu-item index="/ssh">容器镜像管理</el-menu-item>
         <el-menu-item index="/ssh2">测试1</el-menu-item>
