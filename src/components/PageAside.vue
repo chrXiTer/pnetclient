@@ -1,7 +1,7 @@
 <template>
   <el-menu :default-openeds="['1']" unique-opened router>
 
-    <el-submenu index="2">
+    <el-submenu index="1">
       <template slot="title"><i class="el-icon-menu"></i>TH</template>
       <el-menu-item-group>
         <template slot="title">th</template>
