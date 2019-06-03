@@ -122,7 +122,7 @@ export default new Router({
     {
       path: '/htr6',
       name: 'THR6',
-      component: THR7
+      component: THR6
     },
     {
       path: '/htr7',
