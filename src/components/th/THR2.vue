@@ -1,10 +1,11 @@
 <template>
   <div>
-    <iframe id="external-frame" src="http://10.145.0.8:8000/env/1a5/infra/containers" width="100%" height="800px"></iframe>
+    <iframe id="external-frame" src="http://10.145.0.8:8000/env/1a5/infra/containers" width="100%" height="1200px"></iframe>
   </div>
 </template>
 
 <script>
+/*
 function setIframeHeight(iframe) {
   if (iframe) {
     var iframeWin = iframe.contentWindow
@@ -19,4 +20,5 @@ export default {
     setIframeHeight(document.getElementById('external-frame'));
   }
 }
+*/
 </script>

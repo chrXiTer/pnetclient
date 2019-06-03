@@ -6,6 +6,7 @@
 
 
 <script>
+/*
 function setIframeHeight(iframe) {
   if (iframe) {
     var iframeWin = iframe.contentWindow
@@ -20,6 +21,7 @@ export default {
     setIframeHeight(document.getElementById('external-frame'));
   }
 }
+*/
 </script>
 
 
