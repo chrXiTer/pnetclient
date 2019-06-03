@@ -5,22 +5,21 @@
 </template>
 
 
-  <script>
+<script>
+function setIframeHeight(iframe) {
+  if (iframe) {
+    var iframeWin = iframe.contentWindow
+    if (iframeWin.document.body) {
+      iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+    }
+  }
+};
+
 export default {
   mounted: function () {
     setIframeHeight(document.getElementById('external-frame'));
   }
 }
-    function setIframeHeight(iframe) {
-      if (iframe) {
-        var iframeWin = iframe.contentWindow
-        if (iframeWin.document.body) {
-          iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-        }
-      }
-    };
-
-
-  </script>
+</script>
 
 
