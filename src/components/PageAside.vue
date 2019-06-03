@@ -22,8 +22,7 @@
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/container-log?instanceId=1i17206&isPopup=true" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/registries" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/admin/processes" style="text-decoration:unset;color:black" target="_blank">系统进程</a></el-menu-item>
-        -->
-
+        
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/hosts" style="text-decoration:unset;color:black" target="_blank">主机管理</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/containers" style="text-decoration:unset;color:black" target="_blank">容器管理</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/admin/settings" style="text-decoration:unset;color:black" target="_blank">系统设置</a></el-menu-item>
@@ -31,6 +30,16 @@
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/container-log?instanceId=1i17206&isPopup=true" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/env/1a5/infra/registries" style="text-decoration:unset;color:black" target="_blank">系统日志</a></el-menu-item>
         <el-menu-item><a href="http://10.145.0.8:8000/admin/processes" style="text-decoration:unset;color:black" target="_blank">系统进程</a></el-menu-item>
+
+        -->
+
+        <el-menu-item index="/thr1">主机管理</el-menu-item>
+        <el-menu-item index="/thr2">容器管理</el-menu-item>
+        <el-menu-item index="/thr3">系统设置</el-menu-item>
+        <el-menu-item index="/thr4">存储管理</el-menu-item>
+        <el-menu-item index="/thr5">系统日志</el-menu-item>
+        <el-menu-item index="/thr6">系统日志</el-menu-item>
+        <el-menu-item index="/thr7">系统进程</el-menu-item>
 
       </el-menu-item-group>
     </el-submenu>
