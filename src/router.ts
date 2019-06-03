@@ -95,37 +95,37 @@ export default new Router({
     },
 
     {
-      path: '/htr1',
+      path: '/thr1',
       name: 'THR1',
       component: THR1
     },
     {
-      path: '/htr2',
+      path: '/thr2',
       name: 'THR2',
       component: THR2
     },
     {
-      path: '/htr3',
+      path: '/thr3',
       name: 'THR3',
       component: THR3
     },
     {
-      path: '/htr4',
+      path: '/thr4',
       name: 'THR4',
       component: THR4
     },
     {
-      path: '/htr5',
+      path: '/thr5',
       name: 'THR5',
       component: THR5
     },
     {
-      path: '/htr6',
+      path: '/thr6',
       name: 'THR6',
       component: THR6
     },
     {
-      path: '/htr7',
+      path: '/thr7',
       name: 'THR7',
       component: THR7
     },
