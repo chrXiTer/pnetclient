@@ -37,7 +37,7 @@ cmdRunCalicoNode:`
 /home/nscc/th/calico-2.6.11/calicoctl node run \
     --node-image=quay.io/calico/node:v2.6.11 \
     --config=/home/nscc/th/calico-2.6.11/calico-1.cfg
-`.trim(),
+`.trim(),  // 修改 apt 源
 cmdChgAptSource:`
 cat << EOF > /etc/apt/sources.list
 deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
@@ -45,7 +45,7 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe m
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 EOF
-`.trim(),
+`.trim(),   // 修改主机名
 getCmdChgHostName: (hnameNew:string)=> {return `
 hnameOld=$(hostname); \
 echo ${hnameNew} > /etc/hostname; \

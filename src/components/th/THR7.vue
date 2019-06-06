@@ -6,6 +6,8 @@
 
 
 <script>
+export default {
+}
 /*
 function setIframeHeight(iframe) {
   if (iframe) {
