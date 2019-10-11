@@ -1,33 +1,18 @@
 # pnetclient
 
-## Project setup
 
-```
-npm install
-```
+```sh
+vue ui  # 运行 vue ui 进行项目管理
 
-### Compiles and hot-reloads for development
+npm install ### Project setup
 
-```
-npm run serve
-```
+npm run serve  ### Compiles and hot-reloads for development
 
-### Compiles and minifies for production
+npm run build  ### Compiles and minifies for production
 
-```
-npm run build
-```
+npm run test  ### Run tests
 
-### Run your tests
-
-```
-npm run test
-```
-
-### Lints and fixes files
-
-```
-npm run lint
+npm run lint  ### Lints and fixes files
 ```
 
 ### Customize configuration
